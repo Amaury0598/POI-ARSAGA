@@ -6,6 +6,7 @@
     android:id="@+id/msg_Layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_gravity="end"
     android:layout_margin="6dp"
     android:background="@drawable/esquinas_nodeadas"
     android:orientation="vertical"

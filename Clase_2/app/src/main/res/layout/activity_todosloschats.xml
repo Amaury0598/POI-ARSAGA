@@ -10,18 +10,18 @@
         android:id="@+id/linearLayout4"
         android:layout_width="0dp"
         android:layout_height="64dp"
-        android:background="#1C1822"
+        android:background="#220F33"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView2"
+        <ImageButton
+            android:id="@+id/btn_back_2"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="6dp"
+            android:background="#00322C2C"
             app:srcCompat="@drawable/abc_vector_test" />
 
         <Button

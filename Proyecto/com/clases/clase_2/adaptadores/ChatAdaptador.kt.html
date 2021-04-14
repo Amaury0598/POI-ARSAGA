@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>ChatAdaptador.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+ChatAdaptador.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.clases.clase_2.adaptadores</span>
+
+<span class="s1">import android.view.Gravity</span>
+<span class="s1">import android.view.LayoutInflater</span>
+<span class="s1">import android.view.View</span>
+<span class="s1">import android.view.ViewGroup</span>
+<span class="s1">import android.widget.LinearLayout</span>
+<span class="s1">import android.widget.TextView</span>
+<span class="s1">import androidx.recyclerview.widget.RecyclerView</span>
+<span class="s1">import com.clases.clase_2.R</span>
+
+<span class="s0">class </span><span class="s1">ChatAdaptador:RecyclerView.Adapter&lt;ChatAdaptador.ChatViewHolder&gt;() {</span>
+
+    <span class="s0">class </span><span class="s1">ChatViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){</span>
+
+    <span class="s1">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">getItemCount(): Int {</span>
+        <span class="s0">return </span><span class="s2">10</span>
+    <span class="s1">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreateViewHolder(parent: ViewGroup</span><span class="s0">, </span><span class="s1">viewType: Int): ChatViewHolder {</span>
+        <span class="s0">val </span><span class="s1">myView = LayoutInflater.from(parent.context)</span>
+            <span class="s1">.inflate(R.layout.burbuja_mensajes</span><span class="s0">, </span><span class="s1">parent</span><span class="s0">, false</span><span class="s1">)</span>
+        <span class="s0">return </span><span class="s1">ChatViewHolder(myView)</span>
+    <span class="s1">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onBindViewHolder(holder: ChatViewHolder</span><span class="s0">, </span><span class="s1">position: Int) {</span>
+
+        <span class="s0">val </span><span class="s1">tvNombre = holder.itemView.findViewById&lt;TextView&gt;(R.id.tv_Nombre)</span>
+        <span class="s0">val </span><span class="s1">tvHora = holder.itemView.findViewById&lt;TextView&gt;(R.id.tv_Hora)</span>
+        <span class="s0">val </span><span class="s1">tvMensaje = holder.itemView.findViewById&lt;TextView&gt;(R.id.tv_Mensaje)</span>
+        <span class="s0">val </span><span class="s1">tvGravity = holder.itemView.findViewById&lt;LinearLayout&gt;(R.id.msg_Layout)</span>
+
+        <span class="s1">tvNombre.text = </span><span class="s0">when</span><span class="s1">(position) {</span>
+            <span class="s2">0 </span><span class="s1">-&gt; </span><span class="s3">&quot;Juan Manuel&quot;</span>
+            <span class="s2">1 </span><span class="s1">-&gt; </span><span class="s3">&quot;Jesus Angel&quot;</span>
+            <span class="s2">2 </span><span class="s1">-&gt; </span><span class="s3">&quot;León Marcos&quot;</span>
+            <span class="s2">3 </span><span class="s1">-&gt; </span><span class="s3">&quot;Julio Mango&quot;</span>
+            <span class="s0">else </span><span class="s1">-&gt; </span><span class="s3">&quot;Desconocido&quot;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">tvHora.text = </span><span class="s0">when</span><span class="s1">(position){</span>
+            <span class="s2">0 </span><span class="s1">-&gt; </span><span class="s3">&quot;22:30 pm&quot;</span>
+            <span class="s2">1 </span><span class="s1">-&gt; </span><span class="s3">&quot;22:33 pm&quot;</span>
+            <span class="s2">2 </span><span class="s1">-&gt; </span><span class="s3">&quot;22:35 pm&quot;</span>
+            <span class="s0">else </span><span class="s1">-&gt; </span><span class="s3">&quot;22:37 pm&quot;</span>
+        <span class="s1">}</span>
+        <span class="s1">tvMensaje.text = </span><span class="s0">when</span><span class="s1">(position){</span>
+            <span class="s2">0 </span><span class="s1">-&gt; </span><span class="s3">&quot;Hola, buen día, ¿Cómo le va? lalalalal alalalallal alalalalall alalalalall alalalalla alalalal&quot;</span>
+            <span class="s2">1 </span><span class="s1">-&gt; </span><span class="s3">&quot;Hola, buen día, ¿Cómo le va? lalalallalalallaalallalalalaalalalalalallalalalaalalalal&quot;</span>
+            <span class="s2">2 </span><span class="s1">-&gt; </span><span class="s3">&quot;Hola, buen día, ¿Cómo le va?&quot;</span>
+            <span class="s0">else </span><span class="s1">-&gt; </span><span class="s3">&quot;No lo se, muchas gracias&quot;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">tvGravity.gravity = </span><span class="s0">when</span><span class="s1">(position){</span>
+            <span class="s2">0 </span><span class="s1">-&gt; Gravity.END</span>
+            <span class="s2">1 </span><span class="s1">-&gt; Gravity.START</span>
+            <span class="s2">2 </span><span class="s1">-&gt; Gravity.END</span>
+            <span class="s2">3 </span><span class="s1">-&gt; Gravity.START</span>
+            <span class="s0">else </span><span class="s1">-&gt; Gravity.START</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>

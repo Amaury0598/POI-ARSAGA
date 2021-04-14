@@ -9,15 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Clase_2">
-        <activity android:name=".List_Chats"></activity>
-        <activity android:name=".Todos_los_Chats" />
-        <activity android:name=".Perfil_Principal">
-
+        <activity android:name=".Navigation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".List_Chats" />
+        <activity android:name=".Todos_los_Chats" />
+        <activity android:name=".Perfil_Principal">
+
+
 
         </activity>
         <activity android:name=".Chat_Group" />

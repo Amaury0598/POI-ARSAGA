@@ -1,0 +1,71 @@
+<html>
+<head>
+<title>TodosLos_ChatAdaptador.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+TodosLos_ChatAdaptador.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.clases.clase_2.adaptadores</span>
+
+<span class="s1">import android.view.LayoutInflater</span>
+<span class="s1">import android.view.View</span>
+<span class="s1">import android.view.ViewGroup</span>
+<span class="s1">import android.widget.TextView</span>
+<span class="s1">import androidx.recyclerview.widget.RecyclerView</span>
+<span class="s1">import com.clases.clase_2.R</span>
+
+<span class="s0">class </span><span class="s1">TodosLos_ChatAdaptador:RecyclerView.Adapter&lt;TodosLos_ChatAdaptador.TLosChatViewHolder&gt;() {</span>
+
+    <span class="s0">class </span><span class="s1">TLosChatViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){</span>
+
+    <span class="s1">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">getItemCount(): Int {</span>
+        <span class="s0">return </span><span class="s2">10</span>
+    <span class="s1">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreateViewHolder(parent: ViewGroup</span><span class="s0">, </span><span class="s1">viewType: Int): TLosChatViewHolder {</span>
+        <span class="s0">val </span><span class="s1">myView2 = LayoutInflater.from(parent.context)</span>
+                <span class="s1">.inflate(R.layout.activity_chat</span><span class="s0">,</span><span class="s1">parent</span><span class="s0">,false</span><span class="s1">)</span>
+        <span class="s0">return </span><span class="s1">TLosChatViewHolder(myView2)</span>
+    <span class="s1">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onBindViewHolder(holder: TLosChatViewHolder</span><span class="s0">, </span><span class="s1">position: Int) {</span>
+
+        <span class="s0">val </span><span class="s1">CNombre = holder.itemView.findViewById&lt;TextView&gt;(R.id.tvNombre_C)</span>
+        <span class="s0">val </span><span class="s1">CMensaje = holder.itemView.findViewById&lt;TextView&gt;(R.id.tv_Mensaje_C)</span>
+        <span class="s0">val </span><span class="s1">CHora = holder.itemView.findViewById&lt;TextView&gt;(R.id.tv_Hora_C)</span>
+
+        <span class="s1">CNombre.text = </span><span class="s0">when</span><span class="s1">(position){</span>
+            <span class="s2">0 </span><span class="s1">-&gt; </span><span class="s3">&quot;Juan Manuel&quot;</span>
+            <span class="s2">1 </span><span class="s1">-&gt; </span><span class="s3">&quot;Jesus Angel&quot;</span>
+            <span class="s2">2 </span><span class="s1">-&gt; </span><span class="s3">&quot;León Marcos&quot;</span>
+            <span class="s2">3 </span><span class="s1">-&gt; </span><span class="s3">&quot;Julio Mango&quot;</span>
+            <span class="s0">else </span><span class="s1">-&gt; </span><span class="s3">&quot;Desconocido&quot;</span>
+        <span class="s1">}</span>
+        <span class="s1">CMensaje.text = </span><span class="s0">when</span><span class="s1">(position){</span>
+            <span class="s2">0 </span><span class="s1">-&gt; </span><span class="s3">&quot;Hola, buen día, ¿Cómo le va?&quot;</span>
+            <span class="s2">1 </span><span class="s1">-&gt; </span><span class="s3">&quot;Hola, buen día, ¿Cómo le va? lalalal lalalalla alallalal alalalall alalalal allaa&quot;</span>
+            <span class="s2">2 </span><span class="s1">-&gt; </span><span class="s3">&quot;Hola, buen día, ¿Cómo le va lalalalalalallalalalallaa?&quot;</span>
+            <span class="s0">else </span><span class="s1">-&gt; </span><span class="s3">&quot;No lo se, muchas gracias&quot;</span>
+        <span class="s1">}</span>
+        <span class="s1">CHora.text = </span><span class="s0">when</span><span class="s1">(position){</span>
+            <span class="s2">0 </span><span class="s1">-&gt; </span><span class="s3">&quot;22:30&quot;</span>
+            <span class="s2">1 </span><span class="s1">-&gt; </span><span class="s3">&quot;22:35&quot;</span>
+            <span class="s2">2 </span><span class="s1">-&gt; </span><span class="s3">&quot;22:40&quot;</span>
+            <span class="s0">else </span><span class="s1">-&gt; </span><span class="s3">&quot;22:55&quot;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>

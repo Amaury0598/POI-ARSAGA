@@ -27,5 +27,8 @@ class List_Chats : AppCompatActivity() {
             val miIntent = Intent(this, MainActivity::class.java)
             startActivity(miIntent)
         }
+        btn_back_2.setOnClickListener {
+            finish()
+        }
     }
 }

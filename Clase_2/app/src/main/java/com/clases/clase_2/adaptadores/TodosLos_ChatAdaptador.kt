@@ -43,10 +43,10 @@ class TodosLos_ChatAdaptador:RecyclerView.Adapter<TodosLos_ChatAdaptador.TLosCha
             else -> "No lo se, muchas gracias"
         }
         CHora.text = when(position){
-            0 -> "22:30 pm"
-            1 -> "22:35 pm"
-            2 -> "22:40 pm"
-            else -> "22:55 pm"
+            0 -> "22:30"
+            1 -> "22:35"
+            2 -> "22:40"
+            else -> "22:55"
         }
     }
 }

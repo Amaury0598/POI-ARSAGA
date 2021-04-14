@@ -4,24 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3F3F3">
+    android:background="#2D2342">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="64dp"
-        android:background="#1C1822"
+        android:background="#220F33"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView4"
+        <ImageButton
+            android:id="@+id/btn_back_3"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="6dp"
+            android:background="#00322C2C"
             app:srcCompat="@drawable/abc_vector_test" />
 
         <TextView
@@ -38,9 +38,9 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#2D2342"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         tools:layout_editor_absoluteX="0dp">
@@ -73,19 +73,6 @@
                 android:textSize="26sp" />
 
             <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:padding="6dp"
-                android:text="Facultad de Ciencias Fisico Matemáticas"
-                android:textColor="#B6B6B6"
-                android:textSize="18sp" />
-
-            <TextView
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -95,6 +82,19 @@
                 android:gravity="center"
                 android:padding="6dp"
                 android:text="Estudiante en:"
+                android:textColor="#B6B6B6"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="Facultad de Ciencias Fisico Matemáticas"
                 android:textColor="#B6B6B6"
                 android:textSize="18sp" />
 
@@ -116,8 +116,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="32dp"
+                android:layout_margin="32dp"
                 android:text="Ver mis Mensajes" />
+
         </LinearLayout>
     </ScrollView>
 

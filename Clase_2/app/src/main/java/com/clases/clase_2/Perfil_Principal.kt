@@ -15,9 +15,15 @@ class Perfil_Principal : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tareas)
+
+
+
         btn_Ver_Msg.setOnClickListener {
             val miIntent = Intent(this, List_Chats::class.java)
             startActivity(miIntent)
+        }
+        btn_back_3.setOnClickListener {
+            finish()
         }
     }
 }

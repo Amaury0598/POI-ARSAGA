@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>MainActivity.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainActivity.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.clases.clase_2</span>
+
+<span class="s1">import android.content.Intent</span>
+<span class="s1">import androidx.appcompat.app.AppCompatActivity</span>
+<span class="s1">import android.os.Bundle</span>
+<span class="s1">import android.view.Window</span>
+<span class="s1">import androidx.recyclerview.widget.RecyclerView</span>
+<span class="s1">import com.clases.clase_2.adaptadores.ChatAdaptador</span>
+<span class="s1">import kotlinx.android.synthetic.main.activity_main.*</span>
+<span class="s1">import kotlinx.android.synthetic.main.activity_tareas.*</span>
+<span class="s1">import kotlinx.android.synthetic.main.activity_todosloschats.*</span>
+
+<span class="s0">class </span><span class="s1">MainActivity : AppCompatActivity() {</span>
+
+    <span class="s1">private </span><span class="s0">val </span><span class="s1">chatAdaptador = ChatAdaptador()</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreate(savedInstanceState: Bundle?) {</span>
+
+        <span class="s1">requestWindowFeature(Window.FEATURE_NO_TITLE)</span>
+        <span class="s1">supportActionBar?.hide()</span>
+
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span>
+        <span class="s1">setContentView(R.layout.activity_main)</span>
+        <span class="s0">val </span><span class="s1">rvMensajes = findViewById&lt;RecyclerView&gt;(R.id.rv_Mensajes)</span>
+        <span class="s1">rvMensajes.adapter = chatAdaptador</span>
+
+        <span class="s1">btn_back_1.setOnClickListener{</span>
+            <span class="s1">finish()</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>
