@@ -23,7 +23,7 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/BT_back_chats_grupal"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="#00FFFFFF"

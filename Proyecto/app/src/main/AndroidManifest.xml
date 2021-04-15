@@ -9,15 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoPOIARSAGA">
-        <activity android:name=".Lista_Chats_Grupos"></activity>
-        <activity android:name=".Chat_Grupal"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".Registro"></activity>
+        <activity android:name=".Log_In">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Lista_Chats_Grupos" />
+        <activity android:name=".Chat_Grupal" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

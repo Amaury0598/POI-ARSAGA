@@ -17,6 +17,7 @@
         android:padding="8dp">
 
         <LinearLayout
+            android:id="@+id/LY_Nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -38,7 +39,8 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/divider"
+            android:id="@+id/DIV_nombre"
+
             android:layout_width="225dp"
             android:layout_height="2dp"
             android:background="?android:attr/listDivider" />
@@ -57,7 +59,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
-                android:ems="15"
+                android:ems="10"
+                android:minEms="2"
                 android:textColor="#191919"
                 android:textSize="18sp"
                 tools:text="Hola" />

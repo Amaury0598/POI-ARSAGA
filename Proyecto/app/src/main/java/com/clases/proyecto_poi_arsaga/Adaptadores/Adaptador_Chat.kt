@@ -2,6 +2,7 @@ package com.clases.proyecto_poi_arsaga.Adaptadores
 
 import android.content.Context
 import android.icu.text.SimpleDateFormat
+import android.opengl.Visibility
 import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -34,14 +35,16 @@ class AdaptorChat(private val context: Context, private val listamensajes: List<
 
         val MensajeEnviado = holder.itemView.findViewById<TextView>(R.id.tv_contenido)
         val MensajeHora = holder.itemView.findViewById<TextView>(R.id.tv_hora)
-
+        val Vis_nombre = holder.itemView.findViewById<LinearLayout>(R.id.LY_Nombre)
+        var Vis_div_nombre = holder.itemView.findViewById<View>(R.id.DIV_nombre)
         MensajeEnviado.text = listamensajes[position].mensaje
         MensajeHora.text = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(listamensajes[position].horaEnvio)
 
         if(listamensajes[position].mimensaje) {
 
             val contenedorParam = holder.itemView.LY_mensaje_burbuja.layoutParams
-            MensajeEnviado.gravity = Gravity.END
+            Vis_nombre.visibility = (View.GONE)
+            Vis_div_nombre.visibility = (View.GONE)
             val nuevosParam = FrameLayout.LayoutParams(
                 contenedorParam.width,
                 contenedorParam.height,
@@ -55,6 +58,8 @@ class AdaptorChat(private val context: Context, private val listamensajes: List<
 
             val contenedorParam = holder.itemView.LY_mensaje_burbuja.layoutParams
             MensajeEnviado.gravity = Gravity.START
+            Vis_nombre.visibility = (View.VISIBLE)
+            Vis_div_nombre.visibility = (View.VISIBLE)
             val nuevosParam = FrameLayout.LayoutParams(
                 contenedorParam.width,
                 contenedorParam.height,

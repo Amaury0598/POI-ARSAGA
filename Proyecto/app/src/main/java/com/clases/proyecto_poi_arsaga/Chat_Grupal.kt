@@ -20,6 +20,11 @@ class Chat_Grupal : AppCompatActivity() {
 
         RV_chat_grupal.adapter = adaptadorChat
 
+
+        BT_back_chats_grupal.setOnClickListener {
+            finish()
+        }
+
         BT_enviar_mensaje.setOnClickListener {
             val mensajeEscrito = TX_mensaje.text.toString()
             if(mensajeEscrito.isEmpty()){
