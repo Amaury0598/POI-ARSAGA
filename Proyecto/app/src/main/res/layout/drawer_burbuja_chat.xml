@@ -37,6 +37,12 @@
 
         </LinearLayout>
 
+        <View
+            android:id="@+id/divider"
+            android:layout_width="225dp"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -51,7 +57,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
-                android:ems="10"
+                android:ems="15"
                 android:textColor="#191919"
                 android:textSize="18sp"
                 tools:text="Hola" />
@@ -62,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:paddingTop="10dp"
-                android:textColor="#191919"
+                android:textColor="#4A4A4A"
                 android:textSize="12sp"
                 tools:text="10:00pm" />
         </LinearLayout>
