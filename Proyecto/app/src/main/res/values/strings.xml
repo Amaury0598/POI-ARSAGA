@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Proyecto-POI-ARSAGA</string>
+
+    <string-array name="array_emails">
+
+        <item>amg05@hotmail.es</item>
+        <item>arsaga@hotmail.es</item>
+
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

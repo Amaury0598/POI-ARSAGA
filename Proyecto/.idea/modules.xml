@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Proyecto.iml" filepath="$PROJECT_DIR$/.idea/Proyecto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Proyecto-POI-ARSAGA.iml" filepath="$PROJECT_DIR$/.idea/modules/Proyecto-POI-ARSAGA.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Proyecto-POI-ARSAGA.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Proyecto-POI-ARSAGA.app.iml" />
     </modules>
   </component>
 </project>
