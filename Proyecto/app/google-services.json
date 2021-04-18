@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "135923921974",
+    "project_id": "app-poi-15c77",
+    "storage_bucket": "app-poi-15c77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:135923921974:android:a3e24321ae32ff542cd497",
+        "android_client_info": {
+          "package_name": "com.clases.proyecto_poi_arsaga"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "135923921974-sln3abqb7rtt3t19a1ulj9t9fsi0m2mm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUZMa8evq3pdwYOQPntQfPDyh8m-PcbOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "135923921974-sln3abqb7rtt3t19a1ulj9t9fsi0m2mm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

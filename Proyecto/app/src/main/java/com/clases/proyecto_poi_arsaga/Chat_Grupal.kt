@@ -28,7 +28,7 @@ class Chat_Grupal : AppCompatActivity() {
         BT_enviar_mensaje.setOnClickListener {
             val mensajeEscrito = TX_mensaje.text.toString()
             if(mensajeEscrito.isEmpty()){
-                Toast.makeText(this, "Mensaje en blanco", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Mensaje en blanco", Toast.LENGTH_SHORT).show()
             }
             else{
                 val chatmensaje = ChatMensaje(mensajeEscrito, Date(), false, 0, true)

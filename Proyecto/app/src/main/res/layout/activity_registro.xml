@@ -25,7 +25,18 @@
             android:textSize="36sp" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/ET_Nombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:ems="15"
+            android:hint="Nombre"
+            android:inputType="textPersonName"
+            android:textColorHint="#575757" />
+
+        <EditText
+            android:id="@+id/ET_Correo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -36,7 +47,7 @@
             android:textColorHint="#575757" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName2"
+            android:id="@+id/ET_Contraseña"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -47,7 +58,7 @@
             android:textColorHint="#575757" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName3"
+            android:id="@+id/ET_Contraseña2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

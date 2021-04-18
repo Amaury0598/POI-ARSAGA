@@ -24,128 +24,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f27b15b3-147f-457f-b527-15cde21add7e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/proguard-rules.pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/androidTest/java/com/clases/proyecto_poi_arsaga/ExampleInstrumentedTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/java/com/clases/proyecto_poi_arsaga/MainActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/values-night/themes.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/main/res/values/themes.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/app/src/test/java/com/clases/proyecto_poi_arsaga/ExampleUnitTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyecto/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/proguard-rules.pro" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/androidTest/java/com/clases/clase_2/ExampleInstrumentedTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/AndroidManifest.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/java/com/clases/clase_2/Chat_Group.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/java/com/clases/clase_2/List_Chats.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/java/com/clases/clase_2/MainActivity.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/java/com/clases/clase_2/Navigation.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/java/com/clases/clase_2/Perfil_Principal.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/java/com/clases/clase_2/Todos_los_Chats.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/java/com/clases/clase_2/adaptadores/ChatAdaptador.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/java/com/clases/clase_2/adaptadores/TodosLos_ChatAdaptador.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/java/com/clases/clase_2/fragmentos/Fragmentos.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/drawable/esquinas_chats.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/drawable/esquinas_nodeadas.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/drawable/esquinas_nodeadas_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/drawable/ic_baseline_brush_24.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/drawable/ic_baseline_bug_report_24.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/drawable/ic_baseline_chat_24.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/drawable/ic_baseline_color_lens_24.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/drawable/ic_baseline_exit_to_app_24.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/drawable/ic_baseline_group_24.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/drawable/ic_baseline_person_pin_24.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/drawable/ic_baseline_settings_24.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/layout/activity_chat.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/layout/activity_main.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/layout/activity_navigation.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/layout/activity_tareas.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/layout/activity_todosloschats.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/layout/burbuja_mensajes.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/layout/drawer_header.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/menu/menu_drawer.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/values-night/themes.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/values/colors.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/values/strings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/main/res/values/themes.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/app/src/test/java/com/clases/clase_2/ExampleUnitTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/gradle.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clase_2/settings.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/.idea/Proyecto.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Proyecto/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Proyecto/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/com/clases/clase_2/Chat_Group.kt.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/com/clases/clase_2/List_Chats.kt.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/com/clases/clase_2/MainActivity.kt.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/com/clases/clase_2/Navigation.kt.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/com/clases/clase_2/Perfil_Principal.kt.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/com/clases/clase_2/Todos_los_Chats.kt.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/com/clases/clase_2/adaptadores/ChatAdaptador.kt.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/com/clases/clase_2/adaptadores/TodosLos_ChatAdaptador.kt.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/com/clases/clase_2/adaptadores/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/com/clases/clase_2/fragmentos/Fragmentos.kt.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/com/clases/clase_2/fragmentos/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto/com/clases/clase_2/index.html" beforeDir="false" />
-    </list>
+    <list default="true" id="f27b15b3-147f-457f-b527-15cde21add7e" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -169,15 +48,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../School/7-Septimo Sem/POI/Clase_2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Proyecto" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-      </method>
+      <method v="2" />
     </configuration>
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="ProyectoPOI-ARSAGA.app" />
@@ -232,9 +109,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
       <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-      </method>
+      <method v="2" />
     </configuration>
   </component>
   <component name="SvnConfiguration">
@@ -260,11 +135,12 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1618417267843">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1618767015218">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1618417267843" />
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1618767015218" />
   </component>
 </project>
