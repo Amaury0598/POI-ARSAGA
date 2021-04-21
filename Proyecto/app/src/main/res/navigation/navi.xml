@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navi"
+    app:startDestination="@id/lista_Chats_Grupos">
+
+    <activity
+        android:id="@+id/lista_Chats_Grupos"
+        android:name="com.clases.proyecto_poi_arsaga.Lista_Chats_Grupos"
+        android:label="activity_lista__chats__grupos"
+        tools:layout="@layout/activity_lista__chats__grupos" />
+</navigation>

@@ -1,8 +1,6 @@
 package com.clases.proyecto_poi_arsaga.Adaptadores
 
-import android.content.Context
 import android.icu.text.SimpleDateFormat
-import android.opengl.Visibility
 import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -13,19 +11,20 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.clases.proyecto_poi_arsaga.Chat_Grupal
 import com.clases.proyecto_poi_arsaga.Modelos.ChatMensaje
 import com.clases.proyecto_poi_arsaga.R
 import kotlinx.android.synthetic.main.drawer_burbuja_chat.view.*
 import java.util.*
 
-class AdaptorChat(private val context: Context, private val listamensajes: List<ChatMensaje>) : RecyclerView.Adapter<AdaptorChat.ChatViewHolder>()  {
+class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: MutableList<ChatMensaje>) : RecyclerView.Adapter<AdaptorChat.ChatViewHolder>()  {
 
     class ChatViewHolder(view: View) : RecyclerView.ViewHolder(view){
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
-       val vistaschat = LayoutInflater.from(context).inflate(R.layout.drawer_burbuja_chat, parent, false)
+       val vistaschat = LayoutInflater.from(context)
+           .inflate(R.layout.drawer_burbuja_chat, parent, false)
         return ChatViewHolder(vistaschat)
     }
 

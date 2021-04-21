@@ -13,6 +13,7 @@ import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Lista_Chats
 import com.clases.proyecto_poi_arsaga.Fragmentos.FragmentoA
 import com.clases.proyecto_poi_arsaga.Fragmentos.FragmentoB
 import com.clases.proyecto_poi_arsaga.Fragmentos.FragmentoC
+import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -26,9 +27,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         val miNav = findViewById<NavigationView>(R.id.main_nav)
         val miDrawer = findViewById<DrawerLayout>(R.id.main_drawer)
@@ -50,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(miIntent)
                 }
                 R.id.menu_perfil -> {
-                    cambiarFragmento(FragmentoA(), "Perfil" )
+                  cambiarFragmento(FragmentoA(), "Lista")
                 }
                 R.id.menu_opciones -> {
                     cambiarFragmento(FragmentoB(), "Opciones" )

@@ -2,8 +2,6 @@ package com.clases.proyecto_poi_arsaga
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Adaptadores.AdaptorChat
 import com.clases.proyecto_poi_arsaga.Modelos.ChatMensaje
 import kotlinx.android.synthetic.main.activity_chat__grupal.*
@@ -20,10 +18,11 @@ class Chat_Grupal : AppCompatActivity() {
 
         RV_chat_grupal.adapter = adaptadorChat
 
-
         BT_back_chats_grupal.setOnClickListener {
             finish()
         }
+
+
 
         BT_enviar_mensaje.setOnClickListener {
             val mensajeEscrito = TX_mensaje.text.toString()
