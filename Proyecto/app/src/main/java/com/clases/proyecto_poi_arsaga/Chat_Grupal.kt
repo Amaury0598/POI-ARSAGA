@@ -16,13 +16,17 @@ class Chat_Grupal : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat__grupal)
 
+        if(intent.extras != null){
+            TV_Nombre_Chat.text = intent.getStringExtra("Nombre")
+        }else{
+            TV_Nombre_Chat.text = "Desconocido"
+        }
+
         RV_chat_grupal.adapter = adaptadorChat
 
         BT_back_chats_grupal.setOnClickListener {
             finish()
         }
-
-
 
         BT_enviar_mensaje.setOnClickListener {
             val mensajeEscrito = TX_mensaje.text.toString()

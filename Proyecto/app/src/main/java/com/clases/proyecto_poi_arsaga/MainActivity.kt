@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(miIntent)
                 }
                 R.id.menu_perfil -> {
-                  cambiarFragmento(FragmentoA(), "Lista")
+                  cambiarFragmento(Main_Frag(), "Lista")
                 }
                 R.id.menu_opciones -> {
                     cambiarFragmento(FragmentoB(), "Opciones" )
