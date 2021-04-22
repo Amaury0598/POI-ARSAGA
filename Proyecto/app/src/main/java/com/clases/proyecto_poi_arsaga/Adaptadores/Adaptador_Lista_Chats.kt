@@ -12,14 +12,14 @@ import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
 import com.clases.proyecto_poi_arsaga.R
 
-class Adaptador_Lista_Chats(private val context: Main_Frag, private val listaChatsGrupos:  MutableList<Grupos>) : RecyclerView.Adapter<Adaptador_Lista_Chats.TLosChatViewHolder>() {
+class Adaptador_Lista_Chats(private val context: Context, private val listaChatsGrupos:  MutableList<Grupos>) : RecyclerView.Adapter<Adaptador_Lista_Chats.TLosChatViewHolder>() {
 
     class TLosChatViewHolder(View: View): RecyclerView.ViewHolder(View){
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TLosChatViewHolder {
 
-        val vistalista = LayoutInflater.from(parent.context).inflate(R.layout.chats_grupos, parent, false)
+        val vistalista = LayoutInflater.from(context).inflate(R.layout.chats_grupos, parent, false)
         return TLosChatViewHolder(vistalista)
     }
 
