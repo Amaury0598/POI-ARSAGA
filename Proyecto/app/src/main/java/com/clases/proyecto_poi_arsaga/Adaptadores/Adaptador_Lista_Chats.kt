@@ -49,6 +49,4 @@ class Adaptador_Lista_Chats(private val context: Main_Frag,
         CMensaje.text = listaChatsGrupos[position].foto
         CHora.text = listaChatsGrupos[position].integrantes.toString()
     }
-
-
 }

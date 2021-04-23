@@ -32,12 +32,6 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
         recycler_lista.layoutManager = milinear
         recycler_lista.adapter = adaptadorChatlistadechats
 
-        val Boton = miView.findViewById<Button>(R.id.BTN_agregar)
-        Boton.setOnClickListener {
-            val intent = Intent(activity, Chat_Grupal::class.java)
-            activity?.startActivity(intent)
-        }
-
         return miView
     }
 
