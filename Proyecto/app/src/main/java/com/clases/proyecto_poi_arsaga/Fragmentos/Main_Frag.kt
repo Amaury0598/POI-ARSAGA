@@ -49,10 +49,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
         listaChats.add(Grupos("LCC", 3, "Holo", 1))
         listaChats.add(Grupos("LA", 8, "Halo", 2))
         listaChats.add(Grupos("LM", 10, "Hulu", 3))
-        listaChats.add(Grupos("LMAD", 5, "Hola", 0))
-        listaChats.add(Grupos("LCC", 3, "Holo", 1))
-        listaChats.add(Grupos("LA", 8, "Halo", 2))
-        listaChats.add(Grupos("LM", 10, "Hulu", 3))
+
         adaptadorChatlistadechats.notifyDataSetChanged()
 
     }

@@ -10,10 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Lista_Chats
-import com.clases.proyecto_poi_arsaga.Fragmentos.FragmentoA
-import com.clases.proyecto_poi_arsaga.Fragmentos.FragmentoB
-import com.clases.proyecto_poi_arsaga.Fragmentos.FragmentoC
-import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
+import com.clases.proyecto_poi_arsaga.Fragmentos.*
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -50,8 +47,7 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
 
                 R.id.menu_home -> {
-                    val miIntent = Intent(this, Chat_Grupal::class.java)
-                    startActivity(miIntent)
+                  cambiarFragmento(Frag_Grupos_Carreras(), "Grupos")
                 }
                 R.id.menu_perfil -> {
                   cambiarFragmento(Main_Frag(), "Lista")
