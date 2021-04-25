@@ -34,10 +34,10 @@ class Chat_Grupal : AppCompatActivity() {
                 //Toast.makeText(this, "Mensaje en blanco", Toast.LENGTH_SHORT).show()
             }
             else{
-                val chatmensaje = ChatMensaje(mensajeEscrito, Date(), false, 0, true)
+                val chatmensaje = ChatMensaje("Juan", mensajeEscrito, Date(), false, 0, true)
                 listamensajes.add(chatmensaje)
 
-                val chatRespuesta = ChatMensaje("No estoy", Date(), false, 0, false)
+                val chatRespuesta = ChatMensaje("Lucas", "No estoy", Date(), false, 0, false)
                 listamensajes.add(chatRespuesta)
 
                 adaptadorChat.notifyDataSetChanged()

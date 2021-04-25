@@ -28,7 +28,8 @@
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/main_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="#3F51B5">
 
                 </androidx.appcompat.widget.Toolbar>
 
@@ -38,9 +39,23 @@
                 android:id="@+id/Contenedor"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/BTN_bottom_nav"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/BTN_bottom_nav"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/windowBackground"
+                app:itemBackground="@android:color/holo_blue_dark"
+                app:itemIconTint="#fff"
+                app:itemTextColor="#fff"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appBarLayout2"
-                tools:layout_editor_absoluteX="0dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:menu="@menu/menu_tareas_grupos" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -4,6 +4,7 @@ import java.util.*
 
 data class ChatMensaje (
 
+    val usuario: String,
     val mensaje: String,
     val horaEnvio: Date,
     val visto: Boolean,

@@ -47,14 +47,12 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
 
     fun cargarLista(){
 
-        listaGrupos.add(Grupos("LMAD", 5, "Hola", 0))
-        listaGrupos.add(Grupos("LCC", 3, "Holo", 1))
-        listaGrupos.add(Grupos("LA", 8, "Halo", 2))
-        listaGrupos.add(Grupos("LM", 10, "Hulu", 3))
-        listaGrupos.add(Grupos("LMAD", 5, "Hola", 0))
-        listaGrupos.add(Grupos("LCC", 3, "Holo", 1))
-        listaGrupos.add(Grupos("LA", 8, "Halo", 2))
-        listaGrupos.add(Grupos("LM", 10, "Hulu", 3))
+        listaGrupos.add(Grupos("LMAD", 5, "https://image.flaticon.com/icons/png/512/1465/1465606.png", 0))
+        listaGrupos.add(Grupos("LCC", 3, "https://images-na.ssl-images-amazon.com/images/I/31gpv-ZU4vL.png", 1))
+        listaGrupos.add(Grupos("LM", 10, "https://icons-for-free.com/iconfiles/png/512/math+tutor+icon-1320195955563127435.png", 2))
+        listaGrupos.add(Grupos("LF", 5, "https://image.flaticon.com/icons/png/512/746/746960.png", 3))
+        listaGrupos.add(Grupos("LA", 8, "https://www.highmeadowschool.org/wp-content/uploads/2016/11/abacus-icon.png", 4))
+        listaGrupos.add(Grupos("LSTI", 3, "https://img.icons8.com/bubbles/452/cyber-security.png", 5))
 
         adaptador_grupos_carreras.notifyDataSetChanged()
 

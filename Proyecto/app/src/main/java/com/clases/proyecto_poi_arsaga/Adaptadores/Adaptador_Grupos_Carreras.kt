@@ -4,12 +4,14 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Grupos_Carreras
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
 import com.clases.proyecto_poi_arsaga.R
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.chats_grupos.view.*
 import kotlinx.android.synthetic.main.drawer_grupos_carreras.view.*
 
@@ -45,8 +47,10 @@ class Adaptador_Grupos_Carreras (private val context: Frag_Grupos_Carreras,
         holder.itemView.TV_nombre_grupos_carreras.setOnClickListener { itemClickListener.onitemHold(listaChatsGrupos[position].integrantes) }
 
         val CG_Nombre = holder.itemView.findViewById<TextView>(R.id.TV_nombre_grupos_carreras)
+        val CG_Imagen = holder.itemView.findViewById<ImageView>(R.id.IMG_grupos_carreras)
 
         CG_Nombre.text = listaChatsGrupos[position].nombre
+        Picasso.get().load(listaChatsGrupos[position].foto).into(CG_Imagen)
 
     }
 }

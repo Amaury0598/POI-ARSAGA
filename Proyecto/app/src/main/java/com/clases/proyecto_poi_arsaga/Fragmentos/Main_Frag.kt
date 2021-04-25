@@ -12,14 +12,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Lista_Chats
 import com.clases.proyecto_poi_arsaga.Chat_Grupal
+import com.clases.proyecto_poi_arsaga.Modelos.ChatMensaje
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
 import com.clases.proyecto_poi_arsaga.R
+import java.util.*
 
 
 class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
 
 
-    val listaChats = mutableListOf<Grupos>()
+    val listaChats = mutableListOf<ChatMensaje>()
     val adaptadorChatlistadechats = Adaptador_Lista_Chats(this, listaChats, this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -41,26 +43,26 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
 
     fun cargarLista(){
 
-        listaChats.add(Grupos("LMAD", 5, "Hola", 0))
-        listaChats.add(Grupos("LCC", 3, "Holo", 1))
-        listaChats.add(Grupos("LA", 8, "Halo", 2))
-        listaChats.add(Grupos("LM", 10, "Hulu", 3))
-        listaChats.add(Grupos("LMAD", 5, "Hola", 0))
-        listaChats.add(Grupos("LCC", 3, "Holo", 1))
-        listaChats.add(Grupos("LA", 8, "Halo", 2))
-        listaChats.add(Grupos("LM", 10, "Hulu", 3))
+        listaChats.add(ChatMensaje("Javier","Hola, como estas", Date(), false, 0, true))
+        listaChats.add(ChatMensaje("Rasho MacQueen","Kuchau", Date(), true, 1, false))
+        listaChats.add(ChatMensaje("Oliver","Mis piernas !!!", Date(), false, 2, true))
+        listaChats.add(ChatMensaje("Benito","yipi yipi yipiy kejeje asdwajdjwa dwajdwadaw", Date(), true, 4, false))
+        listaChats.add(ChatMensaje("José José","Hola, como estas", Date(), true, 5, true))
+        listaChats.add(ChatMensaje("Messi","lalalalaa lalalalaa allalaala lalalala alallala alala", Date(), false, 6, true))
+
 
         adaptadorChatlistadechats.notifyDataSetChanged()
 
     }
 
-    override fun onitemHold(integrantes: Int) {
-        Toast.makeText(activity, "Numero de integrantes $integrantes", Toast.LENGTH_SHORT).show()
+    override fun onitemHold(toString: String) {
+        Toast.makeText(activity, "El id es: $toString", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onitemClick(nombre: String) {
+
+    override fun onitemClick(usuario: String) {
         val intent = Intent(activity, Chat_Grupal::class.java)
-        intent.putExtra("Nombre", nombre)
+        intent.putExtra("Nombre", usuario)
         activity?.startActivity(intent)
     }
 }

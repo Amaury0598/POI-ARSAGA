@@ -11,8 +11,8 @@
         android:id="@+id/IMG_grupo"
         android:layout_width="65dp"
         android:layout_height="75dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,7 +21,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="12dp"
+        android:layout_margin="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,8 +32,9 @@
             android:id="@+id/TV_Nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
             android:textColor="#191919"
-            android:textSize="18sp"
+            android:textSize="20dp"
             android:textStyle="bold"
             tools:text="Nombre del Contacto" />
 
@@ -50,22 +51,46 @@
 
             <TextView
                 android:id="@+id/TV_Contenido"
-                android:layout_width="180dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="center_vertical"
-                android:textColor="#191919"
-                tools:text="Mensaje del contacto lalalal laalalla allalalal alalalall lalalalal alalalall lalalal lalalala" />
-
-            <TextView
-                android:id="@+id/TV_Hora"
-                android:layout_width="match_parent"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:gravity="end"
-                android:textColor="#4A4A4A"
-                tools:text="17:00pm" />
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:paddingLeft="4dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textColor="#191919"
+                android:textSize="16sp"
+                tools:text="Hola así esdw wda dwad wadawdwadaw dwa  dwadwa dwa dwa dw adwadaw dwa wd awdadwadaw dawd aw dwadad wa" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/TV_Hora"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:gravity="end"
+                    android:textColor="#4A4A4A"
+                    tools:text="17:00pm" />
+
+                <ImageView
+                    android:id="@+id/IMG_seen"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginRight="4dp"
+                    app:srcCompat="@drawable/red_eye" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
