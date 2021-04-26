@@ -72,7 +72,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
     fun cargarLista(){
 
         listaChats.add(ChatMensaje("Javier","Hola, como estas", Date(), false, 0, true))
-        listaChats.add(ChatMensaje("Rasho MacQueen","Kuchau", Date(), true, 1, false))
+        listaChats.add(ChatMensaje("El Rasho MacQueen la Machina mas veloz del mundo","Kuchau", Date(), true, 1, false))
         listaChats.add(ChatMensaje("Oliver","Mis piernas !!!", Date(), false, 2, true))
         listaChats.add(ChatMensaje("Benito","yipi yipi yipiy kejeje asdwajdjwa dwajdwadaw", Date(), true, 4, false))
         listaChats.add(ChatMensaje("José José","Hola, como estas", Date(), true, 5, true))

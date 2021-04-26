@@ -39,18 +39,19 @@
 
             <TextView
                 android:id="@+id/TV_Nombre_Chat"
-                android:layout_width="135dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
 
+                android:ellipsize="end"
+                android:ems="6"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center|start"
-                android:maxLines="1"
-                android:text="Manuel Amaury"
+                android:maxLines="2"
                 android:textColor="#FDFDFD"
                 android:textSize="18sp"
-                tools:text="Darien Miguel Sánchez Arévalo" />
+                tools:text="Nombre del Contacto" />
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="wrap_content"

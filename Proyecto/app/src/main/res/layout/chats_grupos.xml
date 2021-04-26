@@ -30,13 +30,17 @@
 
         <TextView
             android:id="@+id/TV_Nombre"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:ems="12"
+            android:maxLines="1"
             android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:textColor="#191919"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            tools:text="Nombre del Contacto" />
+            tools:text="Contactos" />
 
         <View
             android:id="@+id/divider2"
@@ -54,13 +58,16 @@
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:ellipsize="end"
                 android:gravity="center_vertical"
+                android:maxLines="2"
                 android:paddingLeft="4dp"
                 android:paddingTop="8dp"
+                android:paddingRight="4dp"
                 android:paddingBottom="8dp"
                 android:textColor="#191919"
                 android:textSize="16sp"
-                tools:text="Hola así esdw wda dwad wadawdwadaw dwa  dwadwa dwa dwa dw adwadaw dwa wd awdadwadaw dawd aw dwadad wa" />
+                tools:text="Texto del último mensaje" />
 
             <LinearLayout
                 android:layout_width="match_parent"
