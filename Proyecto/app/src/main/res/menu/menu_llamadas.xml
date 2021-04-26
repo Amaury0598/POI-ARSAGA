@@ -3,6 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:icon="@drawable/attach_file"
+        android:title="files"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:title="Imagen"
+                />
+            <item
+                android:title="Archivo"
+                />
+            <item
+                android:title="Ubicación"
+                />
+
+
+        </menu>
+    </item>
+
+    <item
         android:icon="@drawable/video_call"
         android:title="VideoLlamada"
         app:showAsAction="ifRoom" />

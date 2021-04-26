@@ -28,19 +28,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/AC_CHATGRUPAL"
         tools:listitem="@layout/chats_grupos">
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
+    <AutoCompleteTextView
+        android:id="@+id/AC_CHATGRUPAL"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:ems="10"
         android:hint="Buscar Contacto"
         android:inputType="textPersonName"
+        android:completionThreshold="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

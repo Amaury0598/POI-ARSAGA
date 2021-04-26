@@ -11,3 +11,32 @@ data class ChatMensaje (
     val id: Long,
     val mimensaje: Boolean
 )
+
+class Mensaje(
+        var de: String = "",
+        var hora: Date,
+        var mensaje: String = ""
+) {
+
+}
+
+class ChatLog(
+        var msg: AbstractMutableList<Mensaje>
+) {
+
+}
+
+class Chat(
+        var nombre: String = "",
+        var correo: String = "",
+        var contraseña: String = "",
+        var chatLog: AbstractMutableList<ChatLog>
+) {
+
+}
+
+
+
+
+
+
