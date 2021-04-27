@@ -1,17 +1,17 @@
 package com.clases.proyecto_poi_arsaga
 
+import android.icu.text.SimpleDateFormat
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.clases.proyecto_poi_arsaga.Adaptadores.AdaptorChat
 import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
 import com.clases.proyecto_poi_arsaga.Modelos.ChatLog
 import com.clases.proyecto_poi_arsaga.Modelos.ChatMensaje
 import com.clases.proyecto_poi_arsaga.Modelos.Mensaje
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_chat__grupal.*
 import java.util.*
 
@@ -38,7 +38,7 @@ class Chat_Grupal : AppCompatActivity() {
         }
 
         RV_chat_grupal.adapter = adaptadorChat
-        cargarMensajes()
+
 
         BT_back_chats_grupal.setOnClickListener {
             finish()
@@ -54,7 +54,7 @@ class Chat_Grupal : AppCompatActivity() {
                 /*val chatRespuesta = ChatMensaje("Lucas", "No estoy", Date(), false, 0, false)
                 listamensajes.add(chatRespuesta)*/
 
-                val chatmensaje = Mensaje(correoActual, false, Date(), mensajeEscrito)
+                val chatmensaje = Mensaje(correoActual, false, ServerValue.TIMESTAMP, mensajeEscrito)
                 agregarMensaje(chatmensaje)
 
 
@@ -62,43 +62,90 @@ class Chat_Grupal : AppCompatActivity() {
 
             }
         }
+        cargarMensajes()
     }
 
     private fun cargarMensajes(){
         var cargarMensajeRef = database.getReference().child("ChatLog").child(idChatDirecto)
 
-        cargarMensajeRef.addListenerForSingleValueEvent(object: ValueEventListener {
+       /* cargarMensajeRef.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot!!.exists()) {
-                    listamensajes.clear()
-                    for(cl in snapshot.children) {
-                        val mensaje: Mensaje = cl.getValue(Mensaje::class.java) as Mensaje;
+
+            }
+
+        })*/
+
+        cargarMensajeRef.addChildEventListener(object: ChildEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                /*if(snapshot!!.exists()) {
+
+                    val children = snapshot.children.iterator()
+
+                    while(children.hasNext()){
+                        var de = children.next().value
+                        var esMio = children.next().value
+                        var msg = children.next().value
+                        var timeStamp = children.next().value
+
+                        val mensaje: Mensaje = Mensaje(de as String, esMio as Boolean, timeStamp, msg as String)
                         if(mensaje.de == correoActual)
                             mensaje.esMio = true
                         listamensajes.add(mensaje)
 
                     }
+
                     adaptadorChat.notifyDataSetChanged()
                     RV_chat_grupal.scrollToPosition(listamensajes.size - 1)
-                } else{
+                }*/
+            }
 
 
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                if(snapshot!!.exists()) {
+
+                    val children = snapshot.children.iterator()
+
+                    while(children.hasNext()){
+                        var de = children.next().value
+                        var esMio = children.next().value
+                        var msg = children.next().value
+                        var timeStamp = children.next().value
+
+                        val mensaje: Mensaje = Mensaje(de as String, esMio as Boolean, timeStamp, msg as String)
+                        if(mensaje.de == correoActual)
+                            mensaje.esMio = true
+                        listamensajes.add(mensaje)
+
+                    }
+
+                    adaptadorChat.notifyDataSetChanged()
+                    RV_chat_grupal.scrollToPosition(listamensajes.size - 1)
                 }
             }
 
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+                TODO("Not yet implemented")
+            }
+
         })
+
+
     }
 
     private fun agregarMensaje(mensaje: Mensaje){
         database.getReference().child("ChatLog").child(idChatDirecto).push().setValue(mensaje)
-        mensaje.esMio = true
-        listamensajes.add(mensaje)
-        adaptadorChat.notifyDataSetChanged()
-        RV_chat_grupal.scrollToPosition(listamensajes.size - 1)
         TX_mensaje.text.clear()
     }
 }

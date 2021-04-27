@@ -15,7 +15,7 @@ data class ChatMensaje (
 class Mensaje(
         var de: String = "",
         var esMio: Boolean = false,
-        var hora: Date = Date(),
+        val timeStamp: Any? = null,
         var mensaje: String = ""
 ) {
 

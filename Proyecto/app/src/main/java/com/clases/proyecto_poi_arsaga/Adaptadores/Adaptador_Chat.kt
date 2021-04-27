@@ -38,7 +38,9 @@ class AdaptorChat(private val userActual: String, private val context: Chat_Grup
         val Vis_nombre = holder.itemView.findViewById<LinearLayout>(R.id.LY_Nombre)
         var Vis_div_nombre = holder.itemView.findViewById<View>(R.id.DIV_nombre)
         MensajeEnviado.text = listamensajes[position].mensaje
-        MensajeHora.text = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(listamensajes[position].hora)
+        val dateFormater = java.text.SimpleDateFormat("HH:mm a", Locale.getDefault())
+        MensajeHora.text = dateFormater.format(Date(listamensajes[position].timeStamp as Long))
+        //MensajeHora.text = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(listamensajes[position].hora)
 
         if(listamensajes[position].esMio) {
 
