@@ -13,11 +13,15 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
+    private var correoActual : String = ""
     fun cambiarFragmento(FragmentoNuevo: Fragment, tag: String){
 
         val fragmentoanterior = supportFragmentManager.findFragmentByTag(tag)
         if(fragmentoanterior == null) {
+            var b : Bundle = Bundle()
+
+            b.putString("correoActual", correoActual)
+            FragmentoNuevo.arguments = b
             supportFragmentManager.beginTransaction().replace(R.id.Contenedor, FragmentoNuevo)
                 .commit()
         }
@@ -26,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        correoActual = intent.getStringExtra("correoActual").toString()
 
         val miNav = findViewById<NavigationView>(R.id.main_nav)
         val mibarraNav = findViewById<BottomNavigationView>(R.id.BTN_bottom_nav)

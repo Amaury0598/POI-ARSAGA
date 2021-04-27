@@ -13,11 +13,12 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Chat_Grupal
 import com.clases.proyecto_poi_arsaga.Modelos.ChatMensaje
+import com.clases.proyecto_poi_arsaga.Modelos.Mensaje
 import com.clases.proyecto_poi_arsaga.R
 import kotlinx.android.synthetic.main.drawer_burbuja_chat.view.*
 import java.util.*
 
-class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: MutableList<ChatMensaje>) : RecyclerView.Adapter<AdaptorChat.ChatViewHolder>()  {
+class AdaptorChat(private val userActual: String, private val context: Chat_Grupal, private val listamensajes: MutableList<Mensaje>) : RecyclerView.Adapter<AdaptorChat.ChatViewHolder>()  {
 
     class ChatViewHolder(view: View) : RecyclerView.ViewHolder(view){
     }
@@ -37,9 +38,9 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
         val Vis_nombre = holder.itemView.findViewById<LinearLayout>(R.id.LY_Nombre)
         var Vis_div_nombre = holder.itemView.findViewById<View>(R.id.DIV_nombre)
         MensajeEnviado.text = listamensajes[position].mensaje
-        MensajeHora.text = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(listamensajes[position].horaEnvio)
+        MensajeHora.text = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(listamensajes[position].hora)
 
-        if(listamensajes[position].mimensaje) {
+        if(listamensajes[position].esMio) {
 
             val contenedorParam = holder.itemView.LY_mensaje_burbuja.layoutParams
             Vis_nombre.visibility = (View.GONE)

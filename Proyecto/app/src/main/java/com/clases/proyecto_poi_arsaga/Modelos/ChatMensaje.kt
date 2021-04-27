@@ -14,23 +14,22 @@ data class ChatMensaje (
 
 class Mensaje(
         var de: String = "",
-        var hora: Date,
+        var esMio: Boolean = false,
+        var hora: Date = Date(),
         var mensaje: String = ""
 ) {
 
 }
 
-class ChatLog(
-        var msg: AbstractMutableList<Mensaje>
+class ChatDirecto(
+        var id: String = "",
+        var usuarios:String = ""
 ) {
 
 }
 
-class Chat(
-        var nombre: String = "",
-        var correo: String = "",
-        var contraseña: String = "",
-        var chatLog: AbstractMutableList<ChatLog>
+class ChatLog(
+        var chatLog: MutableList<Mensaje> = mutableListOf<Mensaje>()
 ) {
 
 }

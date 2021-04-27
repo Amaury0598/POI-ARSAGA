@@ -1,8 +1,10 @@
 package com.clases.proyecto_poi_arsaga
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
 import com.clases.proyecto_poi_arsaga.Modelos.ChatMensaje
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.google.firebase.database.DataSnapshot
@@ -16,6 +18,7 @@ class Registro : AppCompatActivity() {
 
     private val database = FirebaseDatabase.getInstance();
     private val userRef = database.getReference("Usuarios"); //crear "rama" (tabla)
+    private var correo: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +29,7 @@ class Registro : AppCompatActivity() {
 
         BT_registrarse.setOnClickListener {
             val nombre = ET_Nombre.text.toString()
-            val correo = ET_Correo.text.toString()
+            correo = ET_Correo.text.toString()
             val contraseña = ET_Contraseña.text.toString()
             val contraseña2 = ET_Contraseña2.text.toString()
 
@@ -70,6 +73,14 @@ class Registro : AppCompatActivity() {
                         insertarUsuario(usuarioRegistrado)
                         Toast.makeText(this@Registro, "Gracias por Registrarte", Toast.LENGTH_SHORT).show()
                         finish()
+                        finish()
+                        val miIntent = Intent(this@Registro, MainActivity::class.java)
+                        miIntent.putExtra("correoActual", correo)
+                        var bundle: Bundle = Bundle()
+                        bundle.putString("correoActual", correo);
+                        var fragment: Main_Frag = Main_Frag()
+                        fragment.arguments = bundle
+                        startActivity(miIntent)
                     } else {
                         Toast.makeText(this@Registro, "Se ha producido un error", Toast.LENGTH_SHORT).show()
                     }
