@@ -36,13 +36,12 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
     val listaChats = mutableListOf<ChatMensaje>()
     val adaptadorChatlistadechats = Adaptador_Lista_Chats(this, listaChats, this)
     var listaCorreos = mutableListOf<String>()
-    var listaNombres = mutableListOf<String>()
-    var userActual = ""
+    var correoActual = ""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        userActual = arguments?.getString("correoActual").toString()
+        correoActual = arguments?.getString("correoActual").toString()
 
         cargarLista()
         autoCompletar()
@@ -66,8 +65,8 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                 val intent = Intent(activity, Chat_Grupal::class.java)
                 intent.putExtra("Nombre", nombre)
                 intent.putExtra("Correo", correo)
-                intent.putExtra("correoActual", userActual)
-                verSiTieneChat(obtenerChatDirectoUsuarios(correo, userActual), intent)
+                intent.putExtra("correoActual", correoActual)
+                verSiTieneChat(obtenerChatDirectoUsuarios(correo, correoActual), intent)
 
             }
 
@@ -175,8 +174,8 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
 
                     for( u in snapshot.children){
                         val user: Usuario = u.getValue(Usuario::class.java) as Usuario;
-                            listaCorreos.add(user.nombre+"\n"+user.correo)//Darien Miguel Sánchez Arévalo\nsadarien@gmail.com
-                            listaNombres.add(user.nombre)
+                            if(user.correo != correoActual)
+                                listaCorreos.add(user.nombre+"\n"+user.correo)//Darien Miguel Sánchez Arévalo\nsadarien@gmail.com
                     }
 
                     //val correosArray: Array<String> = listaCorreos.toTypedArray()

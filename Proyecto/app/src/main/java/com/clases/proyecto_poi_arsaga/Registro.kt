@@ -76,10 +76,7 @@ class Registro : AppCompatActivity() {
                         finish()
                         val miIntent = Intent(this@Registro, MainActivity::class.java)
                         miIntent.putExtra("correoActual", correo)
-                        var bundle: Bundle = Bundle()
-                        bundle.putString("correoActual", correo);
-                        var fragment: Main_Frag = Main_Frag()
-                        fragment.arguments = bundle
+
                         startActivity(miIntent)
                     } else {
                         Toast.makeText(this@Registro, "Se ha producido un error", Toast.LENGTH_SHORT).show()
