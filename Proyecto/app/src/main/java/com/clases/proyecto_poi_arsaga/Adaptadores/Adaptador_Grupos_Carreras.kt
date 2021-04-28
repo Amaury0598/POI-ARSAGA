@@ -41,8 +41,6 @@ class Adaptador_Grupos_Carreras (private val context: Frag_Grupos_Carreras,
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: Grupos_Carreras_ViewHolder, position: Int) {
 
-
-
         holder.itemView.setOnClickListener { itemClickListener.onitemClick((listaChatsGrupos[position].nombre)) }
         holder.itemView.TV_nombre_grupos_carreras.setOnClickListener { itemClickListener.onitemHold(listaChatsGrupos[position].integrantes) }
 

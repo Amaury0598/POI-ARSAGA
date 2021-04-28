@@ -18,7 +18,7 @@ import com.clases.proyecto_poi_arsaga.R
 import kotlinx.android.synthetic.main.drawer_burbuja_chat.view.*
 import java.util.*
 
-class AdaptorChat(private val userActual: String, private val context: Chat_Grupal, private val listamensajes: MutableList<Mensaje>) : RecyclerView.Adapter<AdaptorChat.ChatViewHolder>()  {
+class AdaptorChat(private val userActual: String, private val context: Chat_Grupal, private val listamensajes: MutableList<Mensaje>, private  val Tipo : Int) : RecyclerView.Adapter<AdaptorChat.ChatViewHolder>()  {
 
     class ChatViewHolder(view: View) : RecyclerView.ViewHolder(view){
     }
@@ -42,34 +42,58 @@ class AdaptorChat(private val userActual: String, private val context: Chat_Grup
         MensajeHora.text = dateFormater.format(Date(listamensajes[position].timeStamp as Long))
         //MensajeHora.text = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(listamensajes[position].hora)
 
-        if(listamensajes[position].esMio) {
+        if (Tipo == 0) { // Es chat Grupo
 
-            val contenedorParam = holder.itemView.LY_mensaje_burbuja.layoutParams
+            if (listamensajes[position].esMio) {
+
+                val contenedorParam = holder.itemView.LY_mensaje_burbuja.layoutParams
+                Vis_nombre.visibility = (View.GONE)
+                Vis_div_nombre.visibility = (View.GONE)
+                val nuevosParam = FrameLayout.LayoutParams(
+                        contenedorParam.width,
+                        contenedorParam.height,
+                        Gravity.END
+                )
+                holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
+            } else {
+
+                val contenedorParam = holder.itemView.LY_mensaje_burbuja.layoutParams
+                MensajeEnviado.gravity = Gravity.START
+                Vis_nombre.visibility = (View.VISIBLE)
+                Vis_div_nombre.visibility = (View.VISIBLE)
+                val nuevosParam = FrameLayout.LayoutParams(
+                        contenedorParam.width,
+                        contenedorParam.height,
+                        Gravity.START
+                )
+                holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
+            }
+        } else { // Es chat en Privado
+
             Vis_nombre.visibility = (View.GONE)
             Vis_div_nombre.visibility = (View.GONE)
-            val nuevosParam = FrameLayout.LayoutParams(
-                contenedorParam.width,
-                contenedorParam.height,
-                Gravity.END
-            )
 
+            if (listamensajes[position].esMio) {
 
-            holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
+                val contenedorParam = holder.itemView.LY_mensaje_burbuja.layoutParams
+                val nuevosParam = FrameLayout.LayoutParams(
+                        contenedorParam.width,
+                        contenedorParam.height,
+                        Gravity.END
+                )
+                holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
+            } else {
+
+                val contenedorParam = holder.itemView.LY_mensaje_burbuja.layoutParams
+                MensajeEnviado.gravity = Gravity.START
+                val nuevosParam = FrameLayout.LayoutParams(
+                        contenedorParam.width,
+                        contenedorParam.height,
+                        Gravity.START
+                )
+                holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
+            }
         }
-        else {
-
-            val contenedorParam = holder.itemView.LY_mensaje_burbuja.layoutParams
-            MensajeEnviado.gravity = Gravity.START
-            Vis_nombre.visibility = (View.VISIBLE)
-            Vis_div_nombre.visibility = (View.VISIBLE)
-            val nuevosParam = FrameLayout.LayoutParams(
-                contenedorParam.width,
-                contenedorParam.height,
-                Gravity.START
-            )
-            holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
-        }
-
 
     }
 

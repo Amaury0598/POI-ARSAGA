@@ -48,7 +48,7 @@
                 android:id="@+id/BTN_bottom_nav"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/windowBackground"
+                android:background="#ff0099cc"
                 app:itemBackground="@android:color/holo_blue_dark"
                 app:itemIconTint="#fff"
                 app:itemTextColor="#fff"

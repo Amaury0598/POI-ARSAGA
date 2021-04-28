@@ -29,7 +29,7 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
         val miViewGrupos =  inflater.inflate(R.layout.frag_grupos_carreras, container, false)
 
         val nogrupos = miViewGrupos.findViewById<TextView>(R.id.TV_nogrupos)
-        nogrupos.text = "Unete a mas grupos es genial !!"
+        nogrupos.text = "Unete a mas grupos, es genial !!"
         if (listaGrupos.size < 3) nogrupos.visibility = (View.VISIBLE)
         else nogrupos.visibility = (View.GONE)
 
@@ -65,6 +65,7 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
     override fun onitemClick(nombre: String) {
         val intent = Intent(activity, Chat_Grupal::class.java)
         intent.putExtra("Nombre", nombre)
+        intent.putExtra( "Tipo", 0)
         activity?.startActivity(intent)
     }
 }

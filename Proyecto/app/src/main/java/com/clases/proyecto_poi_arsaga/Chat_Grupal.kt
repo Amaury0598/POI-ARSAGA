@@ -17,10 +17,12 @@ import java.util.*
 
 class Chat_Grupal : AppCompatActivity() {
 
+
     val listamensajes = mutableListOf<Mensaje>()
+    var TipoC: Int = 0
     var correoActual: String = ""
     var idChatDirecto: String = ""
-    private var adaptadorChat = AdaptorChat(correoActual,this, listamensajes)
+    private var adaptadorChat = AdaptorChat(correoActual,this, listamensajes, TipoC)
     private val database = FirebaseDatabase.getInstance();
     private val mensajeRef = database.getReference("ChatDirecto");
 
@@ -30,13 +32,15 @@ class Chat_Grupal : AppCompatActivity() {
 
         if(intent.extras != null){
             TV_Nombre_Chat.text = intent.getStringExtra("Nombre")
+            TipoC = intent.getIntExtra("Tipo", 0)
             correoActual = intent.getStringExtra("correoActual").toString()
             idChatDirecto = intent.getStringExtra("idChatDirecto").toString()
+
 
         }else{
             TV_Nombre_Chat.text = "Desconocido"
         }
-
+        adaptadorChat = AdaptorChat(correoActual,this, listamensajes, TipoC)
         RV_chat_grupal.adapter = adaptadorChat
 
 
@@ -129,7 +133,6 @@ class Chat_Grupal : AppCompatActivity() {
                         listamensajes.add(mensaje)
 
                     }
-
                     adaptadorChat.notifyDataSetChanged()
                     RV_chat_grupal.scrollToPosition(listamensajes.size - 1)
                 }

@@ -66,6 +66,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                 intent.putExtra("Nombre", nombre)
                 intent.putExtra("Correo", correo)
                 intent.putExtra("correoActual", correoActual)
+                intent.putExtra("Tipo", 1)
                 verSiTieneChat(obtenerChatDirectoUsuarios(correo, correoActual), intent)
 
             }
@@ -81,7 +82,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
 
     fun cargarLista(){
 
-        listaChats.add(ChatMensaje("Javier\nsadarien@gmail.om","Hola, como estas", Date(), false, 0, true))
+        listaChats.add(ChatMensaje("Javier","Hola, como estas", Date(), false, 0, true))
         listaChats.add(ChatMensaje("El Rasho MacQueen la Machina mas veloz del mundo","Kuchau", Date(), true, 1, false))
         listaChats.add(ChatMensaje("Oliver","Mis piernas !!!", Date(), false, 2, true))
         listaChats.add(ChatMensaje("Benito","yipi yipi yipiy kejeje asdwajdjwa dwajdwadaw", Date(), true, 4, false))
@@ -159,6 +160,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
     override fun onitemClick(usuario: String) {
         val intent = Intent(activity, Chat_Grupal::class.java)
         intent.putExtra("Nombre", usuario)
+        intent.putExtra("Tipo", 1)
         activity?.startActivity(intent)
     }
 
@@ -182,12 +184,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                     val adapter = ArrayAdapter(activity as Context, android.R.layout.simple_list_item_1, listaCorreos);
                     AC_CHATGRUPAL.setAdapter(adapter)
                 }
-
             }
-
-
-
         })
-
     }
 }
