@@ -125,7 +125,7 @@ class Registro : AppCompatActivity() {
 
     private fun agregarUsuarioGrupo(usuarioRegistrado:Usuario, grupo: String){
         var grupo = grupoRef.orderByChild("nombre").equalTo(grupo)
-        grupo.addListenerForSingleValueEvent(object: ValueEventListener{
+        grupo.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
