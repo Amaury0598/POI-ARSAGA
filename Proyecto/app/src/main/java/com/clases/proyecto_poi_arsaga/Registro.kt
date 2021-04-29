@@ -143,11 +143,11 @@ class Registro : AppCompatActivity() {
 
                 }
 
-                val miIntent = Intent(this@Registro, MainActivity::class.java)
-                miIntent.putExtra("userActual", usuarioRegistrado)
-                //finish()
+                //val miIntent = Intent(this@Registro, MainActivity::class.java)
+                //miIntent.putExtra("userActual", usuarioRegistrado)
+                finish()
                 
-                startActivity(miIntent)
+                //startActivity(miIntent)
             }
 
         })
