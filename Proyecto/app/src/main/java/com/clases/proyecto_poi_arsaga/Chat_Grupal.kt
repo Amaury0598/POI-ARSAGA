@@ -1,5 +1,6 @@
 package com.clases.proyecto_poi_arsaga
 
+import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -69,6 +70,33 @@ class Chat_Grupal : AppCompatActivity() {
     private fun cargarMensajes(){
         var cargarMensajeRef = database.getReference().child("ChatLog").child(idChatDirecto)
 
+
+        cargarMensajeRef.addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot!!.exists()){
+                    listamensajes.clear()
+                    for( m in snapshot.children){
+                        val mensaje = m.getValue(Mensaje::class.java) as Mensaje;
+                        if(mensaje.de == userActual!!.correo)
+                            mensaje.esMio = true
+                        listamensajes.add(mensaje)
+                    }
+
+                    adaptadorChat.notifyDataSetChanged()
+                    RV_chat_grupal.scrollToPosition(listamensajes.size - 1)
+
+                }
+
+            }
+
+
+
+
+        })
        /* cargarMensajeRef.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
@@ -80,7 +108,7 @@ class Chat_Grupal : AppCompatActivity() {
 
         })*/
 
-        cargarMensajeRef.addChildEventListener(object: ChildEventListener {
+        /*cargarMensajeRef.addChildEventListener(object: ChildEventListener {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
@@ -140,7 +168,7 @@ class Chat_Grupal : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
 
-        })
+        })*/
 
 
     }
