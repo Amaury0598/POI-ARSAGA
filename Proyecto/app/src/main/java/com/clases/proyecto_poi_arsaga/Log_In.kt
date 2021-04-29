@@ -45,7 +45,7 @@ class Log_In : AppCompatActivity() {
     private fun buscarUsuario(correo: String, contraseña: String) {
         var encontrado: Boolean = false;
         var user: Usuario? = null
-        userRef.addValueEventListener(object: ValueEventListener {
+        userRef.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }

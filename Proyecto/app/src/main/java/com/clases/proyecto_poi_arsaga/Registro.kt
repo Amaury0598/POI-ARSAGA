@@ -122,8 +122,9 @@ class Registro : AppCompatActivity() {
     }
 
     private fun agregarUsuarioGrupo(usuarioRegistrado:Usuario, grupo: String){
+
         var grupo = grupoRef.orderByChild("nombre").equalTo(grupo)
-        grupo.addValueEventListener(object: ValueEventListener{
+        grupo.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
@@ -143,7 +144,7 @@ class Registro : AppCompatActivity() {
 
                 }
 
-                val miIntent = Intent(this@Registro, MainActivity::class.java)
+                //val miIntent = Intent(this@Registro, MainActivity::class.java)
                 //miIntent.putExtra("userActual", usuarioRegistrado)
                 finish()
                 
