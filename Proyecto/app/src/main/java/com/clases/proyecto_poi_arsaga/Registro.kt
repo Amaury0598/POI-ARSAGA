@@ -104,16 +104,18 @@ class Registro : AppCompatActivity() {
                 if(snapshot!!.exists()) {
 
                     Toast.makeText(this@Registro, "Ya hay un usuario con ese correo", Toast.LENGTH_SHORT).show()
-                } else{
-                    val usuarioRegistrado = Usuario(nombre, correo, contraseña)
-                    val grupo: String = sp_carreras.selectedItem.toString()
+                } else {
+                    if (nombre.isNotEmpty() && correo.isNotEmpty() && contraseña.isNotEmpty()) {
+                        val usuarioRegistrado = Usuario(nombre, correo, contraseña)
+                        val grupo: String = sp_carreras.selectedItem.toString()
 
-                    insertarUsuario(usuarioRegistrado)
-                    Toast.makeText(this@Registro, "Gracias por Registrarte", Toast.LENGTH_SHORT).show()
+                        insertarUsuario(usuarioRegistrado)
+                        Toast.makeText(this@Registro, "Gracias por Registrarte", Toast.LENGTH_SHORT).show()
 
-                    agregarUsuarioGrupo(usuarioRegistrado, grupo)
+                        agregarUsuarioGrupo(usuarioRegistrado, grupo)
 
 
+                    }
                 }
             }
 
