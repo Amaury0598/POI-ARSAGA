@@ -3,6 +3,7 @@ package com.clases.proyecto_poi_arsaga
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
 import com.clases.proyecto_poi_arsaga.Modelos.ChatMensaje
@@ -28,7 +29,9 @@ class Registro : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro)
 
-
+        BT_reg_iniciar.setOnClickListener{
+            finish()
+        }
 
         BT_registrarse.setOnClickListener {
             val nombre = ET_Nombre.text.toString()
@@ -146,9 +149,11 @@ class Registro : AppCompatActivity() {
 
                 //val miIntent = Intent(this@Registro, MainActivity::class.java)
                 //miIntent.putExtra("userActual", usuarioRegistrado)
-                finish()
+                //finish()
                 
                 //startActivity(miIntent)
+                BT_registrarse.visibility = View.GONE
+                BT_reg_iniciar.visibility = View.VISIBLE
             }
 
         })
