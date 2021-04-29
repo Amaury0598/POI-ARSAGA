@@ -9,12 +9,12 @@
     </string-array>
 
     <string-array name="array_Carreras">
-        <item>Lic. Multimedia y Animacion Digital</item>
-        <item>Lic. en Ciencias Computacionales</item>
-        <item>Lic. en Matemáticas</item>
-        <item>Lic. en Física</item>
-        <item>Lic. en Actuaría</item>
-        <item>Lic. en Seguridad T.I.</item>
+        <item>LMAD</item>
+        <item>LCC</item>
+        <item>LM</item>
+        <item>LF</item>
+        <item>LA</item>
+        <item>LSTI</item>
     </string-array>
     <string-array name="Array_Sub_Grupos">
         <item>Sub_grupo 1</item>

@@ -8,19 +8,20 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.clases.proyecto_poi_arsaga.Fragmentos.*
+import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private var correoActual : String = ""
+    private var userActual : Usuario? = null
     fun cambiarFragmento(FragmentoNuevo: Fragment, tag: String){
 
         val fragmentoanterior = supportFragmentManager.findFragmentByTag(tag)
         if(fragmentoanterior == null) {
             var b : Bundle = Bundle()
 
-            b.putString("correoActual", correoActual)
+            b.putSerializable("userActual", userActual)
             FragmentoNuevo.arguments = b
             supportFragmentManager.beginTransaction().replace(R.id.Contenedor, FragmentoNuevo)
                 .commit()
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        correoActual = intent.getStringExtra("correoActual").toString()
+        userActual = intent.getSerializableExtra("userActual") as Usuario
 
         val miNav = findViewById<NavigationView>(R.id.main_nav)
         val mibarraNav = findViewById<BottomNavigationView>(R.id.BTN_bottom_nav)

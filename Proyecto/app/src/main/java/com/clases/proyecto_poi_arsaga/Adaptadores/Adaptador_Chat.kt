@@ -14,11 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Chat_Grupal
 import com.clases.proyecto_poi_arsaga.Modelos.ChatMensaje
 import com.clases.proyecto_poi_arsaga.Modelos.Mensaje
+import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.clases.proyecto_poi_arsaga.R
 import kotlinx.android.synthetic.main.drawer_burbuja_chat.view.*
 import java.util.*
 
-class AdaptorChat(private val userActual: String, private val context: Chat_Grupal, private val listamensajes: MutableList<Mensaje>, private  val Tipo : Int) : RecyclerView.Adapter<AdaptorChat.ChatViewHolder>()  {
+class AdaptorChat(private val userActual: Usuario?, private val context: Chat_Grupal, private val listamensajes: MutableList<Mensaje>, private  val Tipo : Int) : RecyclerView.Adapter<AdaptorChat.ChatViewHolder>()  {
 
     class ChatViewHolder(view: View) : RecyclerView.ViewHolder(view){
     }
@@ -36,10 +37,12 @@ class AdaptorChat(private val userActual: String, private val context: Chat_Grup
         val MensajeEnviado = holder.itemView.findViewById<TextView>(R.id.tv_contenido)
         val MensajeHora = holder.itemView.findViewById<TextView>(R.id.tv_hora)
         val Vis_nombre = holder.itemView.findViewById<LinearLayout>(R.id.LY_Nombre)
+        val QuienEnvio = holder.itemView.findViewById<TextView>(R.id.tv_nombre)
         var Vis_div_nombre = holder.itemView.findViewById<View>(R.id.DIV_nombre)
         MensajeEnviado.text = listamensajes[position].mensaje
         val dateFormater = java.text.SimpleDateFormat("HH:mm a", Locale.getDefault())
         MensajeHora.text = dateFormater.format(Date(listamensajes[position].timeStamp as Long))
+
         //MensajeHora.text = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(listamensajes[position].hora)
 
         if (Tipo == 0) { // Es chat Grupo
@@ -67,6 +70,7 @@ class AdaptorChat(private val userActual: String, private val context: Chat_Grup
                         Gravity.START
                 )
                 holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
+                QuienEnvio.text = listamensajes[position].nombre
             }
         } else { // Es chat en Privado
 

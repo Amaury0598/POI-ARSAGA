@@ -7,10 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.clases.proyecto_poi_arsaga.Adaptadores.AdaptorChat
-import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
-import com.clases.proyecto_poi_arsaga.Modelos.ChatLog
-import com.clases.proyecto_poi_arsaga.Modelos.ChatMensaje
-import com.clases.proyecto_poi_arsaga.Modelos.Mensaje
+import com.clases.proyecto_poi_arsaga.Modelos.*
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_chat__grupal.*
 import java.util.*
@@ -20,9 +17,9 @@ class Chat_Grupal : AppCompatActivity() {
 
     val listamensajes = mutableListOf<Mensaje>()
     var TipoC: Int = 0
-    var correoActual: String = ""
+    var userActual: Usuario? = null
     var idChatDirecto: String = ""
-    private var adaptadorChat = AdaptorChat(correoActual,this, listamensajes, TipoC)
+    private var adaptadorChat = AdaptorChat(userActual,this, listamensajes, TipoC)
     private val database = FirebaseDatabase.getInstance();
     private val mensajeRef = database.getReference("ChatDirecto");
 
@@ -33,14 +30,14 @@ class Chat_Grupal : AppCompatActivity() {
         if(intent.extras != null){
             TV_Nombre_Chat.text = intent.getStringExtra("Nombre")
             TipoC = intent.getIntExtra("Tipo", 0)
-            correoActual = intent.getStringExtra("correoActual").toString()
+            userActual = intent.getSerializableExtra("userActual") as Usuario
             idChatDirecto = intent.getStringExtra("idChatDirecto").toString()
 
 
         }else{
             TV_Nombre_Chat.text = "Desconocido"
         }
-        adaptadorChat = AdaptorChat(correoActual,this, listamensajes, TipoC)
+        adaptadorChat = AdaptorChat(userActual,this, listamensajes, TipoC)
         RV_chat_grupal.adapter = adaptadorChat
 
 
@@ -58,7 +55,7 @@ class Chat_Grupal : AppCompatActivity() {
                 /*val chatRespuesta = ChatMensaje("Lucas", "No estoy", Date(), false, 0, false)
                 listamensajes.add(chatRespuesta)*/
 
-                val chatmensaje = Mensaje(correoActual, false, ServerValue.TIMESTAMP, mensajeEscrito)
+                val chatmensaje = Mensaje(userActual!!.correo, userActual!!.nombre, false, ServerValue.TIMESTAMP, mensajeEscrito)
                 agregarMensaje(chatmensaje)
 
 
@@ -125,10 +122,11 @@ class Chat_Grupal : AppCompatActivity() {
                         var de = children.next().value
                         var esMio = children.next().value
                         var msg = children.next().value
+                        var nombre = children.next().value
                         var timeStamp = children.next().value
 
-                        val mensaje: Mensaje = Mensaje(de as String, esMio as Boolean, timeStamp, msg as String)
-                        if(mensaje.de == correoActual)
+                        val mensaje: Mensaje = Mensaje(de as String, nombre as String, esMio as Boolean, timeStamp, msg as String)
+                        if(mensaje.de == userActual!!.correo)
                             mensaje.esMio = true
                         listamensajes.add(mensaje)
 

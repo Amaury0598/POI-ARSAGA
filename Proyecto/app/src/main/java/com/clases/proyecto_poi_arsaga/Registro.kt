@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
 import com.clases.proyecto_poi_arsaga.Modelos.ChatMensaje
+import com.clases.proyecto_poi_arsaga.Modelos.Grupos
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -18,7 +19,9 @@ class Registro : AppCompatActivity() {
 
     private val database = FirebaseDatabase.getInstance();
     private val userRef = database.getReference("Usuarios"); //crear "rama" (tabla)
+    private val grupoRef = database.getReference("Grupos");
     private var correo: String = ""
+    val listaGrupos = mutableListOf<Grupos>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,11 +51,13 @@ class Registro : AppCompatActivity() {
 
     private fun insertarUsuario(usuario: Usuario){
         val nuevoUsuario = userRef.push()
+        //userRef.child(correo).setValue(usuario)
         nuevoUsuario.setValue(usuario);
     }
 
     private fun buscarUsuario(nombre: String, correo: String, contraseña: String) {
-        var encontrado: Boolean = false;
+        /*var encontrado: Boolean = false;
+        var user: Usuario? = null
         userRef.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
@@ -62,7 +67,7 @@ class Registro : AppCompatActivity() {
                 if(snapshot!!.exists()){
 
                     for( u in snapshot.children){
-                        val user: Usuario = u.getValue(Usuario::class.java) as Usuario;
+                        user = u.getValue(Usuario::class.java) as Usuario;
                         if(user!!.correo == correo){
                             encontrado = true;
                             break;
@@ -75,7 +80,7 @@ class Registro : AppCompatActivity() {
                         finish()
                         finish()
                         val miIntent = Intent(this@Registro, MainActivity::class.java)
-                        miIntent.putExtra("correoActual", correo)
+                        miIntent.putExtra("userActual", user)
 
                         startActivity(miIntent)
                     } else {
@@ -87,7 +92,64 @@ class Registro : AppCompatActivity() {
 
 
 
+        })*/
+
+        var logInRef = database.getReference().child("Usuarios").orderByChild("correo").equalTo(correo)
+        logInRef.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot!!.exists()) {
+
+                    Toast.makeText(this@Registro, "Ya hay un usuario con ese correo", Toast.LENGTH_SHORT).show()
+                } else{
+                    val usuarioRegistrado = Usuario(nombre, correo, contraseña)
+                    val grupo: String = sp_carreras.selectedItem.toString()
+
+                    insertarUsuario(usuarioRegistrado)
+                    Toast.makeText(this@Registro, "Gracias por Registrarte", Toast.LENGTH_SHORT).show()
+
+                    agregarUsuarioGrupo(usuarioRegistrado, grupo)
+
+
+                }
+            }
+
         })
 
+    }
+
+    private fun agregarUsuarioGrupo(usuarioRegistrado:Usuario, grupo: String){
+        var grupo = grupoRef.orderByChild("nombre").equalTo(grupo)
+        grupo.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot!!.exists()) {
+
+                    for(u in snapshot.children) {
+                        var gpo: Grupos = u.getValue(Grupos::class.java) as Grupos;
+                        gpo.correo_usuarios!!.add(usuarioRegistrado.correo)
+                        val cGrupos = mapOf<String, MutableList<String>?>(
+                                "correo_usuarios" to gpo.correo_usuarios
+                        )
+                        grupoRef.child(gpo.nombre).updateChildren(cGrupos)
+
+                    }
+
+                }
+
+                val miIntent = Intent(this@Registro, MainActivity::class.java)
+                miIntent.putExtra("userActual", usuarioRegistrado)
+                finish()
+                finish()
+                startActivity(miIntent)
+            }
+
+        })
     }
 }

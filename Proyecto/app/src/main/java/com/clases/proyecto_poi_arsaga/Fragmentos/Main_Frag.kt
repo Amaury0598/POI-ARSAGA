@@ -36,12 +36,12 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
     val listaChats = mutableListOf<ChatMensaje>()
     val adaptadorChatlistadechats = Adaptador_Lista_Chats(this, listaChats, this)
     var listaCorreos = mutableListOf<String>()
-    var correoActual = ""
+    var userActual:Usuario? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        correoActual = arguments?.getString("correoActual").toString()
+        userActual = arguments?.getSerializable("userActual") as Usuario
 
         cargarLista()
         autoCompletar()
@@ -65,9 +65,9 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                 val intent = Intent(activity, Chat_Grupal::class.java)
                 intent.putExtra("Nombre", nombre)
                 intent.putExtra("Correo", correo)
-                intent.putExtra("correoActual", correoActual)
+                intent.putExtra("userActual", userActual)
                 intent.putExtra("Tipo", 1)
-                verSiTieneChat(obtenerChatDirectoUsuarios(correo, correoActual), intent)
+                verSiTieneChat(obtenerChatDirectoUsuarios(correo, userActual!!.correo), intent)
 
             }
 
@@ -110,7 +110,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                         intent.putExtra("idChatDirecto", chatD.id)
                     }
                 } else{
-                    Toast.makeText(activity, "Debería de insertarse", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(activity, "Debería de insertarse", Toast.LENGTH_SHORT).show()
 
                     intent.putExtra("idChatDirecto", crearSalaChat(chatDir))
 
@@ -124,6 +124,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
     private fun crearSalaChat(chatD: ChatDirecto): String{
         val nuevaSala=chatDirectoRef.push();
         chatD.id = nuevaSala.key.toString();
+
         nuevaSala.setValue(chatD)
         return chatD.id
     }
@@ -176,7 +177,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
 
                     for( u in snapshot.children){
                         val user: Usuario = u.getValue(Usuario::class.java) as Usuario;
-                            if(user.correo != correoActual)
+                            if(user.correo != userActual!!.correo)
                                 listaCorreos.add(user.nombre+"\n"+user.correo)//Darien Miguel Sánchez Arévalo\nsadarien@gmail.com
                     }
 

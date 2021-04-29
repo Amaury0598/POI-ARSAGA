@@ -1,11 +1,8 @@
 package com.clases.proyecto_poi_arsaga.Modelos
 
-import java.io.File
+data class Grupos(
 
-data class Grupos (
-
-    val nombre: String,
-    val integrantes: Int,
-    val foto: String,
-    val id: Long
+        var nombre: String = "",
+        var correo_usuarios: MutableList<String>? = mutableListOf<String>(),
+        var foto: String = ""
 )

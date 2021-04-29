@@ -12,17 +12,26 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Grupos_Carreras
 import com.clases.proyecto_poi_arsaga.Chat_Grupal
+import com.clases.proyecto_poi_arsaga.MainActivity
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
+import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.clases.proyecto_poi_arsaga.R
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickListen {
 
     val listaGrupos = mutableListOf<Grupos>()
     val adaptador_grupos_carreras = Adaptador_Grupos_Carreras(this, listaGrupos, this)
+    private val database = FirebaseDatabase.getInstance();
+    private val gruposRef = database.getReference("Grupos"); //crear "rama" (tabla)
+    var userActual: Usuario? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        userActual = arguments?.getSerializable("userActual") as Usuario
 
-        cargarLista()
 
 
 
@@ -37,7 +46,7 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
         val miGrid = GridLayoutManager(context, 2)
         recycler_lista.layoutManager = miGrid
         recycler_lista.adapter = adaptador_grupos_carreras
-
+        cargarLista()
         return miViewGrupos
     }
 
@@ -47,14 +56,36 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
 
     fun cargarLista(){
 
-        listaGrupos.add(Grupos("LMAD", 5, "https://image.flaticon.com/icons/png/512/1465/1465606.png", 0))
-        listaGrupos.add(Grupos("LCC", 3, "https://images-na.ssl-images-amazon.com/images/I/31gpv-ZU4vL.png", 1))
-        listaGrupos.add(Grupos("LM", 10, "https://icons-for-free.com/iconfiles/png/512/math+tutor+icon-1320195955563127435.png", 2))
-        listaGrupos.add(Grupos("LF", 5, "https://image.flaticon.com/icons/png/512/746/746960.png", 3))
-        listaGrupos.add(Grupos("LA", 8, "https://www.highmeadowschool.org/wp-content/uploads/2016/11/abacus-icon.png", 4))
-        listaGrupos.add(Grupos("LSTI", 3, "https://img.icons8.com/bubbles/452/cyber-security.png", 5))
+        gruposRef.addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
 
-        adaptador_grupos_carreras.notifyDataSetChanged()
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                if(snapshot!!.exists()){
+                    listaGrupos.clear()
+                    for( g in snapshot.children){
+                        val grupo: Grupos = g.getValue(Grupos::class.java) as Grupos;
+                        for(cu in grupo.correo_usuarios!!) {
+                            if (cu == userActual!!.correo) {
+                                listaGrupos.add(grupo)
+                                break
+                            }
+                        }
+
+                    }
+                    adaptador_grupos_carreras.notifyDataSetChanged()
+                }
+
+            }
+
+
+
+
+        })
+
+
 
     }
 
@@ -65,7 +96,9 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
     override fun onitemClick(nombre: String) {
         val intent = Intent(activity, Chat_Grupal::class.java)
         intent.putExtra("Nombre", nombre)
+        intent.putExtra("userActual", userActual)
         intent.putExtra( "Tipo", 0)
+        intent.putExtra("idChatDirecto", nombre)
         activity?.startActivity(intent)
     }
 }
