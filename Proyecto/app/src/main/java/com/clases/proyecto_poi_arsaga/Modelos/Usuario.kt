@@ -5,8 +5,7 @@ import java.io.Serializable
 
 class Usuario (
         var nombre: String = "",
-        var correo: String = "",
-        var contraseña: String = ""
+        var correo: String = ""
 ) : Serializable {
 
 }

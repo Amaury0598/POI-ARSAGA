@@ -3,12 +3,14 @@ package com.clases.proyecto_poi_arsaga
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
 import com.clases.proyecto_poi_arsaga.Modelos.ChatMensaje
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -19,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_registro.*
 class Registro : AppCompatActivity() {
 
     private val database = FirebaseDatabase.getInstance();
+    private val auth = FirebaseAuth.getInstance()
     private val userRef = database.getReference("Usuarios"); //crear "rama" (tabla)
     private val grupoRef = database.getReference("Grupos");
     private var correo: String = ""
@@ -41,7 +44,7 @@ class Registro : AppCompatActivity() {
 
             if(nombre.isNotEmpty() && correo.isNotEmpty() && contraseña.isNotEmpty() && contraseña2.isNotEmpty()) {
                 if(contraseña == contraseña2) {
-                    buscarUsuario(nombre, correo, contraseña)
+                    insertarUsuario(nombre, correo, contraseña)
                 }
                 else{
                     Toast.makeText(this, "Escriba la misma contraseña", Toast.LENGTH_SHORT).show()
@@ -52,81 +55,62 @@ class Registro : AppCompatActivity() {
         }
     }
 
-    private fun insertarUsuario(usuario: Usuario){
+    /*private fun insertarUsuario(usuario: Usuario){
         val nuevoUsuario = userRef.push()
         //userRef.child(correo).setValue(usuario)
         nuevoUsuario.setValue(usuario);
-    }
+    }*/
 
-    private fun buscarUsuario(nombre: String, correo: String, contraseña: String) {
-        /*var encontrado: Boolean = false;
-        var user: Usuario? = null
-        userRef.addValueEventListener(object: ValueEventListener{
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot!!.exists()){
-
-                    for( u in snapshot.children){
-                        user = u.getValue(Usuario::class.java) as Usuario;
-                        if(user!!.correo == correo){
-                            encontrado = true;
-                            break;
+    private fun insertarUsuario(nombre: String, correo: String, contraseña: String) {
+        auth.createUserWithEmailAndPassword(correo, contraseña)
+                .addOnCompleteListener{
+                    if(it.isSuccessful) {
+                        Toast.makeText(this@Registro, "Se ha registrado con éxito", Toast.LENGTH_SHORT).show()
+                        val u:Usuario = Usuario(nombre, correo)
+                        userRef.child(auth.currentUser.uid).setValue(u)
+                        val grupo: String = sp_carreras.selectedItem.toString()
+                        agregarUsuarioGrupo(u,grupo)
+                    }
+                }
+                .addOnFailureListener {
+                    when(it.message){
+                        "The email address is badly formatted." -> {
+                            Toast.makeText(this@Registro, "El correo electrónico está mal introducido", Toast.LENGTH_SHORT).show()
+                        }
+                        "The email address is already in use by another account." -> {
+                            Toast.makeText(this@Registro, "El correo electrónico introducido ya está en uso.", Toast.LENGTH_SHORT).show()
+                        }
+                        "The given password is invalid. [ Password should be at least 6 characters ]" -> {
+                            Toast.makeText(this@Registro, "La contraseña debe contener al menos 6 caracteres.", Toast.LENGTH_SHORT).show()
+                        }
+                        else -> {
+                            Toast.makeText(this@Registro, it.message, Toast.LENGTH_SHORT).show()
+                            Log.d("ERROR-AUTH", it.message!!)
                         }
                     }
-                    if(!encontrado){
-                        val usuarioRegistrado = Usuario(nombre, correo, contraseña)
-                        insertarUsuario(usuarioRegistrado)
-                        Toast.makeText(this@Registro, "Gracias por Registrarte", Toast.LENGTH_SHORT).show()
-                        finish()
-                        finish()
-                        val miIntent = Intent(this@Registro, MainActivity::class.java)
-                        miIntent.putExtra("userActual", user)
-
-                        startActivity(miIntent)
-                    } else {
-                        Toast.makeText(this@Registro, "Se ha producido un error", Toast.LENGTH_SHORT).show()
-                    }
-                    }
 
                 }
-
-
-
-        })*/
-
-        var logInRef = database.getReference().child("Usuarios").orderByChild("correo").equalTo(correo)
-        logInRef.addListenerForSingleValueEvent(object: ValueEventListener{
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot!!.exists()) {
-
-                    Toast.makeText(this@Registro, "Ya hay un usuario con ese correo", Toast.LENGTH_SHORT).show()
-                } else{
-                    val usuarioRegistrado = Usuario(nombre, correo, contraseña)
-                    val grupo: String = sp_carreras.selectedItem.toString()
-
-                    insertarUsuario(usuarioRegistrado)
-                    Toast.makeText(this@Registro, "Gracias por Registrarte", Toast.LENGTH_SHORT).show()
-
-                    agregarUsuarioGrupo(usuarioRegistrado, grupo)
-
-
-                }
-            }
-
-        })
 
     }
 
     private fun agregarUsuarioGrupo(usuarioRegistrado:Usuario, grupo: String){
-
-        var grupo = grupoRef.orderByChild("nombre").equalTo(grupo)
+        val path = "Grupos/$grupo"
+        database.getReference(path).get()
+                .addOnSuccessListener {
+                    val gpo = it.getValue(Grupos::class.java)
+                    gpo!!.correo_usuarios!!.add(usuarioRegistrado.correo)
+                    database.getReference(path).setValue(gpo)
+                    val intent = Intent(this@Registro, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    intent.putExtra("userActual", usuarioRegistrado)
+                    startActivity(intent)
+                    /*BT_registrarse.visibility = View.GONE
+                    BT_reg_iniciar.visibility = View.VISIBLE*/
+                }
+                .addOnFailureListener{
+                    Toast.makeText(this@Registro, it.message, Toast.LENGTH_SHORT).show()
+                }
+        /*var grupo = grupoRef.orderByChild("nombre").equalTo(grupo)
         grupo.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
@@ -150,12 +134,12 @@ class Registro : AppCompatActivity() {
                 //val miIntent = Intent(this@Registro, MainActivity::class.java)
                 //miIntent.putExtra("userActual", usuarioRegistrado)
                 //finish()
-                
+
                 //startActivity(miIntent)
                 BT_registrarse.visibility = View.GONE
                 BT_reg_iniciar.visibility = View.VISIBLE
             }
 
-        })
+        })*/
     }
 }

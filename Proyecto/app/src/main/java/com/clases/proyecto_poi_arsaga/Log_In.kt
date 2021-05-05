@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_log__in.*
 
 class Log_In : AppCompatActivity() {
     private val database = FirebaseDatabase.getInstance();
+    private val auth = FirebaseAuth.getInstance()
     private val userRef = database.getReference("Usuarios"); //crear "rama" (tabla)
     //private val grupoRef = database.getReference("Grupos");
 
@@ -43,42 +45,32 @@ class Log_In : AppCompatActivity() {
     }
 
     private fun buscarUsuario(correo: String, contraseña: String) {
-        var encontrado: Boolean = false;
-        var user: Usuario? = null
-        userRef.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+       auth.signInWithEmailAndPassword(correo, contraseña)
+           .addOnCompleteListener {
+               if(it.isSuccessful){
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot!!.exists()){
+                   getUserActual(correo)
 
-                    for( u in snapshot.children){
-                        user = u.getValue(Usuario::class.java) as Usuario;
-                        if(user!!.correo == correo && user!!.contraseña == contraseña){
-                            encontrado = true;
-                            break;
-                        }
-                    }
-                    if(!encontrado){
-                        Toast.makeText(this@Log_In, "La Contraseña y/o el Correo están incorrectos", Toast.LENGTH_SHORT).show()
-                    } else {
-                        finish()
+               }
+           }
+           .addOnFailureListener {
+               Toast.makeText(this@Log_In, "La Contraseña y/o el Correo están incorrectos", Toast.LENGTH_SHORT).show()
+           }
 
-                        val miIntent = Intent(this@Log_In, MainActivity::class.java)
-                        miIntent.putExtra("userActual", user)
+    }
 
-                        startActivity(miIntent)
-                    }
+    private fun getUserActual(correo: String) {
+        userRef.child(auth.currentUser.uid).get()
+            .addOnSuccessListener {
+                if(it.exists()) {
+                    val user = it.getValue(Usuario::class.java)
+                    val intent = Intent(this@Log_In, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    intent.putExtra("userActual", user)
+                    startActivity(intent)
                 }
 
             }
-
-
-
-
-        })
-
     }
 
     /*fun cargarLista(){
