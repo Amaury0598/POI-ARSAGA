@@ -19,60 +19,50 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:text="Perfil"
-                android:textColor="#222222"
-                android:textSize="36sp"
-                android:textStyle="bold" />
-
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/IV_Pfoto"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="32dp"
-                app:srcCompat="@drawable/ic_launcher_background" />
+                android:foreground="@drawable/account"
+                android:src="@drawable/drawer_select_photo" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/TV_Pnombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Manuel Amaury Mendoza García"
                 android:textColor="#222222"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="Manuel Amaury Mendoza García" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/TV_Prol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Estudiante"
                 android:textColor="#222222"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                tools:text="Estudiante" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/TV_Pcarrera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="Lic. Multimedia y Animacion Digital"
                 android:textColor="#222222"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                tools:text="Lic. Multimedia y Animacion Digital" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/TV_Pdesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -80,9 +70,22 @@
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
                 android:padding="4dp"
-                android:text="Educar es lo mismo que poner un motor a una barca… Hay que medir, pensar, equilibrar… y poner todo en marcha."
                 android:textColor="#222222"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:text="Educar es lo mismo que poner un motor a una barca… Hay que medir, pensar, equilibrar… y poner todo en marcha." />
+
+            <Button
+                android:id="@+id/BTN_Pmodificar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/draw_boton_perfil"
+                android:text="Modificar Perfil"
+                android:textAllCaps="false"
+                android:textColor="#FDFDFD"
+                android:textSize="16sp"
+                app:backgroundTint="@null" />
 
         </LinearLayout>
     </ScrollView>

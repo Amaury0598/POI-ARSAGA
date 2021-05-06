@@ -73,20 +73,11 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
                                 break
                             }
                         }
-
                     }
                     adaptador_grupos_carreras.notifyDataSetChanged()
                 }
-
             }
-
-
-
-
         })
-
-
-
     }
 
     override fun onitemHold(integrantes: Int) {

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.clases.proyecto_poi_arsaga">
-<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoPOIARSAGA">
-        <activity android:name=".Registro"></activity>
+        <activity android:name=".Mod_Perfil"></activity>
+        <activity android:name=".Registro" />
         <activity android:name=".Log_In">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,9 +22,7 @@
         </activity>
         <activity android:name=".Lista_Chats_Grupos" />
         <activity android:name=".Chat_Grupal" />
-        <activity android:name=".MainActivity" >
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

@@ -30,9 +30,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="32dp"
+            android:background="@drawable/draw_edit_text"
             android:ems="15"
             android:hint="Nombre"
             android:inputType="textPersonName"
+            android:padding="8dp"
+            android:textColor="#000000"
             android:textColorHint="#575757" />
 
         <EditText
@@ -41,9 +44,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="32dp"
+            android:background="@drawable/draw_edit_text"
             android:ems="15"
             android:hint="Correo"
             android:inputType="textPersonName"
+            android:padding="8dp"
+            android:textColor="#000000"
             android:textColorHint="#575757" />
 
         <Spinner
@@ -59,9 +65,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="32dp"
+            android:background="@drawable/draw_edit_text"
             android:ems="15"
             android:hint="Contraseña"
             android:inputType="textPersonName"
+            android:padding="8dp"
+            android:textColor="#000000"
             android:textColorHint="#575757" />
 
         <EditText
@@ -70,9 +79,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
+            android:background="@drawable/draw_edit_text"
             android:ems="15"
             android:hint="Repita Contraseña"
             android:inputType="textPersonName"
+            android:padding="9dp"
+            android:textColor="#000000"
             android:textColorHint="#575757" />
 
         <Button
@@ -83,7 +95,7 @@
             android:background="@drawable/draw_boton_log"
             android:text="Registrarse"
             android:textAllCaps="false"
-            android:textColor="#000000"
+            android:textColor="#656565"
             android:textSize="16sp"
             app:backgroundTint="@null" />
 
