@@ -25,6 +25,8 @@ class Registro : AppCompatActivity() {
     private val userRef = database.getReference("Usuarios"); //crear "rama" (tabla)
     private val grupoRef = database.getReference("Grupos");
     private var correo: String = ""
+    private val defaultDesc = "Sin descripción"
+    private val defaultImage: String = "https://firebasestorage.googleapis.com/v0/b/app-poi-15c77.appspot.com/o/images%2Fdefault.jpg?alt=media&token=8a7b077c-0320-4f0c-8e7f-45abd89647be"
     val listaGrupos = mutableListOf<Grupos>()
 
 
@@ -66,10 +68,11 @@ class Registro : AppCompatActivity() {
                 .addOnCompleteListener{
                     if(it.isSuccessful) {
                         Toast.makeText(this@Registro, "Se ha registrado con éxito", Toast.LENGTH_SHORT).show()
-                        val u:Usuario = Usuario(nombre, correo)
-                        userRef.child(auth.currentUser.uid).setValue(u)
                         val grupo: String = sp_carreras.selectedItem.toString()
-                        agregarUsuarioGrupo(u,grupo)
+                        val u:Usuario = Usuario(nombre, correo, defaultImage, defaultDesc, grupo)
+                        userRef.child(auth.currentUser.uid).setValue(u)
+
+                        agregarUsuarioGrupo(u)
                     }
                 }
                 .addOnFailureListener {
@@ -93,8 +96,8 @@ class Registro : AppCompatActivity() {
 
     }
 
-    private fun agregarUsuarioGrupo(usuarioRegistrado:Usuario, grupo: String){
-        val path = "Grupos/$grupo"
+    private fun agregarUsuarioGrupo(usuarioRegistrado:Usuario){
+        val path = "Grupos/${usuarioRegistrado.carrera}"
         database.getReference(path).get()
                 .addOnSuccessListener {
                     val gpo = it.getValue(Grupos::class.java)

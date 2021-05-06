@@ -83,6 +83,7 @@
                 android:text="Educar es lo mismo que poner un motor a una barca… Hay que medir, pensar, equilibrar… y poner todo en marcha."
                 android:textColor="#222222"
                 android:textSize="16sp" />
+
         </LinearLayout>
     </ScrollView>
 
