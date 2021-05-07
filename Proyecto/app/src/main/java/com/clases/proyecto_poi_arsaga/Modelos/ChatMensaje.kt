@@ -1,5 +1,6 @@
 package com.clases.proyecto_poi_arsaga.Modelos
 
+import java.io.Serializable
 import java.util.*
 
 data class ChatMensaje (
@@ -24,8 +25,16 @@ class Mensaje(
 
 class ChatDirecto(
         var id: String = "",
-        var usuarios:String = ""
-) {
+        var usuario1:String = "",
+        var usuario2:String = "",
+        var nombre1: String = "",
+        var nombre2: String = "",
+        var fotoUsuario1: String = "",
+        var fotoUsuario2: String = "",
+        var ultimoMensajeDe: String = "",
+        var ultimoMensaje: String = "",
+        var timeStamp: Any? = null
+) : Serializable {
 
 }
 

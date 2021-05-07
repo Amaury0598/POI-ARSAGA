@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Grupos_Carreras
 import com.clases.proyecto_poi_arsaga.Chat_Grupal
-import com.clases.proyecto_poi_arsaga.MainActivity
+import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.clases.proyecto_poi_arsaga.R
@@ -84,12 +84,16 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
         Toast.makeText(activity, "Numero de integrantes $integrantes", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onitemClick(nombre: String) {
+    override fun onitemClick(gpo: Grupos) {
         val intent = Intent(activity, Chat_Grupal::class.java)
-        intent.putExtra("Nombre", nombre)
+        val chatDirecto=ChatDirecto()
+        chatDirecto.id = gpo.nombre
+        chatDirecto.usuario1 = gpo.nombre
+        chatDirecto.fotoUsuario1 = gpo.foto
+        chatDirecto.usuario2 = "Grupal"
         intent.putExtra("userActual", userActual)
         intent.putExtra( "Tipo", 0)
-        intent.putExtra("idChatDirecto", nombre)
+        intent.putExtra("ChatDirecto", chatDirecto)
         activity?.startActivity(intent)
     }
 }

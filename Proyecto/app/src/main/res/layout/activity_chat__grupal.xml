@@ -29,13 +29,11 @@
                 android:background="#00FFFFFF"
                 app:srcCompat="@drawable/abc_vector_test" />
 
-            <ImageView
-                android:id="@+id/imageView5"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/IV_CHAT_HEADER"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:padding="4dp"
-                app:srcCompat="@drawable/ic_launcher_background"
-                tools:ignore="VectorDrawableCompat" />
+                android:padding="4dp" />
 
             <TextView
                 android:id="@+id/TV_Nombre_Chat"

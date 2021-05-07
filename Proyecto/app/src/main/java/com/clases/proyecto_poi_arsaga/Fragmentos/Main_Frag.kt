@@ -16,15 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Lista_Chats
 import com.clases.proyecto_poi_arsaga.Chat_Grupal
 import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
-import com.clases.proyecto_poi_arsaga.Modelos.ChatMensaje
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.clases.proyecto_poi_arsaga.R
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_lista__chats__grupos.*
-import java.util.*
 
 
 class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
@@ -33,9 +28,10 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
     private val userRef = database.getReference("Usuarios"); //crear "rama" (tabla)
     private val chatDirectoRef = database.getReference("ChatDirecto");
 
-    val listaChats = mutableListOf<ChatMensaje>()
+    var listaChats = mutableListOf<ChatDirecto>()
     val adaptadorChatlistadechats = Adaptador_Lista_Chats(this, listaChats, this)
     var listaCorreos = mutableListOf<String>()
+    var listaUsuarios = mutableListOf<Usuario>()
     var userActual:Usuario? = null
 
 
@@ -43,7 +39,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
 
         userActual = arguments?.getSerializable("userActual") as Usuario
 
-        cargarLista()
+        cargarChatDirecto()
         autoCompletar()
         val miView =  inflater.inflate(R.layout.activity_lista__chats__grupos, container, false)
         var recycler_lista = miView.findViewById<RecyclerView>(R.id.RV_lista_chats_grupos)
@@ -56,20 +52,18 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
 
         miAutoComplete.setOnItemClickListener {parent, view, position, id ->
 
-            var usuarioSeleccionado: String = miAutoComplete.text.toString().replace("\n", "/-/");
-            var nombre = obtenerNombre(usuarioSeleccionado)
-            var correo = obtenerCorreo(usuarioSeleccionado, nombre)
-            if(usuarioSeleccionado.isNotEmpty()) {
-                miAutoComplete.text.clear();
 
-                val intent = Intent(activity, Chat_Grupal::class.java)
-                intent.putExtra("Nombre", nombre)
-                intent.putExtra("Correo", correo)
-                intent.putExtra("userActual", userActual)
-                intent.putExtra("Tipo", 1)
-                verSiTieneChat(obtenerChatDirectoUsuarios(correo, userActual!!.correo), intent)
+            var usuarioSeleccionado = parent.getItemAtPosition(position) as Usuario
 
-            }
+            miAutoComplete.text.clear();
+
+            val intent = Intent(activity, Chat_Grupal::class.java)
+            //intent.putExtra("UsuarioSeleccionado", usuarioSeleccionado)
+            //intent.putExtra("Nombre", nombre)
+            //intent.putExtra("Correo", correo)
+            intent.putExtra("userActual", userActual)
+            intent.putExtra("Tipo", 1)
+            verSiTieneChat(intent, usuarioSeleccionado)
 
         }
 
@@ -80,24 +74,48 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
         super.onCreate(savedInstanceState)
     }
 
-    fun cargarLista(){
+    fun cargarChatDirecto(){
 
-        listaChats.add(ChatMensaje("Javier","Hola, como estas", Date(), false, 0, true))
+        chatDirectoRef.orderByChild("timeStamp").limitToLast(20)
+                .addValueEventListener(object: ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if(snapshot!!.exists()){
+                            listaChats.clear()
+                            for (cd in snapshot.children){
+                                val chatD: ChatDirecto = cd.getValue(ChatDirecto::class.java) as ChatDirecto
+                                if(chatD.ultimoMensaje.isNotEmpty()){
+                                    if(chatD.usuario1 == userActual!!.correo || chatD.usuario2 == userActual!!.correo)
+                                        listaChats.add(chatD)
+                                }
+                            }
+
+                            adaptadorChatlistadechats.notifyDataSetChanged()
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
+
+        /*listaChats.add(ChatMensaje("Javier","Hola, como estas", Date(), false, 0, true))
         listaChats.add(ChatMensaje("El Rasho MacQueen la Machina mas veloz del mundo","Kuchau", Date(), true, 1, false))
         listaChats.add(ChatMensaje("Oliver","Mis piernas !!!", Date(), false, 2, true))
         listaChats.add(ChatMensaje("Benito","yipi yipi yipiy kejeje asdwajdjwa dwajdwadaw", Date(), true, 4, false))
         listaChats.add(ChatMensaje("José José","Hola, como estas", Date(), true, 5, true))
-        listaChats.add(ChatMensaje("Messi","lalalalaa lalalalaa allalaala lalalala alallala alala", Date(), false, 6, true))
+        listaChats.add(ChatMensaje("Messi","lalalalaa lalalalaa allalaala lalalala alallala alala", Date(), false, 6, true))*/
 
 
-        adaptadorChatlistadechats.notifyDataSetChanged()
+
 
     }
 
-    private fun verSiTieneChat(usu: String, intent: Intent){
-        var chatDir: ChatDirecto = ChatDirecto("", usu)
-        var chatDirectoRef = database.getReference().child("ChatDirecto").orderByChild("usuarios").equalTo(usu)
-        chatDirectoRef.addListenerForSingleValueEvent(object: ValueEventListener{
+    private fun verSiTieneChat(intent: Intent, usuarioSeleccionado: Usuario){
+        var chatDir: ChatDirecto = ChatDirecto("", userActual!!.correo, usuarioSeleccionado.correo, userActual!!.nombre, usuarioSeleccionado.nombre, userActual!!.imagen, usuarioSeleccionado.imagen, "", "", ServerValue.TIMESTAMP)
+        var encontrado = false
+        var cdRef = database.getReference().child("ChatDirecto")
+        cdRef.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
@@ -107,26 +125,34 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
 
                     for(cd in snapshot.children) {
                         val chatD: ChatDirecto = cd.getValue(ChatDirecto::class.java) as ChatDirecto;
-                        intent.putExtra("idChatDirecto", chatD.id)
+                        if(chatD.usuario1 == userActual!!.correo && chatD.usuario2 == usuarioSeleccionado.correo){
+                         encontrado = true
+                        }else if (chatD.usuario1 == usuarioSeleccionado.correo && chatD.usuario2 == userActual!!.correo){
+                            encontrado = true
+                        }
+                        if(encontrado) {
+                            intent.putExtra("ChatDirecto", chatD)
+                            break
+                        }
                     }
-                } else{
-                    //Toast.makeText(activity, "Debería de insertarse", Toast.LENGTH_SHORT).show()
-
-                    intent.putExtra("idChatDirecto", crearSalaChat(chatDir))
 
                 }
+                if(!encontrado){
+                    intent.putExtra("ChatDirecto", crearSalaChat(chatDir))
+                }
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 activity?.startActivity(intent)
             }
 
         })
     }
 
-    private fun crearSalaChat(chatD: ChatDirecto): String{
+    private fun crearSalaChat(chatD: ChatDirecto): ChatDirecto{
         val nuevaSala=chatDirectoRef.push();
         chatD.id = nuevaSala.key.toString();
 
         nuevaSala.setValue(chatD)
-        return chatD.id
+        return chatD
     }
 
     private fun obtenerChatDirectoUsuarios(correo1:String, correo2:String) : String{
@@ -153,14 +179,15 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
         return correo
     }
 
-    override fun onitemHold(toString: String) {
+    /*override fun onitemHold(toString: String) {
         Toast.makeText(activity, "El id es: $toString", Toast.LENGTH_SHORT).show()
-    }
+    }*/
 
 
-    override fun onitemClick(usuario: String) {
+    override fun onitemClick(Chatdirecto: ChatDirecto) {
         val intent = Intent(activity, Chat_Grupal::class.java)
-        intent.putExtra("Nombre", usuario)
+        intent.putExtra("ChatDirecto", Chatdirecto)
+        intent.putExtra("userActual", userActual)
         intent.putExtra("Tipo", 1)
         activity?.startActivity(intent)
     }
@@ -177,12 +204,14 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
 
                     for( u in snapshot.children){
                         val user: Usuario = u.getValue(Usuario::class.java) as Usuario;
-                            if(user.correo != userActual!!.correo)
-                                listaCorreos.add(user.nombre+"\n"+user.correo)//Darien Miguel Sánchez Arévalo\nsadarien@gmail.com
+                            if(user.correo != userActual!!.correo) {
+                                listaCorreos.add(user.nombre + "\n" + user.correo)//Darien Miguel Sánchez Arévalo\nsadarien@gmail.com
+                                listaUsuarios.add(user)
+                            }
                     }
 
                     //val correosArray: Array<String> = listaCorreos.toTypedArray()
-                    val adapter = ArrayAdapter(activity as Context, android.R.layout.simple_list_item_1, listaCorreos);
+                    val adapter = ArrayAdapter(activity as Context, android.R.layout.simple_list_item_1, listaUsuarios);
                     AC_CHATGRUPAL.setAdapter(adapter)
                 }
             }

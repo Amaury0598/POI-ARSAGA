@@ -10,6 +10,9 @@ class Usuario (
         var desc: String = "",
         var carrera: String = ""
 ) : Serializable {
-
+    override fun toString(): String {
+        return nombre
+    }
 }
+
 
