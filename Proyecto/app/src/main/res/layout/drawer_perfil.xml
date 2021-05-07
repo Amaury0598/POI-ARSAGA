@@ -19,14 +19,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/IV_Pfoto"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="32dp"
-                android:foreground="@drawable/account"
-                android:src="@drawable/drawer_select_photo" />
+                 />
 
             <TextView
                 android:id="@+id/TV_Pnombre"

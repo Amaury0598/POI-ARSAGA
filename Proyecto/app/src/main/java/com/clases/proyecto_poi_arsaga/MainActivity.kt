@@ -11,10 +11,17 @@ import com.clases.proyecto_poi_arsaga.Fragmentos.*
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private var userActual : Usuario? = null
+
+    companion object {
+        var userActual : Usuario? = null
+        var currentAuthUser = FirebaseAuth.getInstance().currentUser
+    }
+
+
     fun cambiarFragmento(FragmentoNuevo: Fragment, tag: String){
 
         val fragmentoanterior = supportFragmentManager.findFragmentByTag(tag)
