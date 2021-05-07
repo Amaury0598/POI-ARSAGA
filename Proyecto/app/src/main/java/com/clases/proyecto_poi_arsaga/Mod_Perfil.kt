@@ -24,6 +24,7 @@ class Mod_Perfil : AppCompatActivity() {
     private val database = FirebaseDatabase.getInstance()
     private val userRef = database.getReference("Usuarios")
     private var uri : Uri? = null
+    private val defaultImage = "https://firebasestorage.googleapis.com/v0/b/app-poi-15c77.appspot.com/o/default.jpg?alt=media&token=aa6316f8-e9c3-4531-b5a5-c7b0ac698d47"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,33 +104,40 @@ class Mod_Perfil : AppCompatActivity() {
 
             }
         }else{
-            uploadImageToStorage(nuevoNombreUser, nuevaDescUser)
+            deletePreviousImageToStorage(nuevoNombreUser, nuevaDescUser)
         }
     }
 
-    private fun uploadImageToStorage(nombre:String, desc:String){
+    private fun deletePreviousImageToStorage(nombre:String, desc:String){
         if(uri != null) {
-            val filename = UUID.randomUUID().toString()
-            val delete = FirebaseStorage.getInstance().getReferenceFromUrl(MainActivity.userActual?.imagen!!)
-            delete.delete()
-                .addOnSuccessListener {
-                    val ref = FirebaseStorage.getInstance().getReference("/images/perfilUser/$filename")
-                    ref.putFile(uri!!)
-                        .addOnSuccessListener {
-                            ref.downloadUrl.addOnSuccessListener {
-                                MainActivity.userActual?.imagen = it.toString()
-                                updateUserInfo(nombre, desc)
-                            }
-                        }
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this@Mod_Perfil, it.message, Toast.LENGTH_SHORT).show()
-                }
 
+            if(defaultImage != MainActivity.userActual?.imagen!!) {
+                val delete = FirebaseStorage.getInstance().getReferenceFromUrl(MainActivity.userActual?.imagen!!)
+                delete.delete()
+                        .addOnSuccessListener {
+                            uploadImageToStorage(nombre, desc)
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this@Mod_Perfil, it.message, Toast.LENGTH_SHORT).show()
+                        }
+            }else
+                uploadImageToStorage(nombre,desc)
         }else{
             updateUserInfo(nombre, desc)
         }
 
+    }
+
+    private fun uploadImageToStorage(nombre:String, desc:String){
+        val filename = UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/images/perfilUser/$filename")
+        ref.putFile(uri!!)
+                .addOnSuccessListener {
+                    ref.downloadUrl.addOnSuccessListener {
+                        MainActivity.userActual?.imagen = it.toString()
+                        updateUserInfo(nombre, desc)
+                    }
+                }
     }
 
     private fun updateUserInfo(nombre:String, desc:String){
