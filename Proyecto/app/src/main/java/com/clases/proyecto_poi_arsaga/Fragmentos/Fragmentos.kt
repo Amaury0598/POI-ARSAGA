@@ -11,6 +11,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.clases.proyecto_poi_arsaga.MainActivity
 import com.clases.proyecto_poi_arsaga.Mod_Perfil
+import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialog
+import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialogFragment
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.clases.proyecto_poi_arsaga.R
 import com.google.firebase.database.FirebaseDatabase
@@ -21,9 +23,11 @@ class FragmentoA : Fragment()  {
     private val database = FirebaseDatabase.getInstance();
     var userActual: Usuario? = MainActivity.userActual
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         //userActual = arguments?.getSerializable("userActual") as Usuario
+
 
         val miView =  inflater.inflate(R.layout.drawer_perfil, container, false)
         val PNombre = miView.findViewById<TextView>(R.id.TV_Pnombre)
@@ -46,6 +50,10 @@ class FragmentoA : Fragment()  {
         }
 
         return miView;
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
 }

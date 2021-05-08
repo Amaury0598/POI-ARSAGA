@@ -16,6 +16,7 @@ import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.clases.proyecto_poi_arsaga.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -38,6 +39,7 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
         val miViewGrupos =  inflater.inflate(R.layout.frag_grupos_carreras, container, false)
 
         val nogrupos = miViewGrupos.findViewById<TextView>(R.id.TV_nogrupos)
+        val btnCrearGrupo = miViewGrupos.findViewById<FloatingActionButton>(R.id.FAB_crearGrupo)
         nogrupos.text = "Unete a mas grupos, es genial !!"
         if (listaGrupos.size < 3) nogrupos.visibility = (View.VISIBLE)
         else nogrupos.visibility = (View.GONE)
@@ -47,6 +49,9 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
         recycler_lista.layoutManager = miGrid
         recycler_lista.adapter = adaptador_grupos_carreras
         cargarLista()
+        btnCrearGrupo.setOnClickListener {
+            Toast.makeText(activity, "Esto te lleva a otra pantalla para crear un Grupo", Toast.LENGTH_SHORT).show()
+        }
         return miViewGrupos
     }
 
@@ -56,7 +61,7 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
 
     fun cargarLista(){
 
-        gruposRef.child("hola").addValueEventListener(object: ValueEventListener {
+        gruposRef.addValueEventListener(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }

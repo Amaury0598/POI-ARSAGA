@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Lista_Chats
 import com.clases.proyecto_poi_arsaga.Chat_Grupal
 import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
+import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialogFragment
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.clases.proyecto_poi_arsaga.R
 import com.google.firebase.database.*
@@ -33,14 +34,15 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
     var listaCorreos = mutableListOf<String>()
     var listaUsuarios = mutableListOf<Usuario>()
     var userActual:Usuario? = null
-
+    private lateinit var loading : LoadingDialogFragment
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
+        loading = LoadingDialogFragment(this)
+        loading.startLoading()
         userActual = arguments?.getSerializable("userActual") as Usuario
 
-        cargarChatDirecto()
-        autoCompletar()
+
+
         val miView =  inflater.inflate(R.layout.activity_lista__chats__grupos, container, false)
         var recycler_lista = miView.findViewById<RecyclerView>(R.id.RV_lista_chats_grupos)
         val milinear = LinearLayoutManager(context)
@@ -66,7 +68,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
             verSiTieneChat(intent, usuarioSeleccionado)
 
         }
-
+        cargarChatDirecto()
         return miView
     }
 
@@ -90,6 +92,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                             }
                             listaChats.reverse()
                             adaptadorChatlistadechats.notifyDataSetChanged()
+                            autoCompletar()
                         }
                     }
 
@@ -213,6 +216,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                     //val correosArray: Array<String> = listaCorreos.toTypedArray()
                     val adapter = ArrayAdapter(activity as Context, android.R.layout.simple_list_item_1, listaUsuarios);
                     AC_CHATGRUPAL.setAdapter(adapter)
+                    loading.isDismiss()
                 }
             }
         })
