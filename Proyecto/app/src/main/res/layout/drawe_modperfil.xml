@@ -52,11 +52,12 @@
         android:background="@drawable/drawer_select_photo"
         android:padding="15dp"
         android:text="Elegir Imagen"
-        app:backgroundTint="@android:color/holo_blue_dark"
         android:textColor="@android:color/white"
         android:textStyle="bold"
+        app:backgroundTint="@android:color/holo_blue_dark"
         app:layout_constraintBottom_toBottomOf="@+id/BT_MPimagen"
         app:layout_constraintEnd_toEndOf="@+id/BT_MPimagen"
+        app:layout_constraintStart_toStartOf="@+id/BT_MPimagen"
         app:layout_constraintTop_toTopOf="@+id/BT_MPimagen"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -74,84 +75,89 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/IMBT_MPfoto">
 
-
-        <EditText
-            android:id="@+id/ET_MPnuevonombre"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/draw_edit_text"
-            android:ems="15"
-            android:hint="Nuevo Nombre"
-            android:inputType="textPersonName"
-            android:padding="8dp"
-            android:textColor="#000000"
-            android:textColorHint="#575757" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/ET_MPcontraAuth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/draw_edit_text"
-            android:ems="15"
-            android:hint="Contraseña Actual (opcional)"
-            android:inputType="textPersonName"
-            android:padding="8dp"
-            android:textColor="#000000"
-            android:textColorHint="#575757" />
+            <EditText
+                android:id="@+id/ET_MPnuevonombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/draw_edit_text"
+                android:ems="15"
+                android:hint="Nuevo Nombre"
+                android:inputType="textPersonName"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:textColorHint="#575757" />
 
-        <EditText
-            android:id="@+id/ET_MPnuevacontra"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/draw_edit_text"
-            android:ems="15"
-            android:hint="Nueva Contraseña"
-            android:inputType="textPersonName"
-            android:padding="8dp"
-            android:textColor="#000000"
-            android:textColorHint="#575757" />
+            <EditText
+                android:id="@+id/ET_MPcontraAuth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/draw_edit_text"
+                android:ems="15"
+                android:hint="Contraseña Actual (opcional)"
+                android:inputType="textPersonName"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:textColorHint="#575757" />
 
-        <EditText
-            android:id="@+id/ET_MPdesc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/draw_edit_text"
-            android:ems="15"
-            android:hint="Descripción"
-            android:inputType="textPersonName"
-            android:padding="8dp"
-            android:textColor="#000000"
-            android:textColorHint="#575757" />
+            <EditText
+                android:id="@+id/ET_MPnuevacontra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/draw_edit_text"
+                android:ems="15"
+                android:hint="Nueva Contraseña"
+                android:inputType="textPersonName"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:textColorHint="#575757" />
 
-        <Button
-            android:id="@+id/BTN_MPaceptar"
-            android:layout_width="180dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center|clip_vertical"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/draw_boton_perfil"
-            android:text="Aceptar"
-            android:textAllCaps="false"
-            android:textColor="#FDFDFD"
-            android:textSize="16sp"
-            app:backgroundTint="@null" />
+            <EditText
+                android:id="@+id/ET_MPdesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/draw_edit_text"
+                android:ems="15"
+                android:hint="Descripción"
+                android:inputType="textPersonName"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:textColorHint="#575757" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/BTN_MPaceptar"
+                android:layout_width="180dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center|clip_vertical"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/draw_boton_perfil"
+                android:text="Aceptar"
+                android:textAllCaps="false"
+                android:textColor="#FDFDFD"
+                android:textSize="16sp"
+                app:backgroundTint="@null" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
