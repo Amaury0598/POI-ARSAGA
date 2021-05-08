@@ -56,7 +56,7 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
 
     fun cargarLista(){
 
-        gruposRef.addValueEventListener(object: ValueEventListener {
+        gruposRef.child("hola").addValueEventListener(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }

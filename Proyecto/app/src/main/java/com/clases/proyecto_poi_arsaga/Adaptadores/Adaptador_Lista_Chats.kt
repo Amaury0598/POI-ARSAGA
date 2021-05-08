@@ -36,6 +36,7 @@ class Adaptador_Lista_Chats(private val context: Main_Frag,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TLosChatViewHolder {
 
+
         val vistalista = LayoutInflater.from(parent.context).inflate(R.layout.chats_grupos, parent, false)
 
         return TLosChatViewHolder(vistalista)
@@ -71,7 +72,7 @@ class Adaptador_Lista_Chats(private val context: Main_Frag,
 
         CNombre.text = user
         CMensaje.text = ultimoMensaje
-        CHora.text = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(listaChatsGrupos[position].timeStamp)
+        CHora.text = SimpleDateFormat("hh:mm a\ndd/mm/yy", Locale.getDefault()).format(listaChatsGrupos[position].timeStamp)
         Picasso.get().load(fotoUser).into(CFoto)
 
         /*if(listaChatsGrupos[position].visto) Cseen.visibility = (View.VISIBLE)

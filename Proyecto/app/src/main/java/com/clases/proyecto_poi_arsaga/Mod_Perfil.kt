@@ -10,11 +10,16 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import com.clases.proyecto_poi_arsaga.Fragmentos.FragmentoA
+import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
+import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialog
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.google.firebase.auth.EmailAuthCredential
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.drawe_modperfil.*
@@ -23,13 +28,14 @@ import java.util.*
 class Mod_Perfil : AppCompatActivity() {
     private val database = FirebaseDatabase.getInstance()
     private val userRef = database.getReference("Usuarios")
+    private val chatDirectoRef = database.getReference("ChatDirecto")
     private var uri : Uri? = null
-    private val defaultImage = "https://firebasestorage.googleapis.com/v0/b/app-poi-15c77.appspot.com/o/default.jpg?alt=media&token=aa6316f8-e9c3-4531-b5a5-c7b0ac698d47"
-
+    private val defaultImage = "https://firebasestorage.googleapis.com/v0/b/app-poi-15c77.appspot.com/o/images%2Fdefault.jpg?alt=media&token=bcfafc2d-19da-4811-a083-2c6d1f7e3951"
+    private lateinit var loading : LoadingDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drawe_modperfil)
-
+        loading = LoadingDialog(this)
         ET_MPnuevonombre.setText(MainActivity.userActual?.nombre)
         ET_MPdesc.setText(MainActivity.userActual?.desc)
 
@@ -38,6 +44,7 @@ class Mod_Perfil : AppCompatActivity() {
         }
 
         BTN_MPaceptar.setOnClickListener {
+
             updateUser()
         }
 
@@ -57,17 +64,21 @@ class Mod_Perfil : AppCompatActivity() {
         val nuevaDescUser = ET_MPdesc.text.toString()
 
         if(nuevoNombreUser.isEmpty()){
+
             ET_MPnuevonombre.error = "No puede estar vacío"
             ET_MPnuevonombre.requestFocus()
+
             return
         }
 
         if(nuevaDescUser.isEmpty()){
+
             ET_MPdesc.error = "No puede estar vacío"
             ET_MPdesc.requestFocus()
+
             return
         }
-
+        loading.startLoading()
         if(contraUser.isNotEmpty()) {
             MainActivity.currentAuthUser?.let { user ->
 
@@ -78,10 +89,11 @@ class Mod_Perfil : AppCompatActivity() {
                                 user.updatePassword(nuevaContraUser)
                                         .addOnCompleteListener { newPass ->
                                             if(newPass.isSuccessful){
-                                                uploadImageToStorage(nuevoNombreUser, nuevaDescUser)
+                                                deletePreviousImageToStorage(nuevoNombreUser, nuevaDescUser)
                                             }
                                         }
                                         .addOnFailureListener { failPass ->
+                                            loading.isDismiss()
                                             when(failPass.message){
 
                                                 "The given password is invalid. [ Password should be at least 6 characters ]" -> {
@@ -89,15 +101,18 @@ class Mod_Perfil : AppCompatActivity() {
                                                     ET_MPnuevacontra.requestFocus()
                                                 }
                                                 else -> {
+
                                                     ET_MPnuevacontra.error = failPass.message
                                                     ET_MPnuevacontra.requestFocus()
                                                 }
                                             }
                                         }
                             } else if (it.exception is FirebaseAuthInvalidCredentialsException) {
+                                loading.isDismiss()
                                 ET_MPcontraAuth.error = "Contraseña incorrecta"
                                 ET_MPcontraAuth.requestFocus()
                             } else {
+                                loading.isDismiss()
                                 Toast.makeText(this@Mod_Perfil, it.exception?.message, Toast.LENGTH_SHORT).show()
                             }
                         }
@@ -118,6 +133,7 @@ class Mod_Perfil : AppCompatActivity() {
                             uploadImageToStorage(nombre, desc)
                         }
                         .addOnFailureListener {
+                            loading.isDismiss()
                             Toast.makeText(this@Mod_Perfil, it.message, Toast.LENGTH_SHORT).show()
                         }
             }else
@@ -136,24 +152,72 @@ class Mod_Perfil : AppCompatActivity() {
                     ref.downloadUrl.addOnSuccessListener {
                         MainActivity.userActual?.imagen = it.toString()
                         updateUserInfo(nombre, desc)
+                    }.addOnFailureListener {
+                        loading.isDismiss()
+                        Toast.makeText(this@Mod_Perfil, it.message, Toast.LENGTH_SHORT).show()
                     }
+                }
+                .addOnFailureListener {
+                    loading.isDismiss()
+                    Toast.makeText(this@Mod_Perfil, it.message, Toast.LENGTH_SHORT).show()
                 }
     }
 
     private fun updateUserInfo(nombre:String, desc:String){
-
         val user = Usuario(nombre, MainActivity.userActual?.correo!!, MainActivity.userActual?.imagen!!, desc, MainActivity.userActual?.carrera!!)
         userRef.child(MainActivity.currentAuthUser.uid).setValue(user)
 
-        val intent = Intent(this@Mod_Perfil, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-        val u = MainActivity.userActual
-        intent.putExtra("userActual", user)
-        startActivity(intent)
-
+        updateChatListInfo1(user)
     }
 
+    private fun updateChatListInfo1(user: Usuario){
+        chatDirectoRef.orderByChild("usuario1").equalTo(user.correo).addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    for (cl in snapshot.children){
+                        val chatD: ChatDirecto = cl.getValue(ChatDirecto::class.java) as ChatDirecto
+                        chatD.fotoUsuario1 = user.imagen
+                        chatD.nombre1 = user.nombre
+                        Log.d("Listener", "Disparado user1")
+                        chatDirectoRef.child(chatD.id).setValue(chatD)
+                    }
+                }
+                updateChatListInfo2(user)
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    private fun updateChatListInfo2(user: Usuario){
+        chatDirectoRef.orderByChild("usuario2").equalTo(user.correo).addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    for (cl in snapshot.children){
+                        val chatD: ChatDirecto = cl.getValue(ChatDirecto::class.java) as ChatDirecto
+                        chatD.fotoUsuario2 = user.imagen
+                        chatD.nombre2 = user.nombre
+                        Log.d("Listener", "Disparado user2")
+                        chatDirectoRef.child(chatD.id).setValue(chatD)
+                    }
+                }
+                val intent = Intent(this@Mod_Perfil, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                val u = MainActivity.userActual
+                intent.putExtra("userActual", user)
+                loading.isDismiss()
+                startActivity(intent)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -164,5 +228,10 @@ class Mod_Perfil : AppCompatActivity() {
             IMBT_MPfoto.alpha = 0f
 
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
     }
 }

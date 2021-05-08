@@ -26,7 +26,7 @@ class Registro : AppCompatActivity() {
     private val grupoRef = database.getReference("Grupos");
     private var correo: String = ""
     private val defaultDesc = "Sin descripción"
-    private val defaultImage: String = "https://firebasestorage.googleapis.com/v0/b/app-poi-15c77.appspot.com/o/default.jpg?alt=media&token=aa6316f8-e9c3-4531-b5a5-c7b0ac698d47"
+    private val defaultImage: String = "https://firebasestorage.googleapis.com/v0/b/app-poi-15c77.appspot.com/o/images%2Fdefault.jpg?alt=media&token=bcfafc2d-19da-4811-a083-2c6d1f7e3951"
     val listaGrupos = mutableListOf<Grupos>()
 
 

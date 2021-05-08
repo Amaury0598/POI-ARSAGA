@@ -88,7 +88,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                                         listaChats.add(chatD)
                                 }
                             }
-
+                            listaChats.reverse()
                             adaptadorChatlistadechats.notifyDataSetChanged()
                         }
                     }
