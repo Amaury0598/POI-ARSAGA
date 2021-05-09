@@ -2,6 +2,8 @@ package com.clases.proyecto_poi_arsaga.Modelos
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.fragment.app.Fragment
 import com.clases.proyecto_poi_arsaga.R
 import kotlinx.android.synthetic.main.dialog_cargando.*
@@ -15,6 +17,7 @@ class LoadingDialog(val mActivity:Activity) {
         builder.setView(dialogView)
         builder.setCancelable(false)
         isDialog = builder.create()
+        isDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         isDialog.show()
     }
     fun isDismiss(){
@@ -31,6 +34,7 @@ class LoadingDialogFragment(val mFragment:Fragment) {
         builder.setView(dialogView)
         builder.setCancelable(false)
         isDialog = builder.create()
+        isDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         isDialog.show()
     }
     fun isDismiss(){

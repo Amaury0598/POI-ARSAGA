@@ -2,12 +2,16 @@ package com.clases.proyecto_poi_arsaga
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.Gravity
+import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -44,6 +48,8 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         setContentView(R.layout.activity_crear_grupo)
         loading = LoadingDialog(this)
         loading.startLoading()
@@ -51,7 +57,17 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
         nuevoGrupo.correo_usuarios!!.add(MainActivity.userActual!!.correo)
         llenarDefaultImages()
 
+        val view = layoutInflater.inflate(R.layout.dialog_integrantes, null);
         val Integrantes = PopupWindow(this)
+        val IntegrantesReecycler = view.findViewById<RecyclerView>(R.id.Dialog_Recycler_Integrantes)
+        val EsLinear = LinearLayoutManager(this);
+
+        val animation = AnimationUtils.loadAnimation(this, R.anim.dialog_itegrantes)
+        val animation2 = AnimationUtils.loadAnimation(this, R.anim.dialog_itegrantes_2)
+        val animationout = AnimationUtils.loadAnimation(this, R.anim.dialog_integrantes_out)
+        val RLay = view.findViewById<RelativeLayout>(R.id.RelLay_Dialog)
+        val Aceptar = view.findViewById<Button>(R.id.BTN_Aceptar_integrantes)
+
         val LLay = findViewById<ConstraintLayout>(R.id.ID_CrearGrupo)
         val Key_Edit = findViewById<EditText>(R.id.ET_Nombre_grupo)
 
@@ -59,7 +75,10 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
             finish();
         }
         Key_Edit.setOnClickListener {
-            Integrantes?.dismiss();
+            IntegrantesReecycler.startAnimation(animationout)
+            RLay.startAnimation(animationout)
+            Aceptar.startAnimation(animationout)
+            Handler().postDelayed({Integrantes?.dismiss();}, animationout.duration)
         }
         Select_Grupofoto.setOnClickListener {
             val F_intent = Intent(Intent.ACTION_PICK)
@@ -69,27 +88,29 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
 
         BTN_Agegrar_integrantes.setOnClickListener {
 
-            val view = layoutInflater.inflate(R.layout.dialog_integrantes, null);
             Integrantes.contentView = view;
-            val IntegrantesReecycler = view.findViewById<RecyclerView>(R.id.Dialog_Recycler_Integrantes)
-            val EsLinear = LinearLayoutManager(this);
-
             IntegrantesReecycler.layoutManager = EsLinear;
             IntegrantesReecycler.adapter = AdaptIntegrantes;
 
-            val Aceptar = view.findViewById<Button>(R.id.BTN_Aceptar_integrantes);
+            Integrantes.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            IntegrantesReecycler.startAnimation(animation)
+            RLay.startAnimation(animation2)
+            Aceptar.startAnimation(animation2)
 
             Aceptar.setOnClickListener {
-
-
-                Integrantes.dismiss();
+                IntegrantesReecycler.startAnimation(animationout)
+                RLay.startAnimation(animationout)
+                Aceptar.startAnimation(animationout)
+                Handler().postDelayed({Integrantes?.dismiss();}, animationout.duration)
             }
             Integrantes.showAtLocation(BTN_Agegrar_integrantes, Gravity.CENTER,0, 0);
         }
 
-
         LLay.setOnClickListener {
-            Integrantes?.dismiss();
+            IntegrantesReecycler.startAnimation(animationout)
+            RLay.startAnimation(animationout)
+            Aceptar.startAnimation(animationout)
+            Handler().postDelayed({Integrantes?.dismiss();}, animationout.duration)
         }
 
         BTN_Crar_grupo.setOnClickListener {
