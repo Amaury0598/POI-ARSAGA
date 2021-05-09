@@ -12,7 +12,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            app:civ_border_color="#39598A"
+            app:civ_border_width="2dp"
             android:id="@+id/IMG_grupos_carreras"
             android:layout_width="128dp"
             android:layout_height="128dp"
@@ -22,8 +24,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
-            android:layout_marginBottom="8dp"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            android:layout_marginBottom="8dp"/>
 
         <TextView
             android:id="@+id/TV_nombre_grupos_carreras"

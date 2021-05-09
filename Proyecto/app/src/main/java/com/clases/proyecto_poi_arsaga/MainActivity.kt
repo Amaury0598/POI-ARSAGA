@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                     cambiarFragmento(FragmentoB(), "Opciones" )
                 }
                 R.id.menu_cerrar -> {
+                    FirebaseAuth.getInstance().signOut()
                     finish()
                     val miIntent = Intent(this, Log_In::class.java)
                     startActivity(miIntent)

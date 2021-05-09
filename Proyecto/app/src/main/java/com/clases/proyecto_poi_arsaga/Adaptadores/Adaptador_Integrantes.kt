@@ -9,8 +9,11 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.clases.proyecto_poi_arsaga.R
+import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 
 class Adaptador_Integrantes(var listaIntegrantes: MutableList<Usuario>,
+                            var listaIntegrantesActivos: MutableList<String>,
                             private val itemClickListener: OnItemGrupoClickListener) : RecyclerView.Adapter<Adaptador_Integrantes.IntegrantesViewHolder>() {
 
     class IntegrantesViewHolder(View: View): RecyclerView.ViewHolder(View){
@@ -18,8 +21,8 @@ class Adaptador_Integrantes(var listaIntegrantes: MutableList<Usuario>,
 
     interface OnItemGrupoClickListener{
         //fun onitemHold(toString: String)
-        fun AddtoList(Nombre : String, position: String)
-        fun RemoveFromList(NombreB: String, position: String)
+        fun AddtoList(correo : String, position: String)
+        fun RemoveFromList(correo: String, position: String)
     }
 
     override fun getItemCount(): Int {
@@ -36,15 +39,25 @@ class Adaptador_Integrantes(var listaIntegrantes: MutableList<Usuario>,
     override fun onBindViewHolder(holder: IntegrantesViewHolder, position: Int) {
 
         val CNombre = holder.itemView.findViewById<CheckBox>(R.id.Check_integrante)
+        val CFoto = holder.itemView.findViewById<CircleImageView>(R.id.IV_integrante)
+        val CCorreo = holder.itemView.findViewById<TextView>(R.id.TV_integrantes_correo)
+
+        Picasso.get().load(listaIntegrantes[position].imagen).into(CFoto)
+
+        if(listaIntegrantesActivos.contains(listaIntegrantes[position].correo)){
+            CNombre.isChecked = true
+            //CNombre.toggle()
+        }
 
         CNombre.text = listaIntegrantes[position].nombre
+        CCorreo.text = listaIntegrantes[position].correo
 
         CNombre.setOnClickListener {
 
             if(CNombre.isChecked) {
-                itemClickListener.AddtoList(listaIntegrantes[position].nombre, listaIntegrantes[position].imagen)
+                itemClickListener.AddtoList(listaIntegrantes[position].correo, listaIntegrantes[position].imagen)
             }else{
-                itemClickListener.RemoveFromList(listaIntegrantes[position].nombre, listaIntegrantes[position].imagen)
+                itemClickListener.RemoveFromList(listaIntegrantes[position].correo, listaIntegrantes[position].imagen)
             }
         }
     }

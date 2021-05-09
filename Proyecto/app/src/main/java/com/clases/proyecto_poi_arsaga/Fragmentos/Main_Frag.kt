@@ -157,7 +157,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
         return chatD
     }
 
-    private fun obtenerChatDirectoUsuarios(correo1:String, correo2:String) : String{
+   /* private fun obtenerChatDirectoUsuarios(correo1:String, correo2:String) : String{
         val datoRes: String
         if(correo1 > correo2)
             datoRes = correo1 + "/-/" + correo2
@@ -181,7 +181,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
         return correo
     }
 
-    /*override fun onitemHold(toString: String) {
+    override fun onitemHold(toString: String) {
         Toast.makeText(activity, "El id es: $toString", Toast.LENGTH_SHORT).show()
     }*/
 

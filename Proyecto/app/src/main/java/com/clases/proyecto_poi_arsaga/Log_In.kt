@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
+import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialog
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -18,6 +19,7 @@ class Log_In : AppCompatActivity() {
     private val database = FirebaseDatabase.getInstance();
     private val auth = FirebaseAuth.getInstance()
     private val userRef = database.getReference("Usuarios"); //crear "rama" (tabla)
+    private lateinit var loading : LoadingDialog
     //private val grupoRef = database.getReference("Grupos");
 
     private var correo: String = ""
@@ -26,6 +28,11 @@ class Log_In : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log__in)
+        loading = LoadingDialog(this)
+        if(!auth.uid.isNullOrEmpty()){
+            loading.startLoading()
+            logIn()
+        }
 
         //cargarLista()
 
@@ -33,6 +40,7 @@ class Log_In : AppCompatActivity() {
             correo = ET_Correo.text.toString()
             var contraseña: String = ET_Contraseña.text.toString()
             if(correo.isNotEmpty() && contraseña.isNotEmpty()){
+                loading.startLoading()
                 buscarUsuario(correo, contraseña)
             }else{
                 Toast.makeText(this, "Rellene todos los campos", Toast.LENGTH_SHORT).show()
@@ -49,17 +57,18 @@ class Log_In : AppCompatActivity() {
            .addOnCompleteListener {
                if(it.isSuccessful){
 
-                   getUserActual(correo)
+                   logIn()
 
                }
            }
            .addOnFailureListener {
+               loading.isDismiss()
                Toast.makeText(this@Log_In, "La Contraseña y/o el Correo están incorrectos", Toast.LENGTH_SHORT).show()
            }
 
     }
 
-    private fun getUserActual(correo: String) {
+    private fun logIn() {
         userRef.child(auth.currentUser.uid).get()
             .addOnSuccessListener {
                 if(it.exists()) {
@@ -67,6 +76,7 @@ class Log_In : AppCompatActivity() {
                     val intent = Intent(this@Log_In, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     intent.putExtra("userActual", user)
+                    loading.isDismiss()
                     startActivity(intent)
                 }
 
