@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Grupos_Carreras
 import com.clases.proyecto_poi_arsaga.Chat_Grupal
+import com.clases.proyecto_poi_arsaga.Crear_Grupo
 import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
@@ -28,13 +29,11 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
     val adaptador_grupos_carreras = Adaptador_Grupos_Carreras(this, listaGrupos, this)
     private val database = FirebaseDatabase.getInstance();
     private val gruposRef = database.getReference("Grupos"); //crear "rama" (tabla)
-    var userActual: Usuario? = null
+    var userActual: Usuario? = null;
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         userActual = arguments?.getSerializable("userActual") as Usuario
-
-
-
 
         val miViewGrupos =  inflater.inflate(R.layout.frag_grupos_carreras, container, false)
 
@@ -49,14 +48,18 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
         recycler_lista.layoutManager = miGrid
         recycler_lista.adapter = adaptador_grupos_carreras
         cargarLista()
+
         btnCrearGrupo.setOnClickListener {
-            Toast.makeText(activity, "Esto te lleva a otra pantalla para crear un Grupo", Toast.LENGTH_SHORT).show()
+            val intent = Intent(activity, Crear_Grupo::class.java)
+            activity?.startActivity(intent)
         }
         return miViewGrupos
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     fun cargarLista(){

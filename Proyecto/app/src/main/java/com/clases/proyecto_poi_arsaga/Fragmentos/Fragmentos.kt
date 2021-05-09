@@ -28,7 +28,6 @@ class FragmentoA : Fragment()  {
 
         //userActual = arguments?.getSerializable("userActual") as Usuario
 
-
         val miView =  inflater.inflate(R.layout.drawer_perfil, container, false)
         val PNombre = miView.findViewById<TextView>(R.id.TV_Pnombre)
         val PCarrera = miView.findViewById<TextView>(R.id.TV_Pcarrera)

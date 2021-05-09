@@ -111,7 +111,6 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
 
 
 
-
     }
 
     private fun verSiTieneChat(intent: Intent, usuarioSeleccionado: Usuario){
