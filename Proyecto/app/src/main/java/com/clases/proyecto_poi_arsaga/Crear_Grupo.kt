@@ -21,6 +21,7 @@ import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Integrantes
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
 import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialog
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -34,9 +35,11 @@ import kotlin.random.Random
 
 class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickListener {
 
+    private lateinit var userActual:Usuario
     private val database = FirebaseDatabase.getInstance()
     private val userRef = database.getReference("Usuarios")
     private val grupoRef = database.getReference("Grupos")
+    private val auth = FirebaseAuth.getInstance()
     var listaIntegrantes = mutableListOf<Usuario>()
     private var nuevoGrupo :Grupos = Grupos()
     private lateinit var loading : LoadingDialog
@@ -52,9 +55,11 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
 
         setContentView(R.layout.activity_crear_grupo)
         loading = LoadingDialog(this)
-        loading.startLoading()
-        nuevoGrupo.admin = MainActivity.userActual!!.correo
-        nuevoGrupo.correo_usuarios!!.add(MainActivity.userActual!!.correo)
+        loading.startLoading("Cargando Datos")
+
+
+
+
         llenarDefaultImages()
 
         val view = layoutInflater.inflate(R.layout.dialog_integrantes, null);
@@ -122,7 +127,7 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
                 ET_Nombre_grupo.requestFocus()
                 return@setOnClickListener
             }
-            loading.startLoading()
+            loading.startLoading("Creando Grupo")
             grupoRef.child(nuevoGrupo.nombre).get()
                     .addOnSuccessListener {
                         if(it.exists()) {
@@ -142,7 +147,15 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
                         }
                     }
         }
-        llenarlista()
+
+        userRef.child(auth.uid.toString()).get()
+                .addOnSuccessListener{
+                    userActual = it.getValue(Usuario::class.java) as Usuario
+                    nuevoGrupo.admin = userActual.correo
+                    nuevoGrupo.correo_usuarios!!.add(userActual.correo)
+                    llenarlista()
+
+                }
     }
 
 
@@ -169,8 +182,8 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
         grupoRef.child(nuevoGrupo.nombre).setValue(nuevoGrupo)
         val intent = Intent(this@Crear_Grupo, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-        val u = MainActivity.userActual
-        intent.putExtra("userActual", u)
+        /*val u = userActual
+        intent.putExtra("userActual", u)*/
         loading.isDismiss()
         startActivity(intent)
     }
@@ -196,7 +209,7 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
                 if(snapshot.exists()) {
                     for (u in snapshot.children) {
                         val user = u.getValue(Usuario::class.java) as Usuario
-                        if (user.correo != MainActivity.userActual?.correo)
+                        if (user.correo != userActual.correo)
                             listaIntegrantes.add(user)
                     }
                 }

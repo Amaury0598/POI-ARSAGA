@@ -30,7 +30,7 @@ class Log_In : AppCompatActivity() {
         setContentView(R.layout.activity_log__in)
         loading = LoadingDialog(this)
         if(!auth.uid.isNullOrEmpty()){
-            loading.startLoading()
+            loading.startLoading("Procesando Datos")
             logIn()
         }
 
@@ -40,7 +40,7 @@ class Log_In : AppCompatActivity() {
             correo = ET_Correo.text.toString()
             var contraseña: String = ET_Contraseña.text.toString()
             if(correo.isNotEmpty() && contraseña.isNotEmpty()){
-                loading.startLoading()
+                loading.startLoading("Validando Datos")
                 buscarUsuario(correo, contraseña)
             }else{
                 Toast.makeText(this, "Rellene todos los campos", Toast.LENGTH_SHORT).show()
@@ -69,13 +69,13 @@ class Log_In : AppCompatActivity() {
     }
 
     private fun logIn() {
-        userRef.child(auth.currentUser.uid).get()
+        userRef.child(auth.uid.toString()).get()
             .addOnSuccessListener {
                 if(it.exists()) {
-                    val user = it.getValue(Usuario::class.java)
+                    //val user = it.getValue(Usuario::class.java)
                     val intent = Intent(this@Log_In, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    intent.putExtra("userActual", user)
+                    //intent.putExtra("userActual", user)
                     loading.isDismiss()
                     startActivity(intent)
                 }

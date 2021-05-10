@@ -19,8 +19,10 @@ import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
 import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialogFragment
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.clases.proyecto_poi_arsaga.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_lista__chats__grupos.*
+import kotlinx.android.synthetic.main.drawe_modperfil.*
 
 
 class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
@@ -28,18 +30,23 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
     private val database = FirebaseDatabase.getInstance();
     private val userRef = database.getReference("Usuarios"); //crear "rama" (tabla)
     private val chatDirectoRef = database.getReference("ChatDirecto");
+    private val auth = FirebaseAuth.getInstance()
 
     var listaChats = mutableListOf<ChatDirecto>()
-    val adaptadorChatlistadechats = Adaptador_Lista_Chats(this, listaChats, this)
+    val adaptadorChatlistadechats = Adaptador_Lista_Chats(this, listaChats,this)
     var listaCorreos = mutableListOf<String>()
     var listaUsuarios = mutableListOf<Usuario>()
-    var userActual:Usuario? = null
+
+    companion object{
+        var userActual = Usuario()
+    }
+
     private lateinit var loading : LoadingDialogFragment
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         loading = LoadingDialogFragment(this)
-        loading.startLoading()
-        userActual = arguments?.getSerializable("userActual") as Usuario
+        loading.startLoading("Cargando contactos")
+        //userActual = arguments?.getSerializable("userActual") as Usuario
 
 
 
@@ -68,7 +75,17 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
             verSiTieneChat(intent, usuarioSeleccionado)
 
         }
-        cargarChatDirecto()
+        userRef.child(auth.uid.toString()).get()
+                .addOnSuccessListener{ usuarioConseguido ->
+
+                    userActual = usuarioConseguido.getValue(Usuario::class.java) as Usuario
+                    cargarChatDirecto()
+
+
+                }
+
+
+
         return miView
     }
 
@@ -92,8 +109,9 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                             }
                             listaChats.reverse()
                             adaptadorChatlistadechats.notifyDataSetChanged()
-                            autoCompletar()
+
                         }
+                        autoCompletar()
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -142,7 +160,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                 if(!encontrado){
                     intent.putExtra("ChatDirecto", crearSalaChat(chatDir))
                 }
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                //intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 activity?.startActivity(intent)
             }
 
@@ -196,6 +214,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
 
     private fun autoCompletar() {
 
+
         userRef.addValueEventListener(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
@@ -203,6 +222,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot!!.exists()){
+                    listaUsuarios.clear()
 
                     for( u in snapshot.children){
                         val user: Usuario = u.getValue(Usuario::class.java) as Usuario;
@@ -213,10 +233,13 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                     }
 
                     //val correosArray: Array<String> = listaCorreos.toTypedArray()
+                    if(activity != null){
                     val adapter = ArrayAdapter(activity as Context, android.R.layout.simple_list_item_1, listaUsuarios);
                     AC_CHATGRUPAL.setAdapter(adapter)
-                    loading.isDismiss()
+                    }
                 }
+
+                loading.isDismiss()
             }
         })
     }

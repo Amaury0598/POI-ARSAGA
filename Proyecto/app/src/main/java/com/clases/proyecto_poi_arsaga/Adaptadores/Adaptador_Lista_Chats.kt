@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
 import com.clases.proyecto_poi_arsaga.MainActivity
 import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
+import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.clases.proyecto_poi_arsaga.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.chats_grupos.view.*
@@ -57,7 +58,7 @@ class Adaptador_Lista_Chats(private val context: Main_Frag,
         var user : String = ""
         var fotoUser : String = ""
         var ultimoMensaje : String = ""
-        if(listaChatsGrupos[position].usuario1 == MainActivity.userActual!!.correo) {
+        if(listaChatsGrupos[position].usuario1 == Main_Frag.userActual.correo) {
             user = listaChatsGrupos[position].nombre2
             fotoUser = listaChatsGrupos[position].fotoUsuario2
         }else{
@@ -65,7 +66,7 @@ class Adaptador_Lista_Chats(private val context: Main_Frag,
             fotoUser = listaChatsGrupos[position].fotoUsuario1
         }
 
-        if(listaChatsGrupos[position].ultimoMensajeDe == MainActivity.userActual!!.correo)
+        if(listaChatsGrupos[position].ultimoMensajeDe ==  Main_Frag.userActual.correo)
             ultimoMensaje = "tu: " + listaChatsGrupos[position].ultimoMensaje
         else
             ultimoMensaje = listaChatsGrupos[position].ultimoMensaje

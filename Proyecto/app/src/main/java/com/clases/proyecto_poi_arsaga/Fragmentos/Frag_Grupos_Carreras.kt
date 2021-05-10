@@ -13,11 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Grupos_Carreras
 import com.clases.proyecto_poi_arsaga.Chat_Grupal
 import com.clases.proyecto_poi_arsaga.Crear_Grupo
-import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
-import com.clases.proyecto_poi_arsaga.Modelos.Grupos
-import com.clases.proyecto_poi_arsaga.Modelos.Usuario
+import com.clases.proyecto_poi_arsaga.Modelos.*
 import com.clases.proyecto_poi_arsaga.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -25,24 +24,30 @@ import com.google.firebase.database.ValueEventListener
 
 class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickListen {
 
+    private val database = FirebaseDatabase.getInstance();
+    private val userRef = database.getReference("Usuarios"); //crear "rama" (tabla)
+    private val auth = FirebaseAuth.getInstance()
     val listaGrupos = mutableListOf<Grupos>()
     val adaptador_grupos_carreras = Adaptador_Grupos_Carreras(this, listaGrupos, this)
-    private val database = FirebaseDatabase.getInstance();
     private val gruposRef = database.getReference("Grupos"); //crear "rama" (tabla)
-    var userActual: Usuario? = null;
+    private lateinit var loading:LoadingDialogFragment
+    private lateinit var nogrupos : TextView
+    private lateinit var userActual: Usuario
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        userActual = arguments?.getSerializable("userActual") as Usuario
+        //userActual = arguments?.getSerializable("userActual") as Usuario
+        loading = LoadingDialogFragment(this)
+        loading.startLoading("Cargando Grupos")
+
 
         val miViewGrupos =  inflater.inflate(R.layout.frag_grupos_carreras, container, false)
 
-        val nogrupos = miViewGrupos.findViewById<TextView>(R.id.TV_nogrupos)
+        nogrupos = miViewGrupos.findViewById<TextView>(R.id.TV_nogrupos)
         val btnCrearGrupo = miViewGrupos.findViewById<FloatingActionButton>(R.id.FAB_crearGrupo)
-        cargarLista()
-        nogrupos.text = "Únete a mas Grupos es Genial !!!"
-        if (listaGrupos.size < 3)nogrupos.visibility = (View.VISIBLE)
-        else nogrupos.visibility = (View.GONE)
+
+
+
 
         var recycler_lista = miViewGrupos.findViewById<RecyclerView>(R.id.RV_grupos_carreras)
         val miGrid = GridLayoutManager(context, 2)
@@ -54,6 +59,13 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
             val intent = Intent(activity, Crear_Grupo::class.java)
             activity?.startActivity(intent)
         }
+
+        userRef.child(auth.uid.toString()).get()
+                .addOnSuccessListener{
+                    userActual = it.getValue(Usuario::class.java) as Usuario
+                    cargarLista()
+                }
+
         return miViewGrupos
     }
 
@@ -85,6 +97,10 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
                         }
                     }
                     adaptador_grupos_carreras.notifyDataSetChanged()
+                    nogrupos.text = "Únete a mas Grupos es Genial !!!"
+                    if (listaGrupos.size < 3)nogrupos.visibility = (View.VISIBLE)
+                    else nogrupos.visibility = (View.GONE)
+                    loading.isDismiss()
                 }
             }
         })

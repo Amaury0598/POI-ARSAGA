@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.clases.proyecto_poi_arsaga.Adaptadores.AdaptorChat
 import com.clases.proyecto_poi_arsaga.Modelos.*
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_chat__grupal.*
@@ -17,55 +18,64 @@ import java.util.*
 
 class Chat_Grupal : AppCompatActivity() {
 
+    private val database = FirebaseDatabase.getInstance();
+    private val auth = FirebaseAuth.getInstance()
+    private val userRef = database.getReference("Usuarios")
 
     val listamensajes = mutableListOf<Mensaje>()
     var TipoC: Int = 0
-    var userActual: Usuario? = null
+    private var userActual: Usuario = Usuario()
     //var usuarioSeleccionado: Usuario? = null
     var ChatDirecto: ChatDirecto? = null
     private var adaptadorChat = AdaptorChat(userActual,this, listamensajes, TipoC)
-    private val database = FirebaseDatabase.getInstance()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat__grupal)
 
-        if(intent.extras != null){
-            //usuarioSeleccionado = intent.getSerializableExtra("UsuarioSeleccionado") as Usuario
-            userActual = intent.getSerializableExtra("userActual") as Usuario
-            ChatDirecto = intent.getSerializableExtra("ChatDirecto") as ChatDirecto
-            if(ChatDirecto!!.usuario2 == "Grupal") {
-                TV_Nombre_Chat.text = ChatDirecto!!.usuario1
 
-                Picasso.get().load(ChatDirecto!!.fotoUsuario1).into(IV_CHAT_HEADER)
-            }
-            else {
-                if (ChatDirecto!!.usuario1 == userActual!!.correo) {
-                    TV_Nombre_Chat.text = ChatDirecto!!.nombre2
-                    Picasso.get().load(ChatDirecto!!.fotoUsuario2).into(IV_CHAT_HEADER)
-                }
-                else {
-                    TV_Nombre_Chat.text = ChatDirecto!!.nombre1
-                    Picasso.get().load(ChatDirecto!!.fotoUsuario1).into(IV_CHAT_HEADER)
-                }
-            }
-            TipoC = intent.getIntExtra("Tipo", 0)
+                    if(intent.extras != null){
+                        //usuarioSeleccionado = intent.getSerializableExtra("UsuarioSeleccionado") as Usuario
+                        userActual = intent.getSerializableExtra("userActual") as Usuario
+                        ChatDirecto = intent.getSerializableExtra("ChatDirecto") as ChatDirecto
+                        if(ChatDirecto!!.usuario2 == "Grupal") {
+                            TV_Nombre_Chat.text = ChatDirecto!!.usuario1
+
+                            Picasso.get().load(ChatDirecto!!.fotoUsuario1).into(IV_CHAT_HEADER)
+                        }
+                        else {
+                            if (ChatDirecto!!.usuario1 == userActual!!.correo) {
+                                TV_Nombre_Chat.text = ChatDirecto!!.nombre2
+                                Picasso.get().load(ChatDirecto!!.fotoUsuario2).into(IV_CHAT_HEADER)
+                            }
+                            else {
+                                TV_Nombre_Chat.text = ChatDirecto!!.nombre1
+                                Picasso.get().load(ChatDirecto!!.fotoUsuario1).into(IV_CHAT_HEADER)
+                            }
+                        }
+                        TipoC = intent.getIntExtra("Tipo", 0)
 
 
 
-        }else{
-            TV_Nombre_Chat.text = "Desconocido"
-        }
-        adaptadorChat = AdaptorChat(userActual,this, listamensajes, TipoC)
-        RV_chat_grupal.adapter = adaptadorChat
+                    }else{
+                        TV_Nombre_Chat.text = "Desconocido"
+                    }
+                    adaptadorChat = AdaptorChat(userActual,this, listamensajes, TipoC)
+                    RV_chat_grupal.adapter = adaptadorChat
+
+                    cargarMensajes()
+
+
+
 
 
         BT_back_chats_grupal.setOnClickListener {
-            val intent = Intent(this@Chat_Grupal, MainActivity::class.java)
+            /*val intent = Intent(this@Chat_Grupal, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra("userActual", userActual)
-            startActivity(intent)
+            startActivity(intent)*/
+            finish()
         }
 
         BT_enviar_mensaje.setOnClickListener {
@@ -86,7 +96,7 @@ class Chat_Grupal : AppCompatActivity() {
 
             }
         }
-        cargarMensajes()
+
     }
 
     private fun cargarMensajes(){
@@ -208,11 +218,11 @@ class Chat_Grupal : AppCompatActivity() {
 
     }
 
-    override fun onBackPressed() {
+    /*override fun onBackPressed() {
         super.onBackPressed()
         val intent = Intent(this@Chat_Grupal, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.putExtra("userActual", userActual)
+        //intent.putExtra("userActual", userActual)
         startActivity(intent)
-    }
+    }*/
 }

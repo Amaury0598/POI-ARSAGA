@@ -15,25 +15,29 @@ import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-    companion object {
+    private var userActual : Usuario? = null
+    private val database = FirebaseDatabase.getInstance();
+    private val auth = FirebaseAuth.getInstance()
+    private val userRef = database.getReference("Usuarios")
+    /*companion object {
         var userActual : Usuario? = null
         var currentAuthUser = FirebaseAuth.getInstance().currentUser
-    }
+    }*/
 
 
     fun cambiarFragmento(FragmentoNuevo: Fragment, tag: String){
 
         val fragmentoanterior = supportFragmentManager.findFragmentByTag(tag)
         if(fragmentoanterior == null) {
-            var b : Bundle = Bundle()
+            /*var b : Bundle = Bundle()
 
             b.putSerializable("userActual", userActual)
-            FragmentoNuevo.arguments = b
+            FragmentoNuevo.arguments = b*/
             supportFragmentManager.beginTransaction().replace(R.id.Contenedor, FragmentoNuevo)
                 .commit()
         }
@@ -42,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        userActual = intent.getSerializableExtra("userActual") as Usuario
+        //userActual = intent.getSerializableExtra("userActual") as Usuario
 
         val miNav = findViewById<NavigationView>(R.id.main_nav)
         val mibarraNav = findViewById<BottomNavigationView>(R.id.BTN_bottom_nav)
@@ -53,8 +57,8 @@ class MainActivity : AppCompatActivity() {
 
         val NombreUsuario = HeaderNav.findViewById<TextView>(R.id.HeaderNombre)
         val ImagenUsuario =  HeaderNav.findViewById<ImageView>(R.id.BT_Headerimagen)
-        NombreUsuario.text = userActual?.nombre
-        Picasso.get().load(userActual?.imagen).into(ImagenUsuario)
+
+
 
         setSupportActionBar(mitoolbar)
 
@@ -109,5 +113,11 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+        userRef.child(auth.uid.toString()).get()
+                .addOnSuccessListener{
+                    userActual = it.getValue(Usuario::class.java) as Usuario
+                    NombreUsuario.text = userActual?.nombre
+                    Picasso.get().load(userActual?.imagen).into(ImagenUsuario)
+                }
     }
 }

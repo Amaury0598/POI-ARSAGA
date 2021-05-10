@@ -15,6 +15,7 @@ import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialog
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.google.firebase.auth.EmailAuthCredential
 import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -26,9 +27,11 @@ import kotlinx.android.synthetic.main.drawe_modperfil.*
 import java.util.*
 
 class Mod_Perfil : AppCompatActivity() {
+    private lateinit var userActual : Usuario
     private val database = FirebaseDatabase.getInstance()
     private val userRef = database.getReference("Usuarios")
     private val chatDirectoRef = database.getReference("ChatDirecto")
+    private var auth = FirebaseAuth.getInstance()
     private var uri : Uri? = null
     private val defaultImage = "https://firebasestorage.googleapis.com/v0/b/app-poi-15c77.appspot.com/o/images%2Fdefault.jpg?alt=media&token=bcfafc2d-19da-4811-a083-2c6d1f7e3951"
     private lateinit var loading : LoadingDialog
@@ -36,8 +39,15 @@ class Mod_Perfil : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drawe_modperfil)
         loading = LoadingDialog(this)
-        ET_MPnuevonombre.setText(MainActivity.userActual?.nombre)
-        ET_MPdesc.setText(MainActivity.userActual?.desc)
+        userRef.child(auth.uid.toString()).get()
+                .addOnSuccessListener{
+                    loading.startLoading("Cargando Datos")
+                    userActual = it.getValue(Usuario::class.java) as Usuario
+                    ET_MPnuevonombre.setText(userActual?.nombre)
+                    ET_MPdesc.setText(userActual?.desc)
+                    loading.isDismiss()
+                }
+
 
         BT_back_MP.setOnClickListener {
             finish()
@@ -78,9 +88,9 @@ class Mod_Perfil : AppCompatActivity() {
 
             return
         }
-        loading.startLoading()
+        loading.startLoading("Validando Datos")
         if(contraUser.isNotEmpty()) {
-            MainActivity.currentAuthUser?.let { user ->
+            auth.currentUser?.let { user ->
 
                 val credential = EmailAuthProvider.getCredential(user.email!!, contraUser)
                 user.reauthenticate(credential)
@@ -126,8 +136,8 @@ class Mod_Perfil : AppCompatActivity() {
     private fun deletePreviousImageToStorage(nombre:String, desc:String){
         if(uri != null) {
 
-            if(defaultImage != MainActivity.userActual?.imagen!!) {
-                val delete = FirebaseStorage.getInstance().getReferenceFromUrl(MainActivity.userActual?.imagen!!)
+            if(defaultImage != userActual.imagen) {
+                val delete = FirebaseStorage.getInstance().getReferenceFromUrl(userActual.imagen)
                 delete.delete()
                         .addOnSuccessListener {
                             uploadImageToStorage(nombre, desc)
@@ -150,7 +160,7 @@ class Mod_Perfil : AppCompatActivity() {
         ref.putFile(uri!!)
                 .addOnSuccessListener {
                     ref.downloadUrl.addOnSuccessListener {
-                        MainActivity.userActual?.imagen = it.toString()
+                        userActual?.imagen = it.toString()
                         updateUserInfo(nombre, desc)
                     }.addOnFailureListener {
                         loading.isDismiss()
@@ -164,10 +174,13 @@ class Mod_Perfil : AppCompatActivity() {
     }
 
     private fun updateUserInfo(nombre:String, desc:String){
-        val user = Usuario(nombre, MainActivity.userActual?.correo!!, MainActivity.userActual?.imagen!!, desc, MainActivity.userActual?.carrera!!)
-        userRef.child(MainActivity.currentAuthUser.uid).setValue(user)
+        val user = Usuario(nombre, userActual?.correo!!, userActual?.imagen!!, desc, userActual?.carrera!!)
+        userRef.child(auth.uid.toString()).setValue(user)
+                .addOnSuccessListener {
+                    updateChatListInfo1(user)
+                }
 
-        updateChatListInfo1(user)
+
     }
 
     private fun updateChatListInfo1(user: Usuario){
@@ -206,8 +219,8 @@ class Mod_Perfil : AppCompatActivity() {
                 }
                 val intent = Intent(this@Mod_Perfil, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                val u = MainActivity.userActual
-                intent.putExtra("userActual", user)
+                /*val u = userActual
+                intent.putExtra("userActual", user)*/
                 loading.isDismiss()
                 startActivity(intent)
             }

@@ -15,12 +15,17 @@ import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialog
 import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialogFragment
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.clases.proyecto_poi_arsaga.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 
 class FragmentoA : Fragment()  {
 
-    var userActual: Usuario? = MainActivity.userActual
+    private lateinit var userActual : Usuario
+    private val database = FirebaseDatabase.getInstance();
+    private val auth = FirebaseAuth.getInstance()
+    private val userRef = database.getReference("Usuarios")
+    private lateinit var loading : LoadingDialogFragment
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -32,11 +37,19 @@ class FragmentoA : Fragment()  {
         val ModPerfil = miView.findViewById<Button>(R.id.BTN_Pmodificar)
         val PImagen = miView.findViewById<ImageView>(R.id.IV_Pfoto
         )
-        PNombre.text = userActual?.nombre
-        PCarrera.text = userActual?.carrera
-        PRol.text = "Estudiante"
-        PDesc.text = userActual?.desc
-        Picasso.get().load(userActual?.imagen).into(PImagen)
+        loading = LoadingDialogFragment(this)
+        userRef.child(auth.uid.toString()).get()
+                .addOnSuccessListener{
+                    loading.startLoading("Cargando Datos")
+                    userActual = it.getValue(Usuario::class.java) as Usuario
+                    PNombre.text = userActual?.nombre
+                    PCarrera.text = userActual?.carrera
+                    PRol.text = "Estudiante"
+                    PDesc.text = userActual?.desc
+                    Picasso.get().load(userActual?.imagen).into(PImagen)
+                    loading.isDismiss()
+                }
+
 
         ModPerfil.setOnClickListener {
             val intent = Intent(activity, Mod_Perfil::class.java)

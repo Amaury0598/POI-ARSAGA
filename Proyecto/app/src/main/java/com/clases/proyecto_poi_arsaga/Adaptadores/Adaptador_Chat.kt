@@ -19,7 +19,7 @@ import com.clases.proyecto_poi_arsaga.R
 import kotlinx.android.synthetic.main.drawer_burbuja_chat.view.*
 import java.util.*
 
-class AdaptorChat(private val userActual: Usuario?, private val context: Chat_Grupal, private val listamensajes: MutableList<Mensaje>, private  val Tipo : Int) : RecyclerView.Adapter<AdaptorChat.ChatViewHolder>()  {
+class AdaptorChat(private val userActual: Usuario, private val context: Chat_Grupal, private val listamensajes: MutableList<Mensaje>, private  val Tipo : Int) : RecyclerView.Adapter<AdaptorChat.ChatViewHolder>()  {
 
     class ChatViewHolder(view: View) : RecyclerView.ViewHolder(view){
     }
