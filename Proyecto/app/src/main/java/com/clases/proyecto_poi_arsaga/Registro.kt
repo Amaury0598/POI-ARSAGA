@@ -10,6 +10,8 @@ import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
 import com.clases.proyecto_poi_arsaga.Modelos.ChatMensaje
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
+import com.clases.proyecto_poi_arsaga.databinding.ActivityChatGrupalBinding
+import com.clases.proyecto_poi_arsaga.databinding.ActivityRegistroBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -33,10 +35,6 @@ class Registro : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro)
-
-        BT_reg_iniciar.setOnClickListener{
-            finish()
-        }
 
         BT_registrarse.setOnClickListener {
             val nombre = ET_Nombre.text.toString()

@@ -20,13 +20,9 @@ import com.squareup.picasso.Picasso
 
 class FragmentoA : Fragment()  {
 
-    private val database = FirebaseDatabase.getInstance();
     var userActual: Usuario? = MainActivity.userActual
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        //userActual = arguments?.getSerializable("userActual") as Usuario
 
         val miView =  inflater.inflate(R.layout.drawer_perfil, container, false)
         val PNombre = miView.findViewById<TextView>(R.id.TV_Pnombre)
@@ -54,7 +50,6 @@ class FragmentoA : Fragment()  {
     override fun onResume() {
         super.onResume()
     }
-
 }
 
 class FragmentoB : Fragment(R.layout.drawe_configuracion){

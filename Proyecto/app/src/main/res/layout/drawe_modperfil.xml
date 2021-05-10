@@ -86,65 +86,87 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal|center_vertical"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/ET_MPnuevonombre"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="32dp"
-                android:layout_marginBottom="32dp"
-                android:background="@drawable/draw_edit_text"
-                android:ems="15"
                 android:hint="Nuevo Nombre"
-                android:inputType="textPersonName"
-                android:padding="8dp"
-                android:textColor="#000000"
-                android:textColorHint="#575757" />
+                app:helperText="*Requerido"
+                app:startIconDrawable="@drawable/settings"
+                app:startIconTint="@android:color/holo_blue_dark">
 
-            <EditText
-                android:id="@+id/ET_MPcontraAuth"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ET_MPnuevonombre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="16"
+                    android:inputType="textPersonName"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/draw_edit_text"
-                android:ems="15"
+                android:layout_marginTop="16dp"
                 android:hint="Contraseña Actual (opcional)"
-                android:inputType="textPersonName"
-                android:padding="8dp"
-                android:textColor="#000000"
-                android:textColorHint="#575757" />
+                app:endIconMode="password_toggle"
+                app:helperText="*Opcional"
+                app:startIconDrawable="@drawable/vpn_key"
+                app:startIconTint="@android:color/holo_blue_dark">
 
-            <EditText
-                android:id="@+id/ET_MPnuevacontra"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ET_MPcontraAuth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="16"
+                    android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="32dp"
-                android:background="@drawable/draw_edit_text"
-                android:ems="15"
+                android:layout_marginTop="8dp"
                 android:hint="Nueva Contraseña"
-                android:inputType="textPersonName"
-                android:padding="8dp"
-                android:textColor="#000000"
-                android:textColorHint="#575757" />
+                app:endIconMode="password_toggle"
+                app:helperText="*Opcional"
+                app:startIconDrawable="@drawable/settings"
+                app:startIconTint="@android:color/holo_blue_dark">
 
-            <EditText
-                android:id="@+id/ET_MPdesc"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ET_MPnuevacontra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="16"
+                    android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/draw_edit_text"
-                android:ems="15"
+                android:layout_marginTop="16dp"
+                app:helperText="*Opcional"
                 android:hint="Descripción"
-                android:inputType="textPersonName"
-                android:padding="8dp"
-                android:textColor="#000000"
-                android:textColorHint="#575757" />
+                app:startIconDrawable="@drawable/edit"
+                app:startIconTint="@android:color/holo_blue_dark">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ET_MPdesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="16"
+                    android:inputType="textPersonName"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/BTN_MPaceptar"
@@ -152,12 +174,14 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center|clip_vertical"
                 android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/draw_boton_perfil"
                 android:text="Aceptar"
                 android:textAllCaps="false"
                 android:textColor="#FDFDFD"
                 android:textSize="16sp"
                 app:backgroundTint="@null" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

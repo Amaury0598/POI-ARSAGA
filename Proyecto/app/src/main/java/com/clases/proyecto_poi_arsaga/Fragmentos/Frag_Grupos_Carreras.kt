@@ -39,15 +39,16 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
 
         val nogrupos = miViewGrupos.findViewById<TextView>(R.id.TV_nogrupos)
         val btnCrearGrupo = miViewGrupos.findViewById<FloatingActionButton>(R.id.FAB_crearGrupo)
-        nogrupos.text = "Unete a mas grupos, es genial !!"
-        if (listaGrupos.size < 3) nogrupos.visibility = (View.VISIBLE)
+        cargarLista()
+        nogrupos.text = "Únete a mas Grupos es Genial !!!"
+        if (listaGrupos.size < 3)nogrupos.visibility = (View.VISIBLE)
         else nogrupos.visibility = (View.GONE)
 
         var recycler_lista = miViewGrupos.findViewById<RecyclerView>(R.id.RV_grupos_carreras)
         val miGrid = GridLayoutManager(context, 2)
         recycler_lista.layoutManager = miGrid
         recycler_lista.adapter = adaptador_grupos_carreras
-        cargarLista()
+
 
         btnCrearGrupo.setOnClickListener {
             val intent = Intent(activity, Crear_Grupo::class.java)
@@ -80,6 +81,7 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
                                 listaGrupos.add(grupo)
                                 break
                             }
+
                         }
                     }
                     adaptador_grupos_carreras.notifyDataSetChanged()

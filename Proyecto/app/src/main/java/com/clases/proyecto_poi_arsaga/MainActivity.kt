@@ -3,8 +3,11 @@ package com.clases.proyecto_poi_arsaga
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import androidx.core.view.children
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.clases.proyecto_poi_arsaga.Fragmentos.*
@@ -12,6 +15,7 @@ import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -44,6 +48,13 @@ class MainActivity : AppCompatActivity() {
         val mibarraNav = findViewById<BottomNavigationView>(R.id.BTN_bottom_nav)
         val miDrawer = findViewById<DrawerLayout>(R.id.main_drawer)
         val mitoolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar)
+
+        val HeaderNav = miNav.getHeaderView(0)
+
+        val NombreUsuario = HeaderNav.findViewById<TextView>(R.id.HeaderNombre)
+        val ImagenUsuario =  HeaderNav.findViewById<ImageView>(R.id.BT_Headerimagen)
+        NombreUsuario.text = userActual?.nombre
+        Picasso.get().load(userActual?.imagen).into(ImagenUsuario)
 
         setSupportActionBar(mitoolbar)
 

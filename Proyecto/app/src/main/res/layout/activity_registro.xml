@@ -6,112 +6,127 @@
     android:layout_height="match_parent"
     tools:context=".Log_In">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView8"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="ARSAGA"
-            android:textSize="36sp" />
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/ET_Nombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/draw_edit_text"
-            android:ems="15"
-            android:hint="Nombre"
-            android:inputType="textPersonName"
-            android:padding="8dp"
-            android:textColor="#000000"
-            android:textColorHint="#575757" />
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:text="ARSAGA"
+                android:textSize="36sp" />
 
-        <EditText
-            android:id="@+id/ET_Correo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/draw_edit_text"
-            android:ems="15"
-            android:hint="Correo"
-            android:inputType="textPersonName"
-            android:padding="8dp"
-            android:textColor="#000000"
-            android:textColorHint="#575757" />
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:hint="Nombre"
+                app:helperText="*Requerido"
+                app:startIconDrawable="@drawable/account">
 
-        <Spinner
-            android:id="@+id/sp_carreras"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:entries="@array/array_Carreras" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ET_Nombre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="16"
+                    android:inputType="textPersonName"/>
 
-        <EditText
-            android:id="@+id/ET_Contraseña"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/draw_edit_text"
-            android:ems="15"
-            android:hint="Contraseña"
-            android:inputType="textPersonName"
-            android:padding="8dp"
-            android:textColor="#000000"
-            android:textColorHint="#575757" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/ET_Contraseña2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/draw_edit_text"
-            android:ems="15"
-            android:hint="Repita Contraseña"
-            android:inputType="textPersonName"
-            android:padding="9dp"
-            android:textColor="#000000"
-            android:textColorHint="#575757" />
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Correo"
+                app:helperText="*Requerido"
+                app:startIconDrawable="@drawable/email">
 
-        <Button
-            android:id="@+id/BT_registrarse"
-            android:layout_width="180dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/draw_boton_log"
-            android:text="Registrarse"
-            android:textAllCaps="false"
-            android:textColor="#656565"
-            android:textSize="16sp"
-            app:backgroundTint="@null" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ET_Correo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="16"
+                    android:inputType="textEmailAddress" />
 
-        <Button
-            android:id="@+id/BT_reg_iniciar"
-            android:layout_width="180dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/draw_boton_log"
-            android:text="Iniciar Sesión"
-            android:textAllCaps="false"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:visibility="gone"
-            app:backgroundTint="@null" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
+            <Spinner
+                android:id="@+id/sp_carreras"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:entries="@array/array_Carreras" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:hint="Contraseña"
+                app:endIconMode="password_toggle"
+                app:helperText="*Requerido"
+                app:startIconDrawable="@drawable/vpn_key">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ET_Contraseña"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="16"
+                    android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Repita Contraseña"
+                app:endIconMode="password_toggle"
+                app:helperText="*Requerido"
+                app:startIconDrawable="@drawable/vpn_key">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ET_Contraseña2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="16"
+                    android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/BT_registrarse"
+                android:layout_width="180dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/draw_boton_log"
+                android:text="Registrarse"
+                android:textAllCaps="false"
+                android:textColor="#656565"
+                android:textSize="16sp"
+                app:backgroundTint="@null" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
