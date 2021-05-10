@@ -111,7 +111,9 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                             adaptadorChatlistadechats.notifyDataSetChanged()
 
                         }
-                        autoCompletar()
+                        if(activity != null) {
+                            autoCompletar()
+                        }
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -233,10 +235,10 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                     }
 
                     //val correosArray: Array<String> = listaCorreos.toTypedArray()
-                    if(activity != null){
+
                     val adapter = ArrayAdapter(activity as Context, android.R.layout.simple_list_item_1, listaUsuarios);
                     AC_CHATGRUPAL.setAdapter(adapter)
-                    }
+
                 }
 
                 loading.isDismiss()

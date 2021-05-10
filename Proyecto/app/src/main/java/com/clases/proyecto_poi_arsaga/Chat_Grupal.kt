@@ -27,17 +27,19 @@ class Chat_Grupal : AppCompatActivity() {
     private var userActual: Usuario = Usuario()
     //var usuarioSeleccionado: Usuario? = null
     var ChatDirecto: ChatDirecto? = null
-    private var adaptadorChat = AdaptorChat(userActual,this, listamensajes, TipoC)
+    private var adaptadorChat = AdaptorChat(this, listamensajes, TipoC)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat__grupal)
 
-
+        userRef.child(auth.uid.toString()).get()
+                .addOnSuccessListener {
+                    userActual = it.getValue(Usuario::class.java) as Usuario
                     if(intent.extras != null){
                         //usuarioSeleccionado = intent.getSerializableExtra("UsuarioSeleccionado") as Usuario
-                        userActual = intent.getSerializableExtra("userActual") as Usuario
+                        //userActual = intent.getSerializableExtra("userActual") as Usuario
                         ChatDirecto = intent.getSerializableExtra("ChatDirecto") as ChatDirecto
                         if(ChatDirecto!!.usuario2 == "Grupal") {
                             TV_Nombre_Chat.text = ChatDirecto!!.usuario1
@@ -61,10 +63,13 @@ class Chat_Grupal : AppCompatActivity() {
                     }else{
                         TV_Nombre_Chat.text = "Desconocido"
                     }
-                    adaptadorChat = AdaptorChat(userActual,this, listamensajes, TipoC)
+                    adaptadorChat = AdaptorChat(this, listamensajes, TipoC)
                     RV_chat_grupal.adapter = adaptadorChat
 
                     cargarMensajes()
+                }
+
+
 
 
 
@@ -129,78 +134,7 @@ class Chat_Grupal : AppCompatActivity() {
 
 
         })
-       /* cargarMensajeRef.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-            }
-
-        })*/
-
-        /*cargarMensajeRef.addChildEventListener(object: ChildEventListener {
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                /*if(snapshot!!.exists()) {
-
-                    val children = snapshot.children.iterator()
-
-                    while(children.hasNext()){
-                        var de = children.next().value
-                        var esMio = children.next().value
-                        var msg = children.next().value
-                        var timeStamp = children.next().value
-
-                        val mensaje: Mensaje = Mensaje(de as String, esMio as Boolean, timeStamp, msg as String)
-                        if(mensaje.de == correoActual)
-                            mensaje.esMio = true
-                        listamensajes.add(mensaje)
-
-                    }
-
-                    adaptadorChat.notifyDataSetChanged()
-                    RV_chat_grupal.scrollToPosition(listamensajes.size - 1)
-                }*/
-            }
-
-
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                if(snapshot!!.exists()) {
-
-                    val children = snapshot.children.iterator()
-
-                    while(children.hasNext()){
-                        var de = children.next().value
-                        var esMio = children.next().value
-                        var msg = children.next().value
-                        var nombre = children.next().value
-                        var timeStamp = children.next().value
-
-                        val mensaje: Mensaje = Mensaje(de as String, nombre as String, esMio as Boolean, timeStamp, msg as String)
-                        if(mensaje.de == userActual!!.correo)
-                            mensaje.esMio = true
-                        listamensajes.add(mensaje)
-
-                    }
-                    adaptadorChat.notifyDataSetChanged()
-                    RV_chat_grupal.scrollToPosition(listamensajes.size - 1)
-                }
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-                TODO("Not yet implemented")
-            }
-
-        })*/
 
 
     }
