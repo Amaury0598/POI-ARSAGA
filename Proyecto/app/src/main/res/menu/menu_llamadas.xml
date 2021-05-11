@@ -7,15 +7,9 @@
         android:title="files"
         app:showAsAction="always">
         <menu>
-            <item
-                android:title="Imagen"
-                />
-            <item
-                android:title="Archivo"
-                />
-            <item
-                android:title="Ubicación"
-                />
+            <item android:title="Imagen" />
+            <item android:title="Archivo" />
+            <item android:title="Ubicación" />
 
 
         </menu>
@@ -24,9 +18,9 @@
     <item
         android:icon="@drawable/video_call"
         android:title="VideoLlamada"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:icon="@drawable/call"
         android:title="Llamada"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 </menu>

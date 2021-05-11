@@ -69,12 +69,6 @@ class Chat_Grupal : AppCompatActivity() {
                     cargarMensajes()
                 }
 
-
-
-
-
-
-
         BT_back_chats_grupal.setOnClickListener {
             /*val intent = Intent(this@Chat_Grupal, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -95,24 +89,17 @@ class Chat_Grupal : AppCompatActivity() {
 
                 val chatmensaje = Mensaje(userActual!!.correo, userActual!!.nombre, false, ServerValue.TIMESTAMP, mensajeEscrito)
                 agregarMensaje(chatmensaje)
-
-
-
-
             }
         }
-
     }
 
     private fun cargarMensajes(){
         var cargarMensajeRef = database.getReference().child("ChatLog").child(ChatDirecto!!.id)
 
-
         cargarMensajeRef.addValueEventListener(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
-
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot!!.exists()){
                     listamensajes.clear()
@@ -127,16 +114,8 @@ class Chat_Grupal : AppCompatActivity() {
                     RV_chat_grupal.scrollToPosition(listamensajes.size - 1)
 
                 }
-
             }
-
-
-
-
         })
-
-
-
     }
 
     private fun agregarMensaje(mensaje: Mensaje){
@@ -149,7 +128,6 @@ class Chat_Grupal : AppCompatActivity() {
             database.getReference().child("ChatDirecto").child(ChatDirecto!!.id).setValue(ChatDirecto)
         }
         TX_mensaje.text.clear()
-
     }
 
     /*override fun onBackPressed() {

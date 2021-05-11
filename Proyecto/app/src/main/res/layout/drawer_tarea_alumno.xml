@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    android:background="@drawable/draw_boton_perfil">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/IMG_TE_TA_imagen"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_margin="8dp"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/TV_TA_archivo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:layout_marginTop="16dp"
+        android:ellipsize="end"
+        android:maxEms="11"
+        android:maxLines="1"
+        android:textColor="#6BF870"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/TV_TA_nomre_alumno"
+        tools:text="Archivo Adjunto del Alumno" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="8dp"
+        android:src="@drawable/attach_file"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/IMG_TE_TA_imagen"
+        app:layout_constraintTop_toBottomOf="@+id/TV_TA_nomre_alumno"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/TV_TA_nomre_alumno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:ellipsize="end"
+        android:maxEms="10"
+        android:maxLines="1"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/IMG_TE_TA_imagen"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Nombre del Alumno" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
