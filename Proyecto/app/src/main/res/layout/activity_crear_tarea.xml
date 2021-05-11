@@ -238,7 +238,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/BT_CrearTarea"
                 android:layout_width="160dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"

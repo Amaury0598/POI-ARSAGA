@@ -114,6 +114,7 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
     override fun onitemClick(gpo: Grupos) {
 
         val intent = Intent(activity, General_Grupos::class.java)
+        intent.putExtra("Grupo", gpo)
         activity?.startActivity(intent)
         /*val intent = Intent(activity, Chat_Grupal::class.java)
         val chatDirecto=ChatDirecto()

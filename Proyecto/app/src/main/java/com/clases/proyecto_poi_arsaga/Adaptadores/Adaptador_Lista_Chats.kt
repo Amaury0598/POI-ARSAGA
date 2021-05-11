@@ -71,7 +71,7 @@ class Adaptador_Lista_Chats(private val context: Main_Frag,
 
         CNombre.text = user
         CMensaje.text = ultimoMensaje
-        CHora.text = SimpleDateFormat("hh:mm a\ndd/mm/yy", Locale.getDefault()).format(listaChatsGrupos[position].timeStamp)
+        CHora.text = SimpleDateFormat("hh:mm a\ndd/MM/YY", Locale.getDefault()).format(listaChatsGrupos[position].timeStamp)
         Picasso.get().load(fotoUser).into(CFoto)
 
         /*if(listaChatsGrupos[position].visto) Cseen.visibility = (View.VISIBLE)

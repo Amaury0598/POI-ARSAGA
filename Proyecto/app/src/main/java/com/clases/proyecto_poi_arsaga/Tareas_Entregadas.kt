@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Tareas_Entregadas
+import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Ver_Tareas_Asignadas
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_tarea_entregada.*
@@ -31,10 +32,17 @@ class Tareas_Entregadas : AppCompatActivity(), Adaptador_Tareas_Entregadas.OnPub
         val Nombre_grupo = findViewById<TextView>(R.id.TV_TE_nombre_grupo)
         val Nombre_tarea = findViewById<TextView>(R.id.TV_TE_nombre_tarea)
         val Imagen_Grupo = findViewById<ImageView>(R.id.IMG_TE_imagen)
+        val Fecha_Vencimiento = findViewById<TextView>(R.id.TV_FechaVencimiento)
+        val ARSAGA_Coins = findViewById<TextView>(R.id.TV_COINS)
+        val coins = Frag_Ver_Tareas_Asignadas.tareaSel.coins.toString()
+        val text = ARSAGA_Coins.text.toString()
+        val text_coins = "$text: $coins"
 
-        Nombre_grupo.text = intent.getStringExtra("Nombre_Grupo")
-        Nombre_tarea.text = intent.getStringExtra("Nombre_Tarea")
-        Picasso.get().load(intent.getStringExtra("Imagen_TA")).into(Imagen_Grupo)
+                Nombre_grupo.text = General_Grupos.grupoActual.nombre
+        Nombre_tarea.text = Frag_Ver_Tareas_Asignadas.tareaSel.nombre
+        Fecha_Vencimiento.text = Frag_Ver_Tareas_Asignadas.tareaSel.fecha
+        ARSAGA_Coins.text = text_coins
+        Picasso.get().load(Frag_Ver_Tareas_Asignadas.tareaSel.imagen).into(Imagen_Grupo)
 
         Back_TE.setOnClickListener {
             finish()

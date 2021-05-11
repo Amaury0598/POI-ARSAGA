@@ -9,14 +9,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Muro
 import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Ver_Tareas_Asignadas
 import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
+import com.clases.proyecto_poi_arsaga.General_Grupos
+import com.clases.proyecto_poi_arsaga.Modelos.Tareas
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.clases.proyecto_poi_arsaga.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.chats_grupos.view.*
+import org.w3c.dom.Text
 import java.util.*
 
 class Adaptador_Tareas_Asignadas(private val context: Frag_Ver_Tareas_Asignadas,
-                                 var listaTareasAsignadas:  MutableList<Usuario>,
+                                 var listaTareasAsignadas:  MutableList<Tareas>,
                                  private val itemClickListener: OnPubliClickListen) : RecyclerView.Adapter<Adaptador_Tareas_Asignadas.TLosChatViewHolder>() {
 
     class TLosChatViewHolder(View: View): RecyclerView.ViewHolder(View){
@@ -25,7 +28,7 @@ class Adaptador_Tareas_Asignadas(private val context: Frag_Ver_Tareas_Asignadas,
 
     interface OnPubliClickListen{
         //fun onitemHold(toString: String)
-        fun onitemClick(Nombre_Tarea: String, Nombre_Grupo: String, Imagen: String)
+        fun onitemClick(tareaSeleccionada: Tareas)
     }
 
     override fun getItemCount(): Int {
@@ -45,16 +48,17 @@ class Adaptador_Tareas_Asignadas(private val context: Frag_Ver_Tareas_Asignadas,
         val Tarea_Vencimiento = holder.itemView.findViewById<TextView>(R.id.TV_tarea_vencimiento)
         val Tarea_Img_Perfil = holder.itemView.findViewById<ImageView>(R.id.IMG_tareas_imagen)
 
+
         Tarea_Nombre.text = listaTareasAsignadas[position].nombre
-        Tarea_Nombre_Grupo.text = listaTareasAsignadas[position].correo
-        Tarea_Vencimiento.text = listaTareasAsignadas[position].desc
+        Tarea_Nombre_Grupo.text = General_Grupos.grupoActual.nombre
+        Tarea_Vencimiento.text = listaTareasAsignadas[position].fecha
         Picasso.get().load(listaTareasAsignadas[position].imagen).into(Tarea_Img_Perfil)
 
         holder.itemView.setOnClickListener {
             itemClickListener.onitemClick(
-                listaTareasAsignadas[position].nombre,
-                listaTareasAsignadas[position].correo,
-                listaTareasAsignadas[position].imagen) }
+                listaTareasAsignadas[position]
+                )
+        }
 
     }
 }

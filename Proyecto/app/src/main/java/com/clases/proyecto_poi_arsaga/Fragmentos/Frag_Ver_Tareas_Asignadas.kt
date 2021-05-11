@@ -15,16 +15,30 @@ import com.clases.proyecto_poi_arsaga.Modelos.*
 import com.clases.proyecto_poi_arsaga.R
 import com.clases.proyecto_poi_arsaga.Tareas_Entregadas
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.util.*
 
 class Frag_Ver_Tareas_Asignadas : Fragment(), Adaptador_Tareas_Asignadas.OnPubliClickListen {
 
-    val listaTareasAsignadas = mutableListOf<Usuario>()
+    val listaTareasAsignadas = mutableListOf<Tareas>()
+    private val database = FirebaseDatabase.getInstance();
+    private val tareaRef = database.getReference("Tareas"); //crear "rama" (tabla)
+    private val auth = FirebaseAuth.getInstance()
     val adaptadorMuro = Adaptador_Tareas_Asignadas(this, listaTareasAsignadas,this)
+    private lateinit var loading: LoadingDialogFragment
+
+    companion object{
+        var tareaSel : Tareas = Tareas()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        loading = LoadingDialogFragment(this)
+        loading.startLoading("Cargando Tareas")
 
-        CargarLista()
         val miViewGeneral =  inflater.inflate(R.layout.fragmento_tareas_asignadas, container, false)
 
         val MuroRecycler = miViewGeneral.findViewById<RecyclerView>(R.id.Recy_tareas_asignadas)
@@ -32,7 +46,7 @@ class Frag_Ver_Tareas_Asignadas : Fragment(), Adaptador_Tareas_Asignadas.OnPubli
 
         MuroRecycler.layoutManager = milinear
         MuroRecycler.adapter = adaptadorMuro
-
+        CargarLista()
         return miViewGeneral
     }
 
@@ -44,17 +58,32 @@ class Frag_Ver_Tareas_Asignadas : Fragment(), Adaptador_Tareas_Asignadas.OnPubli
 
     fun CargarLista(){
 
-        listaTareasAsignadas.add(Usuario("Biblia de Arte","Optimización de Videojuegos", "https://developer.nvidia.com/sites/default/files/akamai/gamedev/UnrealEngineLogo.jpg", "15/05/2021",""))
-        listaTareasAsignadas.add(Usuario("Análisis","Optimización de Videojuegos", "https://developer.nvidia.com/sites/default/files/akamai/gamedev/UnrealEngineLogo.jpg", "17/05/2021",""))
-        listaTareasAsignadas.add(Usuario("Modélos","Optimización de Videojuegos", "https://developer.nvidia.com/sites/default/files/akamai/gamedev/UnrealEngineLogo.jpg", "19/05/2021",""))
+        tareaRef.child(General_Grupos.grupoActual.nombre).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()) {
+                    listaTareasAsignadas.clear()
+                    for (t in snapshot.children) {
+                        val tarea = t.getValue(Tareas::class.java) as Tareas
+                        listaTareasAsignadas.add(tarea)
+                    }
+                }
+                adaptadorMuro.notifyDataSetChanged()
+                loading.isDismiss()
 
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+
+        })
     }
 
-    override fun onitemClick(Nombre_Tarea: String, Nombre_Grupo: String, Imagen: String) {
+    override fun onitemClick(tareaSeleccionada: Tareas) {
+        tareaSel = tareaSeleccionada
         val intent = Intent(activity, Tareas_Entregadas::class.java)
-        intent.putExtra("Nombre_Tarea", Nombre_Tarea)
-        intent.putExtra("Nombre_Grupo", Nombre_Grupo)
-        intent.putExtra("Imagen_TA", Imagen)
+
         activity?.startActivity(intent)
     }
 }
