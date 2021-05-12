@@ -18,15 +18,25 @@ class TareaEntregada (
         var correo: String = "",
         var nombre: String = "",
         var imagen: String = "",
-        var nombreArchivo : String = "",
-        var direccionArchivo: String = ""
+        var multimedia: MutableList<Multimedia> = mutableListOf<Multimedia>()
 ) : Serializable {
 
 }
 
+class lTareaUsuarios(
+        var listaUsuarios: MutableList<TareaUsuarios> = mutableListOf<TareaUsuarios>()
+)
+
 class TareaUsuarios(
         var correo: String = "",
         var status: String = ""
+){
+
+}
+
+class Multimedia(
+        var nombreArchivo: String ="",
+        var urlArchivo: String = ""
 ){
 
 }

@@ -6,9 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
-import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialog
-import com.clases.proyecto_poi_arsaga.Modelos.TareaUsuarios
-import com.clases.proyecto_poi_arsaga.Modelos.Tareas
+import com.clases.proyecto_poi_arsaga.Modelos.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_crear_tarea.*
@@ -22,33 +20,15 @@ class Asignar_nueva_tarea : AppCompatActivity(), DatePickerDialog.OnDateSetListe
     private val auth = FirebaseAuth.getInstance()
     private lateinit var loading : LoadingDialog
 
-    var Year = 0
-    var Month = 0
-    var Day = 0
+
 
     var SaveYear = 0
     var SaveMonth = 0
     var SaveDay = 0
 
+    //                                                  11/05/2021
+
     private lateinit var actualDate : String
-
-    private fun getActualDate():String{
-
-        val cal = Calendar.getInstance()
-        Day = cal.get(Calendar.DAY_OF_MONTH)
-        Month = cal.get(Calendar.MONTH)
-        Year = cal.get(Calendar.YEAR)
-        var fDay = Day.toString()
-        var fMonth = Month.toString()
-        if (Day < 10){
-            fDay = "0$fDay"
-        }
-        if (Month < 10) {
-            fMonth = "0$fMonth"
-        }
-        return "$fDay/$fMonth/$SaveYear"
-
-    }
 
     private fun formatDate() : String{
         var fDay = SaveDay.toString()
@@ -66,7 +46,7 @@ class Asignar_nueva_tarea : AppCompatActivity(), DatePickerDialog.OnDateSetListe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crear_tarea)
         loading = LoadingDialog(this)
-        actualDate = getActualDate()
+        actualDate = Date_ASG.getActualDate()
         val Crear = findViewById<Button>(R.id.BT_CrearTarea)
         val Back = findViewById<ImageButton>(R.id.BT_back_CT)
         val FechaLimite = findViewById<EditText>(R.id.ET_Asignar_fecha_tarea)
@@ -78,6 +58,10 @@ class Asignar_nueva_tarea : AppCompatActivity(), DatePickerDialog.OnDateSetListe
         val grupoActual = General_Grupos.grupoActual
         var tarea = Tareas()
 
+        val cal = Calendar.getInstance()
+        val Day = cal.get(Calendar.DAY_OF_MONTH)
+        val Month = cal.get(Calendar.MONTH)
+        val Year = cal.get(Calendar.YEAR)
 
         Back.setOnClickListener {
             finish()
@@ -108,13 +92,13 @@ class Asignar_nueva_tarea : AppCompatActivity(), DatePickerDialog.OnDateSetListe
                 FechaLimite.requestFocus()
                 return@setOnClickListener
             }
-            if(formatDate() < actualDate){
+            if(!Date_ASG.compareToActualDate(formatDate())){
                 FechaLimite.error = "Introduce una fecha válida"
                 FechaLimite.requestFocus()
                 return@setOnClickListener
             }
             if(checkASG_Coins.isChecked){
-                if(coins < 0){
+                if(coins < 1){
                     ASG_Coins.error = "Introduce una cantidad válida"
                     ASG_Coins.requestFocus()
                     return@setOnClickListener
@@ -127,11 +111,11 @@ class Asignar_nueva_tarea : AppCompatActivity(), DatePickerDialog.OnDateSetListe
             tarea.id = nuevaTarea.key.toString()
             nuevaTarea.setValue(tarea)
 
-            var listaTareaUsuarios = mutableListOf<TareaUsuarios>()
+            var listaTareaUsuarios = lTareaUsuarios()
             for(c in grupoActual.correo_usuarios!!){
-                listaTareaUsuarios.add(TareaUsuarios(c, "Pendiente"))
+                listaTareaUsuarios.listaUsuarios.add(TareaUsuarios(c, "Pendiente"))
             }
-            tareaUsuariosRef.child(tarea.id).setValue(listaTareaUsuarios)
+            tareaUsuariosRef.child(tarea.id).push().setValue(listaTareaUsuarios)
                     .addOnSuccessListener {
                         loading.isDismiss()
                         finish()

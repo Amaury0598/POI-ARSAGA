@@ -25,18 +25,27 @@ import java.text.FieldPosition
 
 class Frag_Estatus_tarea_grupo : Fragment(), Adaptador_Estatus_tarea_grupo.OnPubliClickListen {
 
-    val listaTareasEstatus_tarea = mutableListOf<Tareas>()
-    val listaTareasEntregadas_tarea = mutableListOf<TareaEntregada>()
-    val Estatus = 0
-    val adaptador_tareas_Pendientes = Adaptador_Estatus_tarea_grupo(0, this , listaTareasEstatus_tarea, listaTareasEntregadas_tarea, this)
-    val adaptador_tareas_Entregadas = Adaptador_Estatus_tarea_grupo(1, this , listaTareasEstatus_tarea, listaTareasEntregadas_tarea, this)
-    val adaptador_tareas_Vencidas = Adaptador_Estatus_tarea_grupo(2, this , listaTareasEstatus_tarea, listaTareasEntregadas_tarea, this)
+    lateinit private var userActual : Usuario
+    private val database = FirebaseDatabase.getInstance();
+    private val auth = FirebaseAuth.getInstance()
+    private val userRef = database.getReference("Usuarios")
+    private val tareasRef = database.getReference("Tareas")
+    private val tareasUsuariosRef = database.getReference("TareasUsuarios")
+    val listaTareasPendientes = mutableListOf<Tareas>()
+    val listaTareasEntregadas = mutableListOf<Tareas>()
+    val listaTareasNoEntregadas = mutableListOf<Tareas>()
+    private lateinit var loading : LoadingDialogFragment
+
+    val adaptador_tareas_Pendientes = Adaptador_Estatus_tarea_grupo(0, this , listaTareasPendientes, this)
+    val adaptador_tareas_Entregadas = Adaptador_Estatus_tarea_grupo(1, this , listaTareasEntregadas,  this)
+    val adaptador_tareas_Vencidas = Adaptador_Estatus_tarea_grupo(2, this , listaTareasNoEntregadas, this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val miViewGrupos =  inflater.inflate(R.layout.fragmento_lista_tareas_grupo, container, false)
+        loading = LoadingDialogFragment(this)
+        loading.startLoading("Cargando tareas")
 
-        cargarLista()
         var recycler_Pendientes = miViewGrupos.findViewById<RecyclerView>(R.id.Recy_lista_tareasPendientes_grupo)
         var recycler_Entregadas = miViewGrupos.findViewById<RecyclerView>(R.id.Recylista_tareasEntregadas_grupo)
         var recycler_Vencidas = miViewGrupos.findViewById<RecyclerView>(R.id.Recylista_tareasVencidas_grupo)
@@ -44,7 +53,11 @@ class Frag_Estatus_tarea_grupo : Fragment(), Adaptador_Estatus_tarea_grupo.OnPub
         recycler_Pendientes.adapter = adaptador_tareas_Pendientes
         recycler_Entregadas.adapter = adaptador_tareas_Entregadas
         recycler_Vencidas.adapter = adaptador_tareas_Vencidas
-
+        userRef.child(auth.uid.toString()).get()
+                .addOnSuccessListener {
+                    userActual = it.getValue(Usuario::class.java) as Usuario
+                    cargarLista()
+                }
         return miViewGrupos
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,18 +66,55 @@ class Frag_Estatus_tarea_grupo : Fragment(), Adaptador_Estatus_tarea_grupo.OnPub
     }
 
     fun cargarLista(){
+        listaTareasNoEntregadas.clear()
+        listaTareasEntregadas.clear()
+        listaTareasPendientes.clear()
+        for(tarea in General_Grupos.tareasActual) {
+            tareasUsuariosRef.child(tarea.id).addListenerForSingleValueEvent(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot.exists()){
+                        for(ltu in snapshot.children){
+                            val listaTareasUsuario = ltu.getValue(lTareaUsuarios::class.java) as lTareaUsuarios
+                            for (l in listaTareasUsuario.listaUsuarios) {
+                                if (l.correo == userActual.correo) {
+                                    when (l.status) {
+                                        "Pendiente" -> {
+                                            listaTareasPendientes.add(tarea)
+                                            adaptador_tareas_Pendientes.notifyDataSetChanged()
+                                        }
+                                        "Entregada" -> {
+                                            listaTareasEntregadas.add(tarea)
+                                            adaptador_tareas_Entregadas.notifyDataSetChanged()
+                                        }
+                                        "No Entregada" -> {
+                                            listaTareasNoEntregadas.add(tarea)
+                                            adaptador_tareas_Vencidas.notifyDataSetChanged()
+                                        }
+                                    }
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
 
-        listaTareasEstatus_tarea.add(Tareas("Videojuegos I","Modelos_2", "0", "05/05/2021", "No", 0))
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        }
+        loading.isDismiss()
+        /*listaTareasEstatus_tarea.add(Tareas("Videojuegos I","Modelos_2", "0", "05/05/2021", "No", 0))
         listaTareasEstatus_tarea.add(Tareas("Videojuegos I","Texturas", "0", "10/05/2021", "Si", 1))
-        listaTareasEstatus_tarea.add(Tareas("Videojuegos I","Luces", "0", "12/05/2021","Si", 1))
+        listaTareasEstatus_tarea.add(Tareas("Videojuegos I","Luces", "0", "12/05/2021","Si", 1))*/
 
-        listaTareasEntregadas_tarea.add(TareaEntregada("1","Audios", "Videojuegos I", "0", "16/05/2021"))
+        //listaTareasEntregadas_tarea.add(TareaEntregada("1","Audios", "Videojuegos I", "0", "16/05/2021"))
     }
 
-    override fun onitemClick(Nombre_Tarea: String, Nombre_Grupo: String) {
+    override fun onitemClick(tarea:Tareas) {
         val intent = Intent(activity, Entregar_Tarea::class.java)
-        intent.putExtra("Nombre_GRUPO", Nombre_Grupo)
-        intent.putExtra("Nombre_TAREA", Nombre_Tarea)
+        intent.putExtra("tareaActual", tarea)
         activity?.startActivity(intent)
     }
 }

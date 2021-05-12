@@ -259,7 +259,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginRight="32dp"
-                android:text="Puntos que otroga esta tarea"
+                android:text="Puntos que otorga esta tarea"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="normal|italic" />

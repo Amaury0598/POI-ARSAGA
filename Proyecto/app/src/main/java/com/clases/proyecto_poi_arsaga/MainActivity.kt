@@ -3,6 +3,7 @@ package com.clases.proyecto_poi_arsaga
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -118,6 +119,17 @@ class MainActivity : AppCompatActivity() {
                     userActual = it.getValue(Usuario::class.java) as Usuario
                     NombreUsuario.text = userActual?.nombre
                     Picasso.get().load(userActual?.imagen).into(ImagenUsuario)
+                    //cambiarFragmento(Frag_Grupos_Carreras(), "Grupos")
                 }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("status", "conectado")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("status", "desconectado")
     }
 }

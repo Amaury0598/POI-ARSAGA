@@ -13,16 +13,27 @@ import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Estatus_tarea_grupo
 import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Muro
 import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Ver_Tareas_Asignadas
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
+import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialog
+import com.clases.proyecto_poi_arsaga.Modelos.Tareas
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class General_Grupos : AppCompatActivity() {
 
-    private var auth = FirebaseAuth.getInstance()
+    private val database = FirebaseDatabase.getInstance();
+    private val auth = FirebaseAuth.getInstance()
+    private val userRef = database.getReference("Usuarios")
+    private val tareasRef = database.getReference("Tareas")
+    private lateinit var loading : LoadingDialog
 
     companion object{
         var grupoActual = Grupos()
+        var tareasActual = mutableListOf<Tareas>()
     }
 
     fun cambiarFragmento(FragmentoNuevo: Fragment, tag: String){
@@ -37,6 +48,8 @@ class General_Grupos : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        loading = LoadingDialog(this)
+        loading.startLoading("Cargando datos")
         setContentView(R.layout.activity_general_grupos)
         if(intent != null)
             grupoActual = intent.getSerializableExtra("Grupo") as Grupos
@@ -95,6 +108,28 @@ class General_Grupos : AppCompatActivity() {
             }
             true
         }
+        cargarTareasGrupo()
+    }
+
+    private fun cargarTareasGrupo(){
+        tareasRef.child(grupoActual.nombre)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            for (t in snapshot.children) {
+                                val tarea = t.getValue(Tareas::class.java) as Tareas
+                                tareasActual.add(tarea)
+
+                            }
+                        }
+                        loading.isDismiss()
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
     }
 
 }
