@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Estatus_tarea_grupo
 import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Muro
 import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Ver_Tareas_Asignadas
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
@@ -59,7 +60,7 @@ class General_Grupos : AppCompatActivity() {
             when(it.itemId){
 
                 R.id.Gen_Tareas -> {
-
+                    cambiarFragmento(Frag_Estatus_tarea_grupo(), "Tareas por Grupo")
                 }
                 R.id.Gen_Muro -> {
                     cambiarFragmento(Frag_Muro(), "Muro")

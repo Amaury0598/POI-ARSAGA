@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoPOIARSAGA">
-        <activity android:name=".Asignar_nueva_tarea"></activity>
+        <activity android:name=".Entregar_Tarea"></activity>
+        <activity android:name=".Asignar_nueva_tarea" />
         <activity android:name=".Tareas_Entregadas" />
         <activity android:name=".General_Grupos" />
         <activity android:name=".Crear_Grupo" />
