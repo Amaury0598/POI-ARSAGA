@@ -81,7 +81,17 @@ class Frag_Estatus_tarea_grupo : Fragment(), Adaptador_Estatus_tarea_grupo.OnPub
                                         if(snapshot.exists()){
                                             for(ltu in snapshot.children){
                                                 val listaTareasUsuario = ltu.getValue(lTareaUsuarios::class.java) as lTareaUsuarios
+                                                if(!Date_ASG.compareToActualDate(listaTareasUsuario.fecha)){
+                                                    var j = 0
+                                                    for (l in listaTareasUsuario.listaUsuarios) {
+                                                        if(l.status == "Pendiente")
+                                                            listaTareasUsuario.listaUsuarios[j].status = "No Entregada"
+                                                        j++
+                                                    }
+                                                    tareasUsuariosRef.child(tarea.id).child(listaTareasUsuario.id).setValue(listaTareasUsuario)
+                                                }
                                                 for (l in listaTareasUsuario.listaUsuarios) {
+
                                                     if (l.correo == userActual.correo) {
                                                         when (l.status) {
                                                             "Pendiente" -> {

@@ -42,12 +42,13 @@ class Entregar_Tarea : AppCompatActivity() {
     private var uri = mutableListOf<Uri>()
     private lateinit var nameFile : String
     private lateinit var loading: LoadingDialog
+    private var sePagaConCoins : Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entregar_tarea)
         loading = LoadingDialog(this)
         loading.startLoading("Cargando datos")
-        var estatus = intent.getIntExtra("estatus",3)
+        var estatus = intent.getIntExtra("estatus",4)
 
 
         userRef.child(auth.uid.toString()).get()
@@ -56,17 +57,20 @@ class Entregar_Tarea : AppCompatActivity() {
                     when(estatus){
                         0 -> {
                             Pendiente()
-                            Toast.makeText(this, "Pendiente", Toast.LENGTH_SHORT).show()
+
                         }
                         1 -> {
                             Entregada()
-                            Toast.makeText(this, "Entregada", Toast.LENGTH_SHORT).show()
+
                         }
                         2 -> {
                             No_Entregada()
-                            Toast.makeText(this, "No Entregada", Toast.LENGTH_SHORT).show()
+
                         }
                         3 -> {
+                            VerTarea()
+                        }
+                        4 ->{
                             finish()
                         }
                     }
@@ -111,6 +115,69 @@ class Entregar_Tarea : AppCompatActivity() {
         TV_Entrega_Vencimiento.text = tarea.fecha
         TV_Entrega_Coins.text = TV_Entrega_Coins.text.toString() + tarea.coins
         Picasso.get().load(General_Grupos.grupoActual.foto).into(IMG_Entrega_imagen)
+    }
+
+    private fun VerTarea(){
+        archivos.clear()
+        var downloadID : Long = 0
+
+
+        var tarea = intent.getSerializableExtra("tareaActual") as Tareas
+        var correo = intent.getStringExtra("correo")
+        BT_back_EntregarT.setOnClickListener {
+            finish()
+        }
+
+        TV_Entrega_Archivo.visibility = View.GONE
+        imageView3.visibility = View.GONE
+
+        BTN_Entregar_Tarea.visibility = View.GONE
+
+        TV_Entrega_nombre_tarea.text = tarea.nombre
+        TV_Entrega_nombre_grupo.text = General_Grupos.grupoActual.nombre
+        TV_Entrega_Decripcion.text = tarea.desc
+        TV_Entrega_Vencimiento.text = tarea.fecha
+        TV_Entrega_Coins.text = TV_Entrega_Coins.text.toString() + tarea.coins
+        Picasso.get().load(General_Grupos.grupoActual.foto).into(IMG_Entrega_imagen)
+        tareasEntregadasRef.child(tarea.id).addListenerForSingleValueEvent(object:ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(it in snapshot.children){
+                    val tareaEnt = it.getValue(TareaEntregada::class.java) as TareaEntregada
+                    if(tareaEnt.correo == userActual.correo){
+                        for(m in tareaEnt.multimedia){
+                            //AQUÍ VAN LAS COSAS DEL POSIBLE RECYCLER PARA MÚLTIPLES TAREAS
+                            TV_Entrega_Nombre_Archivo.text = m.nombreArchivo
+                            TV_Entrega_Url_Archivo.text = m.urlArchivo
+                            TV_Entrega_Nombre_Archivo.setTextColor(Color.parseColor("#00CBE6"))
+                        }
+                        break
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+        //SI SE HARÁ EN UN RECYCLER VIEW, ESTO SERÍA EL ONITEMCLICK
+        TV_Entrega_Nombre_Archivo.setOnClickListener {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+
+                    requestPermissions(arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), STORAGE_PERMISSION_CODE)
+                }else{
+                    startDownloading()
+                }
+            }else{
+                startDownloading()
+            }
+        }
+
+
+
+
     }
 
     private fun Entregada(){
@@ -228,8 +295,36 @@ class Entregar_Tarea : AppCompatActivity() {
         TV_Entrega_Vencimiento.text = tarea.fecha
         TV_Entrega_Coins.text = TV_Entrega_Coins.text.toString() + tarea.coins
         Picasso.get().load(General_Grupos.grupoActual.foto).into(IMG_Entrega_imagen)
-        TV_Entrega_Nombre_Archivo.text = "EntregarArchivo"
+        TV_Entrega_Nombre_Archivo.text = ""
         TV_Entrega_Nombre_Archivo.setTextColor(Color.parseColor("#00CBE6"))
+        sePagaConCoins = Date_ASG.compareToActualDate(tarea.fecha)
+        if(sePagaConCoins){
+            BTN_Entregar_Tarea_Coins.visibility = View.VISIBLE
+            TV_Entrega_Nombre_Archivo.visibility = View.VISIBLE
+            nameFile = ""
+
+            BTN_Entregar_Tarea_Coins.setOnClickListener {
+                if(archivos.isEmpty()){
+                    TV_Entrega_Archivo.setTextColor(Color.parseColor("#C70039"))
+                    Toast.makeText(this, "Escoge el archivo a subir", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                if(userActual.coins < 100){
+                    Toast.makeText(this, "Debes contar con 100 ASG Coins", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                userActual.coins -= 100
+                loading.startLoading("Entregando Tarea")
+                addToStorage(tarea)
+            }
+
+            TV_Entrega_Archivo.setOnClickListener {
+                val F_intent = Intent(Intent.ACTION_GET_CONTENT)
+                F_intent.type = "*/*"
+                startActivityForResult(F_intent, 1)
+            }
+        }
+
     }
 
     private fun addToStorage(tarea : Tareas){
@@ -254,7 +349,7 @@ class Entregar_Tarea : AppCompatActivity() {
     }
 
     private fun updateData(tarea: Tareas){
-        val tareaEntrega = TareaEntregada(tarea.id, userActual.correo, userActual.nombre, General_Grupos.grupoActual.foto, archivos)
+        val tareaEntrega = TareaEntregada(tarea.id, userActual.correo, userActual.nombre, userActual.imagen, archivos)
         tareasEntregadasRef.child(tarea.id).push().setValue(tareaEntrega)
         userActual.coins += tarea.coins
         userRef.child(auth.uid.toString()).setValue(userActual)
@@ -273,7 +368,10 @@ class Entregar_Tarea : AppCompatActivity() {
                 tareasUsuariosRef.child(tarea.id).child(tareasUsuarios.id).setValue(tareasUsuarios)
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
+                                if(sePagaConCoins)
+                                    userRef.child(auth.uid.toString()).setValue(userRef)
                                 loading.isDismiss()
+
                                 finish()
                             }
                         }

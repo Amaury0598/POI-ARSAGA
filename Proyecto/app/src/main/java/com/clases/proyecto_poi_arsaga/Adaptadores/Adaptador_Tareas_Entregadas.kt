@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Muro
 import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Ver_Tareas_Asignadas
 import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
+import com.clases.proyecto_poi_arsaga.Modelos.TareaEntregada
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.clases.proyecto_poi_arsaga.R
 import com.clases.proyecto_poi_arsaga.Tareas_Entregadas
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.chats_grupos.view.*
 import java.util.*
 
 class Adaptador_Tareas_Entregadas(private val context: Tareas_Entregadas,
-                                  var listaTareasEntregadas:  MutableList<Usuario>,
+                                  var listaTareasEntregadas:  MutableList<TareaEntregada>,
                                   private val itemClickListener: OnPubliClickListen) : RecyclerView.Adapter<Adaptador_Tareas_Entregadas.TLosChatViewHolder>() {
 
     class TLosChatViewHolder(View: View): RecyclerView.ViewHolder(View){
@@ -26,7 +27,7 @@ class Adaptador_Tareas_Entregadas(private val context: Tareas_Entregadas,
 
     interface OnPubliClickListen{
         //fun onitemHold(toString: String)
-        //fun onitemClick(Nombre_Tarea: String, Nombre_Grupo: String)
+        fun onitemClick(tareaEnt: TareaEntregada)
     }
 
     override fun getItemCount(): Int {
@@ -46,8 +47,14 @@ class Adaptador_Tareas_Entregadas(private val context: Tareas_Entregadas,
         val TareaA_Img_Perfil = holder.itemView.findViewById<ImageView>(R.id.IMG_TE_TA_imagen)
 
         TareaA_Nombre.text = listaTareasEntregadas[position].nombre
-        TareaA_Nombre_Grupo.text = listaTareasEntregadas[position].correo
+        TareaA_Nombre_Grupo.text = listaTareasEntregadas[position].multimedia[0].nombreArchivo
         Picasso.get().load(listaTareasEntregadas[position].imagen).into(TareaA_Img_Perfil)
+
+        holder.itemView.setOnClickListener {
+            itemClickListener.onitemClick(
+                    listaTareasEntregadas[position]
+            )
+        }
 
     }
 }

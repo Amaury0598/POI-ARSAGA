@@ -70,7 +70,7 @@
                 android:textSize="26sp" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/TV_NombreGrupo_AT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -120,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Nombre de Tarea"
+                android:hint="Descripción de la Tarea"
                 app:helperText="*Requerido"
                 app:startIconDrawable="@drawable/edit"
                 app:startIconTint="@android:color/holo_blue_dark">

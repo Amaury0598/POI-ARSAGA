@@ -25,6 +25,7 @@ class TareaEntregada (
 
 class lTareaUsuarios(
         var id : String = "",
+        var fecha : String = "",
         var listaUsuarios: MutableList<TareaUsuarios> = mutableListOf<TareaUsuarios>()
 )
 

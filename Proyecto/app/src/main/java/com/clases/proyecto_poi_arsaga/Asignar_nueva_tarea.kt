@@ -54,8 +54,10 @@ class Asignar_nueva_tarea : AppCompatActivity(), DatePickerDialog.OnDateSetListe
         val descTarea = findViewById<EditText>(R.id.ET_Asignar_descripcion_tarea)
         val checkASG_Coins = findViewById<CheckBox>(R.id.checkBox3)
         val ASG_Coins = findViewById<EditText>(R.id.ET_Asignar_cantidad)
+        val nombreGrupo = findViewById<TextView>(R.id.TV_NombreGrupo_AT)
 
         val grupoActual = General_Grupos.grupoActual
+        nombreGrupo.text = grupoActual.nombre
         var tarea = Tareas()
 
         val cal = Calendar.getInstance()
@@ -112,6 +114,7 @@ class Asignar_nueva_tarea : AppCompatActivity(), DatePickerDialog.OnDateSetListe
             nuevaTarea.setValue(tarea)
 
             var listaTareaUsuarios = lTareaUsuarios()
+            listaTareaUsuarios.fecha = tarea.fecha
             for(c in grupoActual.correo_usuarios!!){
                 listaTareaUsuarios.listaUsuarios.add(TareaUsuarios(c, "Pendiente"))
             }

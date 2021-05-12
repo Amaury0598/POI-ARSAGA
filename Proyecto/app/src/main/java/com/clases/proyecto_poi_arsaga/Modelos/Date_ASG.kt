@@ -29,17 +29,38 @@ class Date_ASG(
             val fDay = date.substring(0,2)
             val fMonth = date.substring(3,5)
             val fYear = date.substring(6,10)
-            val dateInt = fYear+fMonth+fDay
+            val dateString = fYear+fMonth+fDay
+            val dateInt = dateString.toInt()
             //                                          11/05/2021 => 20210511
 
             val aDay = actualDate.substring(0,2)
             val aMonth = actualDate.substring(3,5)
             val aYear = actualDate.substring(6,10)
-            val aDateInt = aYear+aMonth+aDay
+            val aDateString = aYear+aMonth+aDay
+            val aDateInt = aDateString.toInt()
 
-            return dateInt > aDateInt
+            return dateInt >= aDateInt
 
 
+        }
+
+        fun canPayWithASGCoins(date : String): Boolean {
+            val actualDate = getActualDate()
+            val fDay = date.substring(0,2)
+            val fMonth = date.substring(3,5)
+            val fYear = date.substring(6,10)
+            val dateString = fYear+fMonth+fDay
+            val dateInt = dateString.toInt()
+            dateInt + 1
+            //                                          11/05/2021 => 20210511
+
+            val aDay = actualDate.substring(0,2)
+            val aMonth = actualDate.substring(3,5)
+            val aYear = actualDate.substring(6,10)
+            val aDateString = aYear+aMonth+aDay
+            val aDateInt = aDateString.toInt()
+
+            return dateInt >= aDateInt
         }
     }
 

@@ -83,6 +83,7 @@ class Frag_Ver_Tareas_Asignadas : Fragment(), Adaptador_Tareas_Asignadas.OnPubli
     override fun onitemClick(tareaSeleccionada: Tareas) {
         tareaSel = tareaSeleccionada
         val intent = Intent(activity, Tareas_Entregadas::class.java)
+        intent.putExtra("tarea", tareaSel)
 
         activity?.startActivity(intent)
     }

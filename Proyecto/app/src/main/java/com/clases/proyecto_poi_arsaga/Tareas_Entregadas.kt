@@ -1,5 +1,6 @@
 package com.clases.proyecto_poi_arsaga
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
@@ -8,7 +9,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Tareas_Entregadas
 import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Ver_Tareas_Asignadas
+import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialog
+import com.clases.proyecto_poi_arsaga.Modelos.TareaEntregada
+import com.clases.proyecto_poi_arsaga.Modelos.Tareas
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_tarea_entregada.*
 import kotlinx.android.synthetic.main.drawer_tarea_alumno.*
@@ -16,14 +24,22 @@ import kotlinx.android.synthetic.main.drawer_tareas.*
 
 class Tareas_Entregadas : AppCompatActivity(), Adaptador_Tareas_Entregadas.OnPubliClickListen {
 
-    val listatareasentregadas = mutableListOf<Usuario>()
+    val listatareasentregadas = mutableListOf<TareaEntregada>()
     val adaptadortareasentregadas = Adaptador_Tareas_Entregadas(this, listatareasentregadas, this)
+    private lateinit var tarea : Tareas
+    private val database = FirebaseDatabase.getInstance();
+    private val tareasEntregadasRef = database.getReference("TareasEntregadas");
+    private lateinit var loading : LoadingDialog
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tarea_entregada)
+        loading = LoadingDialog(this)
+        loading.startLoading("Cargando tareas")
 
-        CargarLista()
+        tarea = intent.getSerializableExtra("tarea") as Tareas
+
 
         val RecyTareasEntregadas = findViewById<RecyclerView>(R.id.Recy_Tareas_entregadas)
         RecyTareasEntregadas.adapter = adaptadortareasentregadas
@@ -47,14 +63,37 @@ class Tareas_Entregadas : AppCompatActivity(), Adaptador_Tareas_Entregadas.OnPub
         Back_TE.setOnClickListener {
             finish()
         }
+        CargarLista()
     }
 
     fun CargarLista(){
 
-        listatareasentregadas.add(Usuario("Javier","Hola, como estas", "https://cdn.icon-icons.com/icons2/2620/PNG/512/among_us_player_pink_icon_156938.png", "Hola@outloock.com", ""))
-        listatareasentregadas.add(Usuario("El Rasho MacQueen la Machina mas veloz del mundo","Kuchau", "https://i.pinimg.com/236x/8c/5a/bb/8c5abb828846c4f963d84592197c6268.jpg", "Adios@outloock.com", ""))
-        listatareasentregadas.add(Usuario("Oliver","Mis piernas !!!", "https://i.pinimg.com/236x/62/c6/7b/62c67bbea0fc21565df13b5b1998b56a.jpg", "Hola@outloock.com", ""))
-        listatareasentregadas.add(Usuario("Benito","yipi yipi yipiy kejeje asdwajdjwa dwajdwadaw", "https://cdn.icon-icons.com/icons2/2620/PNG/512/among_us_player_pink_icon_156938.png", "Adios@outloock.com", ""))
+        tareasEntregadasRef.child(tarea.id).addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    listatareasentregadas.clear()
+                    for (te in snapshot.children){
+                        val tareaEnt = te.getValue(TareaEntregada::class.java) as TareaEntregada
+                        listatareasentregadas.add(tareaEnt)
+                    }
+                }
+                adaptadortareasentregadas.notifyDataSetChanged()
+                loading.isDismiss()
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+    }
+
+    override fun onitemClick(tareaEnt: TareaEntregada) {
+        val intent = Intent(this, Entregar_Tarea::class.java)
+        intent.putExtra("tareaActual", tarea)
+        intent.putExtra("correo", tareaEnt.correo)
+        intent.putExtra("estatus", 1)
+        startActivity(intent)
     }
 }
