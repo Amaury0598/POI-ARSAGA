@@ -8,7 +8,8 @@ class Usuario (
         var correo: String = "",
         var imagen: String = "",
         var desc: String = "",
-        var carrera: String = ""
+        var carrera: String = "",
+        var coins: Int = 0
 ) : Serializable {
     override fun toString(): String {
         return nombre

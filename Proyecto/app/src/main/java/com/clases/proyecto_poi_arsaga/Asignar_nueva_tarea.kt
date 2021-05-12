@@ -115,7 +115,9 @@ class Asignar_nueva_tarea : AppCompatActivity(), DatePickerDialog.OnDateSetListe
             for(c in grupoActual.correo_usuarios!!){
                 listaTareaUsuarios.listaUsuarios.add(TareaUsuarios(c, "Pendiente"))
             }
-            tareaUsuariosRef.child(tarea.id).push().setValue(listaTareaUsuarios)
+            val key = tareaUsuariosRef.child(tarea.id).push()
+            listaTareaUsuarios.id = key.key.toString()
+            key.setValue(listaTareaUsuarios)
                     .addOnSuccessListener {
                         loading.isDismiss()
                         finish()

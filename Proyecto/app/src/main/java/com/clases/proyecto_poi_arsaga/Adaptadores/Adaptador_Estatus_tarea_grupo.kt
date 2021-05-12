@@ -27,7 +27,7 @@ class Adaptador_Estatus_tarea_grupo(private val Estatus: Int,
 
     interface OnPubliClickListen{
         //fun onitemHold(toString: String)
-        fun onitemClick(tarea: Tareas)
+        fun onitemClick(tarea: Tareas, estatus: Int)
     }
 
     override fun getItemCount(): Int {
@@ -64,7 +64,7 @@ class Adaptador_Estatus_tarea_grupo(private val Estatus: Int,
 
         if(Estatus == 0){ //Estatus = ¿Ya entrego la tarea? coins = ¿Ya vencio?
             holder.itemView.setOnClickListener {
-                itemClickListener.onitemClick(listaTareasEstatus_tarea[position])
+                itemClickListener.onitemClick(listaTareasEstatus_tarea[position], Estatus)
             }
             //if(listaTareasEstatus_tarea[position].coins == 1) { //Pendientes
                 ETarea_Nombre_Grupo.text = General_Grupos.grupoActual.nombre
@@ -82,7 +82,7 @@ class Adaptador_Estatus_tarea_grupo(private val Estatus: Int,
 
         if(Estatus == 1){
             holder.itemView.setOnClickListener {
-                itemClickListener.onitemClick(listaTareasEstatus_tarea[position])
+                itemClickListener.onitemClick(listaTareasEstatus_tarea[position], Estatus)
             }
             ETarea_Nombre_Grupo.text = General_Grupos.grupoActual.nombre
             ETarea_Nombre_Tarea.text = listaTareasEstatus_tarea[position].nombre
@@ -94,7 +94,7 @@ class Adaptador_Estatus_tarea_grupo(private val Estatus: Int,
 
         if(Estatus == 2){
             holder.itemView.setOnClickListener {
-                itemClickListener.onitemClick(listaTareasEstatus_tarea[position])
+                itemClickListener.onitemClick(listaTareasEstatus_tarea[position], Estatus)
             }
             /*if(listaTareasEstatus_tarea[position].coins == 0){*/
                 ETarea_Nombre_Grupo.text = General_Grupos.grupoActual.nombre

@@ -33,7 +33,6 @@ class General_Grupos : AppCompatActivity() {
 
     companion object{
         var grupoActual = Grupos()
-        var tareasActual = mutableListOf<Tareas>()
     }
 
     fun cambiarFragmento(FragmentoNuevo: Fragment, tag: String){
@@ -49,7 +48,7 @@ class General_Grupos : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loading = LoadingDialog(this)
-        loading.startLoading("Cargando datos")
+
         setContentView(R.layout.activity_general_grupos)
         if(intent != null)
             grupoActual = intent.getSerializableExtra("Grupo") as Grupos
@@ -108,28 +107,10 @@ class General_Grupos : AppCompatActivity() {
             }
             true
         }
-        cargarTareasGrupo()
+
     }
 
-    private fun cargarTareasGrupo(){
-        tareasRef.child(grupoActual.nombre)
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.exists()) {
-                            for (t in snapshot.children) {
-                                val tarea = t.getValue(Tareas::class.java) as Tareas
-                                tareasActual.add(tarea)
 
-                            }
-                        }
-                        loading.isDismiss()
-                    }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
-                    }
-
-                })
-    }
 
 }

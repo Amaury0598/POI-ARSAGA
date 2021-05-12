@@ -66,10 +66,63 @@ class Frag_Estatus_tarea_grupo : Fragment(), Adaptador_Estatus_tarea_grupo.OnPub
     }
 
     fun cargarLista(){
-        listaTareasNoEntregadas.clear()
-        listaTareasEntregadas.clear()
-        listaTareasPendientes.clear()
-        for(tarea in General_Grupos.tareasActual) {
+
+        tareasRef.child(General_Grupos.grupoActual.nombre)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            listaTareasNoEntregadas.clear()
+                            listaTareasEntregadas.clear()
+                            listaTareasPendientes.clear()
+                            for (t in snapshot.children) {
+                                val tarea = t.getValue(Tareas::class.java) as Tareas
+                                tareasUsuariosRef.child(tarea.id).addListenerForSingleValueEvent(object: ValueEventListener{
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        if(snapshot.exists()){
+                                            for(ltu in snapshot.children){
+                                                val listaTareasUsuario = ltu.getValue(lTareaUsuarios::class.java) as lTareaUsuarios
+                                                for (l in listaTareasUsuario.listaUsuarios) {
+                                                    if (l.correo == userActual.correo) {
+                                                        when (l.status) {
+                                                            "Pendiente" -> {
+                                                                listaTareasPendientes.add(tarea)
+                                                                adaptador_tareas_Pendientes.notifyDataSetChanged()
+                                                            }
+                                                            "Entregada" -> {
+                                                                listaTareasEntregadas.add(tarea)
+                                                                adaptador_tareas_Entregadas.notifyDataSetChanged()
+                                                            }
+                                                            "No Entregada" -> {
+                                                                listaTareasNoEntregadas.add(tarea)
+                                                                adaptador_tareas_Vencidas.notifyDataSetChanged()
+                                                            }
+                                                        }
+                                                        break
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+                                        TODO("Not yet implemented")
+                                    }
+
+                                })
+
+                            }
+                        }
+                        loading.isDismiss()
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
+
+
+        /*for(tarea in General_Grupos.tareasActual) {
             tareasUsuariosRef.child(tarea.id).addListenerForSingleValueEvent(object: ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if(snapshot.exists()){
@@ -103,8 +156,8 @@ class Frag_Estatus_tarea_grupo : Fragment(), Adaptador_Estatus_tarea_grupo.OnPub
                 }
 
             })
-        }
-        loading.isDismiss()
+        }*/
+
         /*listaTareasEstatus_tarea.add(Tareas("Videojuegos I","Modelos_2", "0", "05/05/2021", "No", 0))
         listaTareasEstatus_tarea.add(Tareas("Videojuegos I","Texturas", "0", "10/05/2021", "Si", 1))
         listaTareasEstatus_tarea.add(Tareas("Videojuegos I","Luces", "0", "12/05/2021","Si", 1))*/
@@ -112,9 +165,10 @@ class Frag_Estatus_tarea_grupo : Fragment(), Adaptador_Estatus_tarea_grupo.OnPub
         //listaTareasEntregadas_tarea.add(TareaEntregada("1","Audios", "Videojuegos I", "0", "16/05/2021"))
     }
 
-    override fun onitemClick(tarea:Tareas) {
+    override fun onitemClick(tarea:Tareas, estatus: Int) {
         val intent = Intent(activity, Entregar_Tarea::class.java)
         intent.putExtra("tareaActual", tarea)
+        intent.putExtra("estatus", estatus)
         activity?.startActivity(intent)
     }
 }

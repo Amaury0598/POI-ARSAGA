@@ -80,7 +80,7 @@ class Registro : AppCompatActivity() {
                     if(it.isSuccessful) {
                         Toast.makeText(this@Registro, "Se ha registrado con éxito", Toast.LENGTH_SHORT).show()
                         val grupo: String = sp_carreras.selectedItem.toString()
-                        val u:Usuario = Usuario(nombre, correo, defaultImage, defaultDesc, grupo)
+                        val u:Usuario = Usuario(nombre, correo, defaultImage, defaultDesc, grupo, 0)
                         userRef.child(auth.currentUser.uid).setValue(u)
 
                         agregarUsuarioGrupo(u)
