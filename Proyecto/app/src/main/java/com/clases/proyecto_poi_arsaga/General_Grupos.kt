@@ -11,10 +11,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.PopupWindow
-import android.widget.RelativeLayout
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -78,6 +75,10 @@ class General_Grupos : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoCli
         else
             finish()
 
+        val animation = AnimationUtils.loadAnimation(this, R.anim.dialog_itegrantes)
+        val animation2 = AnimationUtils.loadAnimation(this, R.anim.dialog_itegrantes_2)
+        val animationout = AnimationUtils.loadAnimation(this, R.anim.dialog_integrantes_out)
+
         val BarraGrupos = findViewById<BottomNavigationView>(R.id.BTN_bottom_nav_Grupos)
         val Back_General = findViewById<ImageButton>(R.id.BT_back_Gen)
         val MenuTareas = findViewById<Toolbar>(R.id.menu_Gen)
@@ -120,21 +121,82 @@ class General_Grupos : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoCli
                 }
                 R.id.menu_crear_subgrupo -> {
 
-                }
-                R.id.menu_modificar_grupo -> {
+                    val DialogView_SB = layoutInflater.inflate(R.layout.dialog_crear_subgrupo, null)
+                    val Dialog_Agregar_SB = android.app.AlertDialog.Builder(this).setView(DialogView_SB)
 
-                    val animation = AnimationUtils.loadAnimation(this, R.anim.dialog_itegrantes)
-                    val animation2 = AnimationUtils.loadAnimation(this, R.anim.dialog_itegrantes_2)
-                    val animationout = AnimationUtils.loadAnimation(this, R.anim.dialog_integrantes_out)
+                    val LayDialog = DialogView_SB.findViewById<RelativeLayout>(R.id.Dialog_Subgrupo)
+                    val Edit_Nombre_SB = DialogView_SB.findViewById<TextInputLayout>(R.id.Content_Edit_SG)
+                    val Agregar_I_SB = DialogView_SB.findViewById<Button>(R.id.BTN_Agregar_I_Subgrupo)
+                    val Aceptar_SB = DialogView_SB.findViewById<Button>(R.id.BTN_Aceptar_C_Subgrupo)
+
+                    Edit_Nombre_SB.startAnimation(animation)
+                    LayDialog.startAnimation(animation2)
+                    Agregar_I_SB.startAnimation(animation2)
+                    Aceptar_SB.startAnimation(animation2)
+
+                    val AlertSB = Dialog_Agregar_SB.show()
+
+                    Agregar_I_SB.setOnClickListener {
+
+                        val DialogView_AIntregrantes = layoutInflater.inflate(R.layout.dialog_integrantes, null)
+                        val Dialog_Elegir_I = android.app.AlertDialog.Builder(this).setView(DialogView_AIntregrantes)
+
+                        val LayDialog_I = DialogView_AIntregrantes.findViewById<RelativeLayout>(R.id.RelLay_Dialog)
+                        val Recy_Agregar_I = DialogView_AIntregrantes.findViewById<RecyclerView>(R.id.Dialog_Recycler_Integrantes)
+                        val Aceptar_I = DialogView_AIntregrantes.findViewById<Button>(R.id.BTN_Aceptar_integrantes)
+
+                        Recy_Agregar_I.layoutManager = LinearLayoutManager(this);
+
+                        //Recy_Agregar_I.adapter = AdaptIntegrantes  Adaptador
+
+                        Recy_Agregar_I.startAnimation(animation)
+                        LayDialog_I.startAnimation(animation2)
+                        Aceptar_I.startAnimation(animation2)
+
+                        val Alert_AI = Dialog_Elegir_I.show()
+
+                        Aceptar_I.setOnClickListener {
+
+                        }
+
+                        Alert_AI.window?.setBackgroundDrawable((ColorDrawable(Color.TRANSPARENT)))
+
+                        Aceptar_I.setOnClickListener {
+
+                            Recy_Agregar_I.startAnimation(animationout)
+                            LayDialog_I.startAnimation(animationout)
+                            Aceptar_I.startAnimation(animationout)
+                            Alert_AI.dismiss()
+
+                        }
+                    }
+
+                    AlertSB.window?.setBackgroundDrawable((ColorDrawable(Color.TRANSPARENT)))
+
+                    Aceptar_SB.setOnClickListener {
+
+                        Edit_Nombre_SB.startAnimation(animationout)
+                        LayDialog.startAnimation(animationout)
+                        Agregar_I_SB.startAnimation(animationout)
+                        Aceptar_SB.startAnimation(animationout)
+                        AlertSB.dismiss()
+                    }
+                }
+
+                R.id.menu_modificar_grupo -> {
 
                     val DialogView_A = layoutInflater.inflate(R.layout.dialog_modificar_integrantes, null)
                     val Dialog_Agregar_I = android.app.AlertDialog.Builder(this).setView(DialogView_A)
 
-
                     val RDialog = DialogView_A.findViewById<RelativeLayout>(R.id.RelLay_DialogAgregar)
+                    val Recy_Agregar_I = DialogView_A.findViewById<RecyclerView>(R.id.Dialog_Recycler_Integrantes)
                     val Aceptar = DialogView_A.findViewById<Button>(R.id.BTN_Aceptar_A_integrantes)
 
+                    Recy_Agregar_I.layoutManager = LinearLayoutManager(this);
 
+                    //Recy_Agregar_I.adapter = AdaptIntegrantes  Adaptador
+
+                    Recy_Agregar_I.startAnimation(animation)
                     RDialog.startAnimation(animation2)
                     Aceptar.startAnimation(animation2)
                     val AlertD = Dialog_Agregar_I.show()
@@ -143,13 +205,11 @@ class General_Grupos : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoCli
 
                     Aceptar.setOnClickListener {
 
-
+                        Recy_Agregar_I.startAnimation(animationout)
                         RDialog.startAnimation(animationout)
                         Aceptar.startAnimation(animationout)
                         AlertD.dismiss()
-
                     }
-
                 }
                 else -> {
 
