@@ -1,16 +1,31 @@
 package com.clases.proyecto_poi_arsaga.Fragmentos
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.Button
+import android.widget.PopupWindow
+import android.widget.RelativeLayout
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ColorStateListInflaterCompat.inflate
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Muro_General
 import com.clases.proyecto_poi_arsaga.Modelos.*
 import com.clases.proyecto_poi_arsaga.R
+import com.clases.proyecto_poi_arsaga.databinding.ActivityChatGrupalBinding.inflate
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_crear_tarea.*
 import java.util.*
 
 class Frag_Muro : Fragment(), Adaptador_Muro_General.OnPubliClickListen {
@@ -22,13 +37,43 @@ class Frag_Muro : Fragment(), Adaptador_Muro_General.OnPubliClickListen {
 
         CargarLista()
         val miViewGeneral =  inflater.inflate(R.layout.fragmento_muro_grupos, container, false)
-        val btnCrearGrupo = miViewGeneral.findViewById<FloatingActionButton>(R.id.FAB_crearGrupo)
+        val CrearNueva_Publi = miViewGeneral.findViewById<FloatingActionButton>(R.id.FAB_crearpublicacion)
+
+        val animation = AnimationUtils.loadAnimation(context, R.anim.dialog_itegrantes)
+        val animation2 = AnimationUtils.loadAnimation(context, R.anim.dialog_itegrantes_2)
+        val animationout = AnimationUtils.loadAnimation(context, R.anim.dialog_integrantes_out)
 
         val MuroRecycler = miViewGeneral.findViewById<RecyclerView>(R.id.Recy_Muro)
         val milinear = LinearLayoutManager(context)
 
         MuroRecycler.layoutManager = milinear
         MuroRecycler.adapter = adaptadorMuro
+
+        CrearNueva_Publi.setOnClickListener {
+
+            val DialogView = inflater.inflate(R.layout.dialog_publicacion, null)
+            val Dialog_Pucli = AlertDialog.Builder(requireActivity()).setView(DialogView)
+
+
+            val RDialog = DialogView.findViewById<RelativeLayout>(R.id.Dialog_publicacion)
+            val ContentEdit = DialogView.findViewById<TextInputLayout>(R.id.Content_Edit)
+            val Aceptar = DialogView.findViewById<Button>(R.id.BTN_Crear_Public)
+
+
+            ContentEdit.startAnimation(animation)
+            RDialog.startAnimation(animation2)
+            Aceptar.startAnimation(animation2)
+            val AlertD = Dialog_Pucli.show()
+            AlertD.window?.setBackgroundDrawable((ColorDrawable(Color.TRANSPARENT)))
+
+            Aceptar.setOnClickListener {
+
+                ContentEdit.startAnimation(animationout)
+                RDialog.startAnimation(animationout)
+                Aceptar.startAnimation(animationout)
+                AlertD.dismiss()
+            }
+        }
 
         return miViewGeneral
     }

@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/RelLay_Dialog"
+    android:id="@+id/Dialog_publicacion"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@null">
+
+    android:background="@null"
+    android:gravity="center">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -25,28 +29,37 @@
             android:background="#39598A"
             android:paddingTop="16dp"
             android:paddingBottom="8dp"
-            android:text="Selecionar Integrantes"
+            android:text="Nueva Publicación"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/Dialog_Recycler_Integrantes"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/Content_Edit"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="wrap_content"
-            android:layout_height="350dp"
-            android:layout_marginTop="8dp"
-            tools:listitem="@layout/drawer_integrante" />
+            android:layout_height="wrap_content"
+            android:hint="Escribe tu idea"
+            app:helperText="*Requerido"
+            app:startIconDrawable="@drawable/edit"
+            app:startIconTint="@android:color/holo_blue_dark">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/TV_publicacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:ems="16"
+                android:focusable="true"
+                android:inputType="textPersonName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/BTN_Aceptar_integrantes"
+            android:id="@+id/BTN_Crear_Public"
             android:layout_width="120dp"
             android:layout_height="42dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="2dp"
             android:background="@drawable/draw__pretareas"
             android:text="Aceptar"
             android:textColor="#FFFFFF"

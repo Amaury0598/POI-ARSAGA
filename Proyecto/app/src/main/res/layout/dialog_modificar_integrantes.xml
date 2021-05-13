@@ -2,11 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/RelLay_Dialog"
+    android:id="@+id/RelLay_DialogAgregar"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@null">
+    android:background="@null"
+    android:gravity="center">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -25,22 +26,26 @@
             android:background="#39598A"
             android:paddingTop="16dp"
             android:paddingBottom="8dp"
-            android:text="Selecionar Integrantes"
+            android:text="Agregar Integrantes"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/Dialog_Recycler_Integrantes"
+            android:id="@+id/Dialog_Recy_Agregar_integrantes"
             android:layout_width="wrap_content"
-            android:layout_height="350dp"
+            android:layout_height="300dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:layout_marginTop="8dp"
             tools:listitem="@layout/drawer_integrante" />
 
         <Button
-            android:id="@+id/BTN_Aceptar_integrantes"
+            android:id="@+id/BTN_Aceptar_A_integrantes"
             android:layout_width="120dp"
             android:layout_height="42dp"
+            android:layout_below="@+id/Dialog_Recycler_Integrantes"
+            android:layout_centerHorizontal="true"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="8dp"
@@ -51,6 +56,7 @@
             android:text="Aceptar"
             android:textColor="#FFFFFF"
             app:backgroundTint="@null" />
+
     </LinearLayout>
 
 </RelativeLayout>
