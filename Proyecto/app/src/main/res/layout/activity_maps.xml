@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#355078">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+
+        android:id="@+id/appBarLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#39598A"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/BT_back_Ubi"
+                android:src="@drawable/abc_vector_test"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="#00FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+
+                android:layout_marginLeft="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="Mapa"
+                android:textColor="#FDFDFD"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        map:layout_constraintBottom_toTopOf="@+id/BTN_C_Ubi"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toBottomOf="@+id/appBarLayout2"
+        tools:context=".MapsActivity" />
+
+    <Button
+        android:id="@+id/BTN_C_Ubi"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/draw_boton_perfil"
+        android:enabled="false"
+        android:text="Compartir Ubicación"
+        android:textColor="#333333"
+        map:backgroundTint="@null"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

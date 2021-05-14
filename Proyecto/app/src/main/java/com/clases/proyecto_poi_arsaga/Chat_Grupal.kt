@@ -1,20 +1,21 @@
 package com.clases.proyecto_poi_arsaga
 
+import android.app.PendingIntent.getActivity
 import android.content.Intent
-import android.icu.text.SimpleDateFormat
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
-import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentManager
 import com.clases.proyecto_poi_arsaga.Adaptadores.AdaptorChat
+import com.clases.proyecto_poi_arsaga.Fragmentos.Dialog_Agregar_I
 import com.clases.proyecto_poi_arsaga.Modelos.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_chat__grupal.*
-import kotlinx.android.synthetic.main.drawe_modperfil.*
-import java.util.*
 
 class Chat_Grupal : AppCompatActivity() {
 
@@ -33,6 +34,8 @@ class Chat_Grupal : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat__grupal)
+
+        val MenuChat = findViewById<Toolbar>(R.id.Menu_Chat)
 
         userRef.child(auth.uid.toString()).get()
                 .addOnSuccessListener {
@@ -87,25 +90,53 @@ class Chat_Grupal : AppCompatActivity() {
                 /*val chatRespuesta = ChatMensaje("Lucas", "No estoy", Date(), false, 0, false)
                 listamensajes.add(chatRespuesta)*/
 
-                val chatmensaje = Mensaje(userActual!!.correo, userActual!!.nombre, false, ServerValue.TIMESTAMP, mensajeEscrito)
+                val chatmensaje = Mensaje(
+                    userActual!!.correo,
+                    userActual!!.nombre,
+                    false,
+                    ServerValue.TIMESTAMP,
+                    mensajeEscrito
+                )
                 agregarMensaje(chatmensaje)
             }
+        }
+
+        MenuChat.setOnMenuItemClickListener {
+
+            when(it.itemId){
+
+                R.id.menu_Archivos -> {
+
+                }
+                R.id.menu_Ubicacion -> {
+
+                   abrirMapa()
+                }
+                R.id.menu_Imagen -> {
+
+                }
+                else -> {
+
+                }
+            }
+            true
         }
     }
 
     private fun cargarMensajes(){
         var cargarMensajeRef = database.getReference().child("ChatLog").child(ChatDirecto!!.id)
 
-        cargarMensajeRef.addValueEventListener(object: ValueEventListener {
+        cargarMensajeRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
+
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot!!.exists()){
+                if (snapshot!!.exists()) {
                     listamensajes.clear()
-                    for( m in snapshot.children){
+                    for (m in snapshot.children) {
                         val mensaje = m.getValue(Mensaje::class.java) as Mensaje;
-                        if(mensaje.de == userActual!!.correo)
+                        if (mensaje.de == userActual!!.correo)
                             mensaje.esMio = true
                         listamensajes.add(mensaje)
                     }
@@ -125,7 +156,9 @@ class Chat_Grupal : AppCompatActivity() {
             ChatDirecto!!.ultimoMensajeDe = userActual!!.correo
             ChatDirecto!!.ultimoMensaje = mensaje.mensaje
 
-            database.getReference().child("ChatDirecto").child(ChatDirecto!!.id).setValue(ChatDirecto)
+            database.getReference().child("ChatDirecto").child(ChatDirecto!!.id).setValue(
+                ChatDirecto
+            )
         }
         TX_mensaje.text.clear()
     }
@@ -137,4 +170,68 @@ class Chat_Grupal : AppCompatActivity() {
         //intent.putExtra("userActual", userActual)
         startActivity(intent)
     }*/
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(resultCode == RESULT_OK){
+            val direccionSelect = data?.getStringExtra("Ubicacion") ?: ""
+            Toast.makeText(this, "$direccionSelect", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            Toast.makeText(this, "No hay Ubicación", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (grantResults.isNotEmpty()) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Se requiere aceptar el permiso", Toast.LENGTH_SHORT).show()
+                revisarPermisos()
+            } else {
+                Toast.makeText(this, "Permisio concedido", Toast.LENGTH_SHORT).show()
+                abrirMapa()
+            }
+        }
+    }
+
+    private fun abrirMapa() {
+
+        startActivityForResult(Intent(this, MapsActivity::class.java), 1)
+    }
+
+
+    private fun revisarPermisos() {
+        // Apartir de Android 6.0+ necesitamos pedir el permiso de ubicacion
+        // directamente en tiempo de ejecucion de la app
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Si no tenemos permiso para la ubicacion
+            // Solicitamos permiso
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
+
+                    ),
+                1
+            )
+        } else {
+            // Ya se han concedido los permisos anteriormente
+            abrirMapa()
+        }
+    }
 }

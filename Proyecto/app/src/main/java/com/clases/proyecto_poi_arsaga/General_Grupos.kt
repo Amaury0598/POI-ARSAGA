@@ -5,16 +5,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,10 +17,7 @@ import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Muro
 import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Ver_Tareas_Asignadas
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
 import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialog
-import com.clases.proyecto_poi_arsaga.Modelos.Tareas
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
-
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout

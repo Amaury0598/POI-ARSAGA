@@ -1,82 +1,60 @@
 package com.clases.proyecto_poi_arsaga.Fragmentos
 
-import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.Button
-import android.widget.RelativeLayout
+import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Integrantes
-import com.clases.proyecto_poi_arsaga.Modelos.Grupos
-import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.clases.proyecto_poi_arsaga.R
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
-class Dialog_Agregar_I: DialogFragment(), Adaptador_Integrantes.OnItemGrupoClickListener {
 
+class Dialog_Agregar_I: DialogFragment(), OnMapReadyCallback {
 
-    var listaIntegrantes = mutableListOf<Usuario>()
-    private var nuevoGrupo : Grupos = Grupos()
-    val AdaptAIntegrantes = Adaptador_Integrantes(4,listaIntegrantes,nuevoGrupo.correo_usuarios!!,  this);
-
+    private lateinit var mMap: GoogleMap
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        CargarLista()
+        val DialogView_A = inflater.inflate(R.layout.dialog_mapa, container, false)
+        val Dialog_Elegir_I = android.app.AlertDialog.Builder(activity).setView(DialogView_A)
 
-        val animation = AnimationUtils.loadAnimation(context, R.anim.dialog_itegrantes)
-        val animation2 = AnimationUtils.loadAnimation(context, R.anim.dialog_itegrantes_2)
-        val animationout = AnimationUtils.loadAnimation(context, R.anim.dialog_integrantes_out)
+        DialogView_A.background = ColorDrawable(Color.TRANSPARENT)
+        val BTN_Ubicacion = DialogView_A.findViewById<Button>(R.id.BTN_Compartit_Ubi)
 
-        val DialogView_A = inflater.inflate(R.layout.dialog_modificar_integrantes, container, false)
-        val Dialog_Agregar_I = AlertDialog.Builder(context).setView(DialogView_A)
-
-
-        val RDialog = DialogView_A.findViewById<RelativeLayout>(R.id.RelLay_DialogAgregar)
-        val Recy_Intregrantes = DialogView_A.findViewById<RecyclerView>(R.id.Dialog_Recy_Agregar_integrantes)
-        val Aceptar = DialogView_A.findViewById<Button>(R.id.BTN_Aceptar_A_integrantes)
-
-        Recy_Intregrantes.layoutManager = LinearLayoutManager(context);
-        Recy_Intregrantes.adapter = AdaptAIntegrantes;
-
-        Recy_Intregrantes.startAnimation(animation)
-        RDialog.startAnimation(animation2)
-        Aceptar.startAnimation(animation2)
-        val AlertD = Dialog_Agregar_I.show()
-        AlertD.window?.setBackgroundDrawable((ColorDrawable(Color.TRANSPARENT)))
-
-        Aceptar.setOnClickListener {
-
-            Recy_Intregrantes.startAnimation(animationout)
-            RDialog.startAnimation(animationout)
-            Aceptar.startAnimation(animationout)
-            AlertD.dismiss()
-
+        BTN_Ubicacion.setOnClickListener {
+            Toast.makeText(activity, "Gracias", Toast.LENGTH_SHORT).show()
         }
+
+        val mapDetail = (requireActivity().supportFragmentManager.findFragmentById(R.id.mapa) as SupportMapFragment?)
+        mapDetail?.getMapAsync(this)
+
+
         return DialogView_A
     }
 
-    fun CargarLista(){
+    override fun onMapReady(googleMap: GoogleMap) {
 
-        listaIntegrantes.add(Usuario("Amaury", "amg05@hotmail.com", "", "", "", 10))
-        listaIntegrantes.add(Usuario("Leo", "Leo@hotmail.com", "", "", "", 10))
-        listaIntegrantes.add(Usuario("Darien", "Darien@hotmail.com", "", "", "", 10))
-        listaIntegrantes.add(Usuario("José", "José@hotmail.com", "", "", "", 10))
+        mMap = googleMap
+
+        mMap.setOnMapClickListener { coodenadas ->
+
+            mMap.addMarker(MarkerOptions().position(coodenadas).title("Marker in Sydney"))
+        }
+
+        // Add a marker in Sydney and move the camera
+        val sydney = LatLng(-34.0, 151.0)
+        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
     }
-
-    override fun AddtoList(correo: String, position: String, estatus: Int) {
-
-    }
-
-    override fun RemoveFromList(correo: String, position: String, estatus: Int) {
-
-    }
-
 }

@@ -2,25 +2,24 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <item
+        android:id="@+id/menu_Archivos"
         android:icon="@drawable/attach_file"
-        android:title="files"
-        app:showAsAction="always">
-        <menu>
-            <item android:title="Imagen" />
-            <item android:title="Archivo" />
-            <item android:title="Ubicación" />
-
-
-        </menu>
-    </item>
+        android:title="Enviar Archivos"
+        app:showAsAction="ifRoom"/>
 
     <item
-        android:icon="@drawable/video_call"
-        android:title="VideoLlamada"
-        app:showAsAction="always" />
+        android:id="@+id/menu_Ubicacion"
+        android:icon="@drawable/location_on"
+        android:title="Compartir Ubicación"
+        app:showAsAction="never"/>
+
     <item
-        android:icon="@drawable/call"
-        android:title="Llamada"
-        app:showAsAction="always" />
+        android:id="@+id/menu_Imagen"
+        android:icon="@drawable/image_search"
+        android:title="Enviar Imagen"
+        app:showAsAction="never"/>
+
+
 </menu>
