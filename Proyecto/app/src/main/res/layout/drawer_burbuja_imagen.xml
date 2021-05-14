@@ -2,80 +2,72 @@
 <FrameLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mensaje_burbuja"
+    android:id="@+id/Ubicacion_burbuja"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp">
 
     <LinearLayout
-        android:id="@+id/LY_mensaje_burbuja"
+        android:id="@+id/LY_Imagen_burbuja"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="end"
         android:background="@drawable/back_burbuja"
         android:orientation="vertical"
         android:padding="8dp">
 
         <LinearLayout
-            android:id="@+id/LY_Nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_nombre"
+                android:id="@+id/TV_Nombre_Usu_Imagen"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:text="Juanes"
                 android:textColor="#191919"
                 android:textSize="18sp"
-                tools:text="Juanes" />
+                tools:text="Nombre usuario" />
 
         </LinearLayout>
 
         <View
-            android:id="@+id/DIV_nombre"
-
-            android:layout_width="225dp"
+            android:id="@+id/div_imagen"
+            android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="?android:attr/listDivider"
-            android:visibility="gone" />
+            android:background="?android:attr/listDivider" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center|end"
-            android:orientation="horizontal">
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/IMG_Chat_imagen"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_margin="4dp"
+                android:src="@drawable/ic_launcher_background" />
 
             <TextView
-                android:id="@+id/tv_contenido"
-                android:layout_width="wrap_content"
+                android:id="@+id/TV_Img_Hora"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
-                android:maxEms="12"
-                android:minEms="5"
-                android:textColor="#191919"
-                android:textSize="18sp"
-                tools:text="Haloooo" />
-
+                android:layout_gravity="bottom|end"
+                android:gravity="end"
+                android:textColor="#4A4A4A"
+                android:textSize="12sp"
+                tools:text="10:00pm" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_hora"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:textColor="#4A4A4A"
-            android:textSize="12sp"
-            tools:text="10:00pm" />
 
     </LinearLayout>
 

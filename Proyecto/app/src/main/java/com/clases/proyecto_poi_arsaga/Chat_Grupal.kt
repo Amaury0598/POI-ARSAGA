@@ -109,8 +109,7 @@ class Chat_Grupal : AppCompatActivity() {
 
                 }
                 R.id.menu_Ubicacion -> {
-
-                   abrirMapa()
+                    revisarPermisos()
                 }
                 R.id.menu_Imagen -> {
 

@@ -88,7 +88,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         // Add a marker in Sydney and move the camera
         val Monterrey = LatLng(26.670, -100.31)
         mMap.addMarker(MarkerOptions().position(Monterrey).title("Marcador"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Monterrey, 7F))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Monterrey, 9F))
     }
 
     private fun  activarMiUbi(){
