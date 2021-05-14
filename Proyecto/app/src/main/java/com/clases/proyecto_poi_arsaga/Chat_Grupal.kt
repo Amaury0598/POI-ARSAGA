@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.activity_chat__grupal.*
 import kotlinx.android.synthetic.main.activity_entregar_tarea.*
 import java.util.*
 
-class Chat_Grupal : AppCompatActivity() {
+class Chat_Grupal : AppCompatActivity(), AdaptorChat.OnPubliClickListen {
 
     private val database = FirebaseDatabase.getInstance();
     private val auth = FirebaseAuth.getInstance()
@@ -34,7 +34,7 @@ class Chat_Grupal : AppCompatActivity() {
     private var userActual: Usuario = Usuario()
     //var usuarioSeleccionado: Usuario? = null
     var ChatDirecto: ChatDirecto? = null
-    private var adaptadorChat = AdaptorChat(this, listamensajes, TipoC)
+    private var adaptadorChat = AdaptorChat(this, listamensajes, TipoC, this)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +72,7 @@ class Chat_Grupal : AppCompatActivity() {
                     }else{
                         TV_Nombre_Chat.text = "Desconocido"
                     }
-                    adaptadorChat = AdaptorChat(this, listamensajes, TipoC)
+                    adaptadorChat = AdaptorChat(this, listamensajes, TipoC, this)
                     RV_chat_grupal.adapter = adaptadorChat
 
                     cargarMensajes()
@@ -378,4 +378,25 @@ class Chat_Grupal : AppCompatActivity() {
             abrirMapa()
         }
     }
+
+    override fun onitemClick(mensaje: Mensaje) {
+        when(mensaje.tipoMensaje){
+            "Texto" -> {
+                Toast.makeText(this, "Texto", Toast.LENGTH_SHORT).show()
+            }
+            "Imagen" -> {
+                Toast.makeText(this, "Imagen", Toast.LENGTH_SHORT).show()
+            }
+            "Archivo" -> {
+                Toast.makeText(this, "Archivo", Toast.LENGTH_SHORT).show()
+            }
+            "Ubicacion" -> {
+                Toast.makeText(this, "Ubicacion", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                Toast.makeText(this, "Ojo cuidado", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 }

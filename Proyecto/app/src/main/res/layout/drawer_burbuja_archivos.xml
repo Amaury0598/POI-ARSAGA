@@ -13,7 +13,6 @@
         android:id="@+id/LY_Archivo_burbuja"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
         android:background="@drawable/back_burbuja"
         android:orientation="vertical"
         android:padding="8dp">
@@ -55,7 +54,7 @@
                 android:layout_height="30dp"
                 android:layout_margin="4dp"
                 android:src="@drawable/attach_file"
-                app:tint="#00CBE6"/>
+                app:tint="#00CBE6" />
 
             <TextView
                 android:id="@+id/TV_Nombre_Archivo"

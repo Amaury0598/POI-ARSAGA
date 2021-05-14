@@ -16,7 +16,6 @@ import com.clases.proyecto_poi_arsaga.Modelos.Mensaje
 import com.clases.proyecto_poi_arsaga.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.drawer_burbuja_archivos.view.*
-import kotlinx.android.synthetic.main.drawer_burbuja_chat.view.*
 import kotlinx.android.synthetic.main.drawer_burbuja_chat.view.LY_mensaje_burbuja
 import kotlinx.android.synthetic.main.drawer_burbuja_imagen.view.*
 import kotlinx.android.synthetic.main.drawer_burbuja_ubicacion.view.*
@@ -27,8 +26,8 @@ private const val TipoUbicacion = 1
 private const val TipoImagen = 2
 private const val TipoArchivo = 3
 
-class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: MutableList<Mensaje>, private  val Tipo : Int) :
-        RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
+class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: MutableList<Mensaje>, private  val Tipo : Int, private val itemClickListener: AdaptorChat.OnPubliClickListen) :
+        RecyclerView.Adapter<RecyclerView.ViewHolder>()   {
 
     class ChatMensaje(itemView: View) : RecyclerView.ViewHolder(itemView){
         fun bind(mensaje : Mensaje){
@@ -54,6 +53,10 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
         }
     }
 
+    interface OnPubliClickListen{
+        //fun onitemHold(toString: String)
+        fun onitemClick(mensaje: Mensaje)
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -136,7 +139,58 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
                 MensajeEnviado.text = listamensajes[position].mensaje
                 contenedorParam = holder.itemView.LY_mensaje_burbuja.layoutParams
 
+                holder.itemView.setOnClickListener { itemClickListener.onitemClick(listamensajes[position]) }
 
+                if (Tipo == 0) { // Es chat Grupo
+
+                    if (listamensajes[position].esMio) {
+
+
+                        Vis_nombre.visibility = (View.GONE)
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.END
+                        )
+                        holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
+                    } else {
+
+                        //MensajeEnviado.gravity = Gravity.START
+                        Vis_nombre.visibility = (View.VISIBLE)
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.START
+                        )
+                        holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
+                        //QuienEnvio.text = listamensajes[position].nombre
+                    }
+                } else { // Es chat en Privado
+
+                    Vis_nombre.visibility = (View.GONE)
+
+                    if (listamensajes[position].esMio) {
+
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.END
+                        )
+                        holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
+                    } else {
+
+                        //MensajeEnviado.gravity = Gravity.START
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.START
+                        )
+                        holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
+                    }
+                }
 
             }
             TipoUbicacion -> {
@@ -146,10 +200,63 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
                 Vis_nombre = holder.itemView.findViewById<LinearLayout>(R.id.Vis_Ubicacion_Nombre)
                 QuienEnvio = holder.itemView.findViewById<TextView>(R.id.TV_Nombre_Usu_Ubicacion)
 
+                holder.itemView.setOnClickListener { itemClickListener.onitemClick(listamensajes[position]) }
+
                 //
                 //
                 //
                 contenedorParam = holder.itemView.LY_Ubicacion_burbuja.layoutParams
+
+                if (Tipo == 0) { // Es chat Grupo
+
+                    if (listamensajes[position].esMio) {
+
+
+                        Vis_nombre.visibility = (View.GONE)
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.END
+                        )
+                        holder.itemView.LY_Ubicacion_burbuja.layoutParams = nuevosParam
+                    } else {
+
+                        //MensajeEnviado.gravity = Gravity.START
+                        Vis_nombre.visibility = (View.VISIBLE)
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.START
+                        )
+                        holder.itemView.LY_Ubicacion_burbuja.layoutParams = nuevosParam
+                        //QuienEnvio.text = listamensajes[position].nombre
+                    }
+                } else { // Es chat en Privado
+
+                    Vis_nombre.visibility = (View.GONE)
+
+                    if (listamensajes[position].esMio) {
+
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.END
+                        )
+                        holder.itemView.LY_Ubicacion_burbuja.layoutParams = nuevosParam
+                    } else {
+
+                        //MensajeEnviado.gravity = Gravity.START
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.START
+                        )
+                        holder.itemView.LY_Ubicacion_burbuja.layoutParams = nuevosParam
+                    }
+                }
             }
             TipoImagen -> {
                 (holder as ChatImagen).bind(listamensajes[position])
@@ -158,8 +265,61 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
                 Vis_nombre = holder.itemView.findViewById<LinearLayout>(R.id.Vis_Imagen_Nombre)
                 QuienEnvio = holder.itemView.findViewById<TextView>(R.id.TV_Nombre_Usu_Imagen)
 
+                holder.itemView.setOnClickListener { itemClickListener.onitemClick(listamensajes[position]) }
+
                 Picasso.get().load(listamensajes[position].url).into(ImagenMostrada)
                 contenedorParam = holder.itemView.LY_Imagen_burbuja.layoutParams
+
+                if (Tipo == 0) { // Es chat Grupo
+
+                    if (listamensajes[position].esMio) {
+
+
+                        Vis_nombre.visibility = (View.GONE)
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.END
+                        )
+                        holder.itemView.LY_Imagen_burbuja.layoutParams = nuevosParam
+                    } else {
+
+                        //MensajeEnviado.gravity = Gravity.START
+                        Vis_nombre.visibility = (View.VISIBLE)
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.START
+                        )
+                        holder.itemView.LY_Imagen_burbuja.layoutParams = nuevosParam
+                        //QuienEnvio.text = listamensajes[position].nombre
+                    }
+                } else { // Es chat en Privado
+
+                    Vis_nombre.visibility = (View.GONE)
+
+                    if (listamensajes[position].esMio) {
+
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.END
+                        )
+                        holder.itemView.LY_Imagen_burbuja.layoutParams = nuevosParam
+                    } else {
+
+                        //MensajeEnviado.gravity = Gravity.START
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.START
+                        )
+                        holder.itemView.LY_Imagen_burbuja.layoutParams = nuevosParam
+                    }
+                }
 
             }
             TipoArchivo -> {
@@ -169,8 +329,61 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
                 Vis_nombre = holder.itemView.findViewById<LinearLayout>(R.id.Vis_Archivo_NombreUsu)
                 QuienEnvio = holder.itemView.findViewById<TextView>(R.id.TV_Nombre_UsuAchivo)
 
+                holder.itemView.setOnClickListener { itemClickListener.onitemClick(listamensajes[position]) }
+
                 MensajeEnviado.text = listamensajes[position].mensaje
                 contenedorParam = holder.itemView.LY_Archivo_burbuja.layoutParams
+
+                if (Tipo == 0) { // Es chat Grupo
+
+                    if (listamensajes[position].esMio) {
+
+
+                        Vis_nombre.visibility = (View.GONE)
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.END
+                        )
+                        holder.itemView.LY_Archivo_burbuja.layoutParams = nuevosParam
+                    } else {
+
+                        //MensajeEnviado.gravity = Gravity.START
+                        Vis_nombre.visibility = (View.VISIBLE)
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.START
+                        )
+                        holder.itemView.LY_Archivo_burbuja.layoutParams = nuevosParam
+                        //QuienEnvio.text = listamensajes[position].nombre
+                    }
+                } else { // Es chat en Privado
+
+                    Vis_nombre.visibility = (View.GONE)
+
+                    if (listamensajes[position].esMio) {
+
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.END
+                        )
+                        holder.itemView.LY_Archivo_burbuja.layoutParams = nuevosParam
+                    } else {
+
+                        //MensajeEnviado.gravity = Gravity.START
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.START
+                        )
+                        holder.itemView.LY_Archivo_burbuja.layoutParams = nuevosParam
+                    }
+                }
             }
             else -> {
                 (holder as ChatMensaje).bind(listamensajes[position])
@@ -179,8 +392,61 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
                 Vis_nombre = holder.itemView.findViewById<LinearLayout>(R.id.LY_Nombre)
                 QuienEnvio = holder.itemView.findViewById<TextView>(R.id.tv_nombre)
 
+                holder.itemView.setOnClickListener { itemClickListener.onitemClick(listamensajes[position]) }
+
                 MensajeEnviado.text = listamensajes[position].mensaje
                 contenedorParam = holder.itemView.LY_mensaje_burbuja.layoutParams
+
+                if (Tipo == 0) { // Es chat Grupo
+
+                    if (listamensajes[position].esMio) {
+
+
+                        Vis_nombre.visibility = (View.GONE)
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.END
+                        )
+                        holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
+                    } else {
+
+                        //MensajeEnviado.gravity = Gravity.START
+                        Vis_nombre.visibility = (View.VISIBLE)
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.START
+                        )
+                        holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
+                        //QuienEnvio.text = listamensajes[position].nombre
+                    }
+                } else { // Es chat en Privado
+
+                    Vis_nombre.visibility = (View.GONE)
+
+                    if (listamensajes[position].esMio) {
+
+
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.END
+                        )
+                        holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
+                    } else {
+
+                        //MensajeEnviado.gravity = Gravity.START
+                        val nuevosParam = FrameLayout.LayoutParams(
+                            contenedorParam.width,
+                            contenedorParam.height,
+                            Gravity.START
+                        )
+                        holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
+                    }
+                }
             }
         }
 
@@ -212,7 +478,7 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
 
                 Vis_nombre.visibility = (View.GONE)
 
-                contenedorParam = FrameLayout.LayoutParams(
+                val nuevosParam = FrameLayout.LayoutParams(
                         contenedorParam.width,
                         contenedorParam.height,
                         Gravity.END
@@ -220,10 +486,10 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
                 //contenedorParam = nuevosParam
             } else {
 
-                MensajeEnviado.gravity = Gravity.START
+                //MensajeEnviado.gravity = Gravity.START
                 Vis_nombre.visibility = (View.VISIBLE)
 
-                contenedorParam = FrameLayout.LayoutParams(
+                val nuevosParam = FrameLayout.LayoutParams(
                         contenedorParam.width,
                         contenedorParam.height,
                         Gravity.START
@@ -238,7 +504,7 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
             if (listamensajes[position].esMio) {
 
 
-                contenedorParam = FrameLayout.LayoutParams(
+                val nuevosParam = FrameLayout.LayoutParams(
                         contenedorParam.width,
                         contenedorParam.height,
                         Gravity.END
@@ -246,8 +512,8 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
                 //contenedorParam = nuevosParam
             } else {
 
-                MensajeEnviado.gravity = Gravity.START
-                contenedorParam = FrameLayout.LayoutParams(
+                //MensajeEnviado.gravity = Gravity.START
+                val nuevosParam = FrameLayout.LayoutParams(
                         contenedorParam.width,
                         contenedorParam.height,
                         Gravity.START

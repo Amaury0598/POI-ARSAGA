@@ -4,12 +4,11 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Fragmentos.Frag_Estatus_tarea_grupo
 import com.clases.proyecto_poi_arsaga.General_Grupos
-import com.clases.proyecto_poi_arsaga.Modelos.TareaEntregada
+import com.clases.proyecto_poi_arsaga.Modelos.Mensaje
 import com.clases.proyecto_poi_arsaga.Modelos.Tareas
 import com.clases.proyecto_poi_arsaga.R
 import com.squareup.picasso.Picasso

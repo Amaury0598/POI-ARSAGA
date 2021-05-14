@@ -1,27 +1,20 @@
 package com.clases.proyecto_poi_arsaga.Fragmentos
 
-import android.content.ClipData
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.*
 import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Estatus_tarea_grupo
-import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Grupos_Carreras
 import com.clases.proyecto_poi_arsaga.Modelos.*
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import java.text.FieldPosition
 
 class Frag_Estatus_tarea_grupo : Fragment(), Adaptador_Estatus_tarea_grupo.OnPubliClickListen {
 
@@ -182,7 +175,7 @@ class Frag_Estatus_tarea_grupo : Fragment(), Adaptador_Estatus_tarea_grupo.OnPub
         //listaTareasEntregadas_tarea.add(TareaEntregada("1","Audios", "Videojuegos I", "0", "16/05/2021"))
     }
 
-    override fun onitemClick(tarea:Tareas, estatus: Int) {
+    override fun onitemClick(tarea: Tareas, estatus: Int) {
         val intent = Intent(activity, Entregar_Tarea::class.java)
         intent.putExtra("tareaActual", tarea)
         intent.putExtra("estatus", estatus)
