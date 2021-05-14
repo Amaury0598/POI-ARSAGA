@@ -46,9 +46,16 @@ class Frag_Estatus_tarea_grupo : Fragment(), Adaptador_Estatus_tarea_grupo.OnPub
         loading = LoadingDialogFragment(this)
         loading.startLoading("Cargando tareas")
 
+
+
         var recycler_Pendientes = miViewGrupos.findViewById<RecyclerView>(R.id.Recy_lista_tareasPendientes_grupo)
         var recycler_Entregadas = miViewGrupos.findViewById<RecyclerView>(R.id.Recylista_tareasEntregadas_grupo)
         var recycler_Vencidas = miViewGrupos.findViewById<RecyclerView>(R.id.Recylista_tareasVencidas_grupo)
+
+        /*if(General_Grupos.grupoActual!!.admin != auth.currentUser.email) {
+            miViewGrupos.findViewById<View>(R.id.menu_crear_tarea).visibility = View.GONE
+            miViewGrupos.findViewById<View>(R.id.Gen_VerTareas).visibility = View.GONE
+        }*/
 
         recycler_Pendientes.adapter = adaptador_tareas_Pendientes
         recycler_Entregadas.adapter = adaptador_tareas_Entregadas

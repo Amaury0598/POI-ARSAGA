@@ -12,7 +12,8 @@ import com.clases.proyecto_poi_arsaga.R
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
-class Adaptador_Integrantes(var listaIntegrantes: MutableList<Usuario>,
+class Adaptador_Integrantes(var estatus : Int,
+                            var listaIntegrantes: MutableList<Usuario>,
                             var listaIntegrantesActivos: MutableList<String>,
                             private val itemClickListener: OnItemGrupoClickListener) : RecyclerView.Adapter<Adaptador_Integrantes.IntegrantesViewHolder>() {
 
@@ -21,8 +22,8 @@ class Adaptador_Integrantes(var listaIntegrantes: MutableList<Usuario>,
 
     interface OnItemGrupoClickListener{
         //fun onitemHold(toString: String)
-        fun AddtoList(correo : String, position: String)
-        fun RemoveFromList(correo: String, position: String)
+        fun AddtoList(correo : String, position: String, estatus: Int)
+        fun RemoveFromList(correo: String, position: String, estatus: Int)
     }
 
     override fun getItemCount(): Int {
@@ -55,9 +56,9 @@ class Adaptador_Integrantes(var listaIntegrantes: MutableList<Usuario>,
         CNombre.setOnClickListener {
 
             if(CNombre.isChecked) {
-                itemClickListener.AddtoList(listaIntegrantes[position].correo, listaIntegrantes[position].imagen)
+                itemClickListener.AddtoList(listaIntegrantes[position].correo, listaIntegrantes[position].imagen, estatus)
             }else{
-                itemClickListener.RemoveFromList(listaIntegrantes[position].correo, listaIntegrantes[position].imagen)
+                itemClickListener.RemoveFromList(listaIntegrantes[position].correo, listaIntegrantes[position].imagen, estatus)
             }
         }
     }

@@ -108,6 +108,8 @@ class Registro : AppCompatActivity() {
                             Log.d("ERROR-AUTH", it.message!!)
                         }
                     }
+                    if(loading != null)
+                        loading.isDismiss()
 
                 }
 

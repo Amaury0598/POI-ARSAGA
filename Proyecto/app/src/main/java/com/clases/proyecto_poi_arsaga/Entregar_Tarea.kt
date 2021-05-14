@@ -74,7 +74,8 @@ class Entregar_Tarea : AppCompatActivity() {
                             finish()
                         }
                     }
-                    loading.isDismiss()
+                    if(loading != null)
+                        loading.isDismiss()
                 }
 
 
@@ -143,7 +144,7 @@ class Entregar_Tarea : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(it in snapshot.children){
                     val tareaEnt = it.getValue(TareaEntregada::class.java) as TareaEntregada
-                    if(tareaEnt.correo == userActual.correo){
+                    if(tareaEnt.correo == correo){
                         for(m in tareaEnt.multimedia){
                             //AQUÍ VAN LAS COSAS DEL POSIBLE RECYCLER PARA MÚLTIPLES TAREAS
                             TV_Entrega_Nombre_Archivo.text = m.nombreArchivo
@@ -340,7 +341,8 @@ class Entregar_Tarea : AppCompatActivity() {
                             pos++
                             updateData(tarea)
                         }.addOnFailureListener {
-                            loading.isDismiss()
+                            if(loading != null)
+                                loading.isDismiss()
                             Toast.makeText(this@Entregar_Tarea, it.message, Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -370,13 +372,15 @@ class Entregar_Tarea : AppCompatActivity() {
                             if (it.isSuccessful) {
                                 if(sePagaConCoins)
                                     userRef.child(auth.uid.toString()).setValue(userRef)
-                                loading.isDismiss()
+                                if(loading != null)
+                                    loading.isDismiss()
 
                                 finish()
                             }
                         }
                         .addOnFailureListener { error ->
-                            loading.isDismiss()
+                            if(loading != null)
+                                loading.isDismiss()
                             Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
                         }
 
@@ -403,7 +407,8 @@ class Entregar_Tarea : AppCompatActivity() {
                 TV_Entrega_Archivo.setTextColor(Color.parseColor("#FFFFFF"))
 
             }
-            loading.isDismiss()
+            if(loading != null)
+                loading.isDismiss()
         }
     }
 }

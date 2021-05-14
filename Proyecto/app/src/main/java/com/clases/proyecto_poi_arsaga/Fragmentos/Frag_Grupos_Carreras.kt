@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.clases.proyecto_poi_arsaga.Adaptadores.Adaptador_Grupos_Carreras
-import com.clases.proyecto_poi_arsaga.Chat_Grupal
 import com.clases.proyecto_poi_arsaga.Crear_Grupo
 import com.clases.proyecto_poi_arsaga.General_Grupos
 import com.clases.proyecto_poi_arsaga.Modelos.*
@@ -29,7 +29,8 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
     private val userRef = database.getReference("Usuarios"); //crear "rama" (tabla)
     private val auth = FirebaseAuth.getInstance()
     val listaGrupos = mutableListOf<Grupos>()
-    val adaptador_grupos_carreras = Adaptador_Grupos_Carreras(this, listaGrupos, this)
+    val listaSubGrupos = mutableListOf<Grupos>()
+    val adaptador_grupos_carreras = Adaptador_Grupos_Carreras(activity, listaGrupos, listaSubGrupos, this)
     private val gruposRef = database.getReference("Grupos"); //crear "rama" (tabla)
     private lateinit var loading:LoadingDialogFragment
     private lateinit var nogrupos : TextView
@@ -41,12 +42,10 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
         loading = LoadingDialogFragment(this)
         loading.startLoading("Cargando Grupos")
 
-
         val miViewGrupos =  inflater.inflate(R.layout.frag_grupos_carreras, container, false)
 
         nogrupos = miViewGrupos.findViewById<TextView>(R.id.TV_nogrupos)
         val btnCrearGrupo = miViewGrupos.findViewById<FloatingActionButton>(R.id.FAB_crearGrupo)
-
 
 
 
@@ -87,15 +86,27 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
 
                 if(snapshot!!.exists()){
                     listaGrupos.clear()
+                    listaSubGrupos.clear()
                     for( g in snapshot.children){
                         val grupo: Grupos = g.getValue(Grupos::class.java) as Grupos;
-                        for(cu in grupo.correo_usuarios!!) {
-                            if (cu == userActual!!.correo) {
-                                listaGrupos.add(grupo)
-                                break
-                            }
+                        if(grupo.deGrupo.isEmpty()) {
+                            for (cu in grupo.correo_usuarios!!) {
+                                if (cu == userActual!!.correo) {
+                                    listaGrupos.add(grupo)
+                                    break
+                                }
 
+                            }
+                        }else{
+                            for (cu in grupo.correo_usuarios!!) {
+                                if (cu == userActual!!.correo) {
+                                    listaSubGrupos.add(grupo)
+                                    break
+                                }
+
+                            }
                         }
+
                     }
                     adaptador_grupos_carreras.notifyDataSetChanged()
                     nogrupos.text = "Únete a mas Grupos es Genial !!!"
@@ -109,6 +120,10 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
 
     override fun onitemHold(integrantes: Int) {
         Toast.makeText(activity, "Numero de integrantes $integrantes", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSpinnerClick(sub_gpo: Grupos) {
+        Toast.makeText(activity, sub_gpo.nombre, Toast.LENGTH_SHORT).show()
     }
 
     override fun onitemClick(gpo: Grupos) {

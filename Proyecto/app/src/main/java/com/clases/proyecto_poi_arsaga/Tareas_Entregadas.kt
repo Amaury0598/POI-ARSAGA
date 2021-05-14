@@ -78,7 +78,9 @@ class Tareas_Entregadas : AppCompatActivity(), Adaptador_Tareas_Entregadas.OnPub
                     }
                 }
                 adaptadortareasentregadas.notifyDataSetChanged()
-                loading.isDismiss()
+
+                if(loading != null)
+                    loading.isDismiss()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -93,7 +95,7 @@ class Tareas_Entregadas : AppCompatActivity(), Adaptador_Tareas_Entregadas.OnPub
         val intent = Intent(this, Entregar_Tarea::class.java)
         intent.putExtra("tareaActual", tarea)
         intent.putExtra("correo", tareaEnt.correo)
-        intent.putExtra("estatus", 1)
+        intent.putExtra("estatus", 3)
         startActivity(intent)
     }
 }

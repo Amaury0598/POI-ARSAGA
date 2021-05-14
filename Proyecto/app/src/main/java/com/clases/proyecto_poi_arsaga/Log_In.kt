@@ -62,7 +62,8 @@ class Log_In : AppCompatActivity() {
                }
            }
            .addOnFailureListener {
-               loading.isDismiss()
+               if(loading != null)
+                   loading.isDismiss()
                Toast.makeText(this@Log_In, "La Contraseña y/o el Correo están incorrectos", Toast.LENGTH_SHORT).show()
            }
 
@@ -76,7 +77,8 @@ class Log_In : AppCompatActivity() {
                     val intent = Intent(this@Log_In, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     //intent.putExtra("userActual", user)
-                    loading.isDismiss()
+                    if(loading != null)
+                        loading.isDismiss()
                     startActivity(intent)
                 }
 

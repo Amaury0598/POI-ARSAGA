@@ -38,7 +38,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Nombre del Subgrupo"
+
             app:helperText="*Requerido"
             app:startIconDrawable="@drawable/edit"
             app:startIconTint="@android:color/holo_blue_dark">
@@ -47,6 +47,7 @@
                 android:id="@+id/TV_Nombre_Subgrupo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:hint="Nombre del Subgrupo"
                 android:clickable="true"
                 android:ems="16"
                 android:focusable="true"

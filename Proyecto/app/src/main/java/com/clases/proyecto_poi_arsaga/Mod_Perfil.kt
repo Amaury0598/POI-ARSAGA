@@ -45,7 +45,8 @@ class Mod_Perfil : AppCompatActivity() {
                     userActual = it.getValue(Usuario::class.java) as Usuario
                     ET_MPnuevonombre.setText(userActual?.nombre)
                     ET_MPdesc.setText(userActual?.desc)
-                    loading.isDismiss()
+                    if(loading != null)
+                        loading.isDismiss()
                 }
 
 
@@ -103,7 +104,8 @@ class Mod_Perfil : AppCompatActivity() {
                                             }
                                         }
                                         .addOnFailureListener { failPass ->
-                                            loading.isDismiss()
+                                            if(loading != null)
+                                                loading.isDismiss()
                                             when(failPass.message){
 
                                                 "The given password is invalid. [ Password should be at least 6 characters ]" -> {
@@ -118,11 +120,13 @@ class Mod_Perfil : AppCompatActivity() {
                                             }
                                         }
                             } else if (it.exception is FirebaseAuthInvalidCredentialsException) {
-                                loading.isDismiss()
+                                if(loading != null)
+                                    loading.isDismiss()
                                 ET_MPcontraAuth.error = "Contraseña incorrecta"
                                 ET_MPcontraAuth.requestFocus()
                             } else {
-                                loading.isDismiss()
+                                if(loading != null)
+                                    loading.isDismiss()
                                 Toast.makeText(this@Mod_Perfil, it.exception?.message, Toast.LENGTH_SHORT).show()
                             }
                         }
@@ -143,7 +147,8 @@ class Mod_Perfil : AppCompatActivity() {
                             uploadImageToStorage(nombre, desc)
                         }
                         .addOnFailureListener {
-                            loading.isDismiss()
+                            if(loading != null)
+                                loading.isDismiss()
                             Toast.makeText(this@Mod_Perfil, it.message, Toast.LENGTH_SHORT).show()
                         }
             }else
@@ -163,12 +168,14 @@ class Mod_Perfil : AppCompatActivity() {
                         userActual?.imagen = it.toString()
                         updateUserInfo(nombre, desc)
                     }.addOnFailureListener {
-                        loading.isDismiss()
+                        if(loading != null)
+                            loading.isDismiss()
                         Toast.makeText(this@Mod_Perfil, it.message, Toast.LENGTH_SHORT).show()
                     }
                 }
                 .addOnFailureListener {
-                    loading.isDismiss()
+                    if(loading != null)
+                        loading.isDismiss()
                     Toast.makeText(this@Mod_Perfil, it.message, Toast.LENGTH_SHORT).show()
                 }
     }
@@ -221,7 +228,8 @@ class Mod_Perfil : AppCompatActivity() {
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 /*val u = userActual
                 intent.putExtra("userActual", user)*/
-                loading.isDismiss()
+                if(loading != null)
+                    loading.isDismiss()
                 startActivity(intent)
             }
 

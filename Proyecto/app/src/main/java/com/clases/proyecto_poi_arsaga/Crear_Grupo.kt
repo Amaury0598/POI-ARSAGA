@@ -43,7 +43,7 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
     var listaIntegrantes = mutableListOf<Usuario>()
     private var nuevoGrupo :Grupos = Grupos()
     private lateinit var loading : LoadingDialog
-    val AdaptIntegrantes = Adaptador_Integrantes(listaIntegrantes,nuevoGrupo.correo_usuarios!!,  this);
+    val AdaptIntegrantes = Adaptador_Integrantes(0, listaIntegrantes,nuevoGrupo.correo_usuarios!!,  this);
     private var uri : Uri? = null
     var defaultImages = mutableListOf<String>()
 
@@ -131,7 +131,8 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
             grupoRef.child(nuevoGrupo.nombre).get()
                     .addOnSuccessListener {
                         if(it.exists()) {
-                            loading.isDismiss()
+                            if(loading != null)
+                                loading.isDismiss()
                             ET_Nombre_grupo.error = "Ya hay un grupo con ese nombre"
                             ET_Nombre_grupo.requestFocus()
                             return@addOnSuccessListener
@@ -169,12 +170,14 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
                         nuevoGrupo.foto = it.toString()
                         addGroup()
                     }.addOnFailureListener {
-                        loading.isDismiss()
+                        if(loading != null)
+                            loading.isDismiss()
                         Toast.makeText(this@Crear_Grupo, it.message, Toast.LENGTH_SHORT).show()
                     }
                 }
                 .addOnFailureListener {
-                    loading.isDismiss()
+                    if(loading != null)
+                        loading.isDismiss()
                     Toast.makeText(this@Crear_Grupo, it.message, Toast.LENGTH_SHORT).show()
                 }
     }
@@ -184,7 +187,8 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         /*val u = userActual
         intent.putExtra("userActual", u)*/
-        loading.isDismiss()
+        if(loading != null)
+            loading.isDismiss()
         startActivity(intent)
     }
 
@@ -213,7 +217,8 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
                             listaIntegrantes.add(user)
                     }
                 }
-                loading.isDismiss()
+                if(loading != null)
+                    loading.isDismiss()
 
             }
 
@@ -224,15 +229,17 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
         })
     }
 
-    override fun AddtoList(correo: String, position: String) {
-        nuevoGrupo.correo_usuarios!!.add(correo)
-        Log.d("nuevoGrupo", "Se añadió: $correo")
+    override fun AddtoList(correo: String, position: String, estatus: Int) {
+        if(estatus == 0)
+            nuevoGrupo.correo_usuarios!!.add(correo)
+        //Log.d("nuevoGrupo", "Se añadió: $correo")
         //Toast.makeText(this, "${listaChecked.size}", Toast.LENGTH_SHORT).show()
     }
 
-    override fun RemoveFromList(correo: String, position: String) {
-        nuevoGrupo.correo_usuarios!!.remove(correo)
-        Log.d("nuevoGrupo", "Se removió: $correo")
+    override fun RemoveFromList(correo: String, position: String, estatus: Int) {
+        if(estatus == 0)
+            nuevoGrupo.correo_usuarios!!.remove(correo)
+        //Log.d("nuevoGrupo", "Se removió: $correo")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

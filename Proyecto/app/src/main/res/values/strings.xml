@@ -17,9 +17,7 @@
         <item>LSTI</item>
     </string-array>
     <string-array name="Array_Sub_Grupos">
-        <item>Sub_grupo 1</item>
-        <item>Sub_grupo 2</item>
-        <item>Sub_grupo 3</item>
+        <item>Subgrupos</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

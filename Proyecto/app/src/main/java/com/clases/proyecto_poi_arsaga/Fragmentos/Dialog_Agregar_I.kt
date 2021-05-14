@@ -24,7 +24,7 @@ class Dialog_Agregar_I: DialogFragment(), Adaptador_Integrantes.OnItemGrupoClick
 
     var listaIntegrantes = mutableListOf<Usuario>()
     private var nuevoGrupo : Grupos = Grupos()
-    val AdaptAIntegrantes = Adaptador_Integrantes(listaIntegrantes,nuevoGrupo.correo_usuarios!!,  this);
+    val AdaptAIntegrantes = Adaptador_Integrantes(4,listaIntegrantes,nuevoGrupo.correo_usuarios!!,  this);
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -71,12 +71,12 @@ class Dialog_Agregar_I: DialogFragment(), Adaptador_Integrantes.OnItemGrupoClick
         listaIntegrantes.add(Usuario("José", "José@hotmail.com", "", "", "", 10))
     }
 
-    override fun AddtoList(correo: String, position: String) {
-        TODO("Not yet implemented")
+    override fun AddtoList(correo: String, position: String, estatus: Int) {
+
     }
 
-    override fun RemoveFromList(correo: String, position: String) {
-        TODO("Not yet implemented")
+    override fun RemoveFromList(correo: String, position: String, estatus: Int) {
+
     }
 
 }

@@ -122,7 +122,8 @@ class Asignar_nueva_tarea : AppCompatActivity(), DatePickerDialog.OnDateSetListe
             listaTareaUsuarios.id = key.key.toString()
             key.setValue(listaTareaUsuarios)
                     .addOnSuccessListener {
-                        loading.isDismiss()
+                        if(loading != null)
+                            loading.isDismiss()
                         finish()
                     }
 
