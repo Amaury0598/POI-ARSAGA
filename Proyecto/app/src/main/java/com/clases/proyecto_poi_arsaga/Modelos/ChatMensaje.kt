@@ -22,7 +22,7 @@ class Mensaje(
         var mensaje: String = "",
         var tipoMensaje: String = "",
         var url: String = "",
-        var gps: MutableList<Address> = mutableListOf<Address>()
+        var gps: GlobalPositioningSystem = GlobalPositioningSystem()
 ) {
 
 }
@@ -48,6 +48,19 @@ class ChatLog(
 
 }
 
+class GlobalPositioningSystem(
+
+    var addressLine: String = "",
+    var latitude: Double = 0.0,
+    var longitude: Double = 0.0
+
+
+    ): Serializable{
+    override fun toString(): String {
+        return "Dirección: $addressLine\nLatitud: ${latitude}\nLongitud${longitude}"
+    }
+
+}
 
 
 

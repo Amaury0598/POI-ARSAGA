@@ -26,6 +26,8 @@ private const val TipoUbicacion = 1
 private const val TipoImagen = 2
 private const val TipoArchivo = 3
 
+private const val imagenUbicacion = "https://firebasestorage.googleapis.com/v0/b/app-poi-15c77.appspot.com/o/chat%2Fubicacion.png?alt=media&token=58cbf69a-a9a2-4c78-81b8-872ade6bb59d"
+
 class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: MutableList<Mensaje>, private  val Tipo : Int, private val itemClickListener: AdaptorChat.OnPubliClickListen) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>()   {
 
@@ -165,7 +167,7 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
                             Gravity.START
                         )
                         holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
-                        //QuienEnvio.text = listamensajes[position].nombre
+                        QuienEnvio.text = listamensajes[position].nombre
                     }
                 } else { // Es chat en Privado
 
@@ -199,7 +201,9 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
                 MensajeHora = holder.itemView.findViewById<TextView>(R.id.TV_Ubicacion_Hora)
                 Vis_nombre = holder.itemView.findViewById<LinearLayout>(R.id.Vis_Ubicacion_Nombre)
                 QuienEnvio = holder.itemView.findViewById<TextView>(R.id.TV_Nombre_Usu_Ubicacion)
-
+                ImagenMostrada = holder.itemView.findViewById(R.id.IMG_Mapa)
+                MensajeEnviado.text = listamensajes[position].mensaje
+                Picasso.get().load(imagenUbicacion).into(ImagenMostrada)
                 holder.itemView.setOnClickListener { itemClickListener.onitemClick(listamensajes[position]) }
 
                 //
@@ -231,7 +235,7 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
                             Gravity.START
                         )
                         holder.itemView.LY_Ubicacion_burbuja.layoutParams = nuevosParam
-                        //QuienEnvio.text = listamensajes[position].nombre
+                        QuienEnvio.text = listamensajes[position].nombre
                     }
                 } else { // Es chat en Privado
 
@@ -294,7 +298,7 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
                             Gravity.START
                         )
                         holder.itemView.LY_Imagen_burbuja.layoutParams = nuevosParam
-                        //QuienEnvio.text = listamensajes[position].nombre
+                        QuienEnvio.text = listamensajes[position].nombre
                     }
                 } else { // Es chat en Privado
 
@@ -358,7 +362,7 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
                             Gravity.START
                         )
                         holder.itemView.LY_Archivo_burbuja.layoutParams = nuevosParam
-                        //QuienEnvio.text = listamensajes[position].nombre
+                        QuienEnvio.text = listamensajes[position].nombre
                     }
                 } else { // Es chat en Privado
 
@@ -421,7 +425,7 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
                             Gravity.START
                         )
                         holder.itemView.LY_mensaje_burbuja.layoutParams = nuevosParam
-                        //QuienEnvio.text = listamensajes[position].nombre
+                        QuienEnvio.text = listamensajes[position].nombre
                     }
                 } else { // Es chat en Privado
 
@@ -471,56 +475,7 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
 
         //MensajeHora.text = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(listamensajes[position].hora)
 
-        if (Tipo == 0) { // Es chat Grupo
 
-            if (listamensajes[position].esMio) {
-
-
-                Vis_nombre.visibility = (View.GONE)
-
-                val nuevosParam = FrameLayout.LayoutParams(
-                        contenedorParam.width,
-                        contenedorParam.height,
-                        Gravity.END
-                )
-                //contenedorParam = nuevosParam
-            } else {
-
-                //MensajeEnviado.gravity = Gravity.START
-                Vis_nombre.visibility = (View.VISIBLE)
-
-                val nuevosParam = FrameLayout.LayoutParams(
-                        contenedorParam.width,
-                        contenedorParam.height,
-                        Gravity.START
-                )
-                //contenedorParam = nuevosParam
-                QuienEnvio.text = listamensajes[position].nombre
-            }
-        } else { // Es chat en Privado
-
-            Vis_nombre.visibility = (View.GONE)
-
-            if (listamensajes[position].esMio) {
-
-
-                val nuevosParam = FrameLayout.LayoutParams(
-                        contenedorParam.width,
-                        contenedorParam.height,
-                        Gravity.END
-                )
-                //contenedorParam = nuevosParam
-            } else {
-
-                //MensajeEnviado.gravity = Gravity.START
-                val nuevosParam = FrameLayout.LayoutParams(
-                        contenedorParam.width,
-                        contenedorParam.height,
-                        Gravity.START
-                )
-                //contenedorParam = nuevosParam
-            }
-        }
 
     }
 

@@ -214,11 +214,21 @@ class Chat_Grupal : AppCompatActivity(), AdaptorChat.OnPubliClickListen {
         when(requestCode){
             1 -> {
                 if(resultCode == RESULT_OK){
-                    val direccionSelect = data?.getStringExtra("Ubicacion") ?: ""
-                    Toast.makeText(this, "$direccionSelect", Toast.LENGTH_SHORT).show()
+                    val direccionSelect = data?.getSerializableExtra("Ubicacion") as GlobalPositioningSystem
+                    val chatmensaje = Mensaje(
+                        userActual!!.correo,
+                        userActual!!.nombre,
+                        false,
+                        ServerValue.TIMESTAMP,
+                        direccionSelect.toString(),
+                        "Ubicación",
+                        "",
+                        direccionSelect
+                    )
+                    agregarMensaje(chatmensaje)
                 }
                 else{
-                    Toast.makeText(this, "No hay Ubicación", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this, "No hay Ubicación", Toast.LENGTH_SHORT).show()
                 }
             }
             2 ->{

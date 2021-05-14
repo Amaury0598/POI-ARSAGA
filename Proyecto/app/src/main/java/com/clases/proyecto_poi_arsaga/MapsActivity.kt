@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.clases.proyecto_poi_arsaga.Modelos.GlobalPositioningSystem
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -63,8 +64,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             val direcciones = geoCode.getFromLocation(CoordenadaSelec.latitude, CoordenadaSelec.longitude , 1)
 
             if(direcciones.size > 0){
-                val direccion = direcciones[0].getAddressLine(0)
-
+                val direccion = GlobalPositioningSystem(direcciones[0].getAddressLine(0), direcciones[0].latitude, direcciones[0].longitude)
                 val intent_OK = Intent()
                 intent_OK.putExtra("Ubicacion", direccion)
                 setResult(RESULT_OK, intent_OK)
