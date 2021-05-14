@@ -1,5 +1,6 @@
 package com.clases.proyecto_poi_arsaga.Modelos
 
+import android.location.Address
 import java.io.Serializable
 import java.util.*
 
@@ -18,7 +19,10 @@ class Mensaje(
         var nombre: String = "",
         var esMio: Boolean = false,
         val timeStamp: Any? = null,
-        var mensaje: String = ""
+        var mensaje: String = "",
+        var tipoMensaje: String = "",
+        var url: String = "",
+        var gps: MutableList<Address> = mutableListOf<Address>()
 ) {
 
 }

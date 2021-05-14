@@ -3,7 +3,10 @@ package com.clases.proyecto_poi_arsaga
 import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,8 +17,11 @@ import com.clases.proyecto_poi_arsaga.Fragmentos.Dialog_Agregar_I
 import com.clases.proyecto_poi_arsaga.Modelos.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_chat__grupal.*
+import kotlinx.android.synthetic.main.activity_entregar_tarea.*
+import java.util.*
 
 class Chat_Grupal : AppCompatActivity() {
 
@@ -95,7 +101,8 @@ class Chat_Grupal : AppCompatActivity() {
                     userActual!!.nombre,
                     false,
                     ServerValue.TIMESTAMP,
-                    mensajeEscrito
+                    mensajeEscrito,
+                    "Texto"
                 )
                 agregarMensaje(chatmensaje)
             }
@@ -106,13 +113,13 @@ class Chat_Grupal : AppCompatActivity() {
             when(it.itemId){
 
                 R.id.menu_Archivos -> {
-
+                    subirArchivo()
                 }
                 R.id.menu_Ubicacion -> {
                     revisarPermisos()
                 }
                 R.id.menu_Imagen -> {
-
+                    subirImagen()
                 }
                 else -> {
 
@@ -120,6 +127,18 @@ class Chat_Grupal : AppCompatActivity() {
             }
             true
         }
+    }
+
+    private fun subirArchivo() {
+        val F_intent = Intent(Intent.ACTION_GET_CONTENT)
+        F_intent.type = "application/*"
+        startActivityForResult(F_intent, 3)
+    }
+
+    private fun subirImagen() {
+        val F_intent = Intent(Intent.ACTION_PICK)
+        F_intent.type = "image/*"
+        startActivityForResult(F_intent, 2)
     }
 
     private fun cargarMensajes(){
@@ -149,11 +168,29 @@ class Chat_Grupal : AppCompatActivity() {
     }
 
     private fun agregarMensaje(mensaje: Mensaje){
+
         database.getReference().child("ChatLog").child(ChatDirecto!!.id).push().setValue(mensaje)
         if(ChatDirecto!!.usuario2 != "Grupal") {
             ChatDirecto!!.timeStamp = mensaje.timeStamp
             ChatDirecto!!.ultimoMensajeDe = userActual!!.correo
-            ChatDirecto!!.ultimoMensaje = mensaje.mensaje
+            when(mensaje.tipoMensaje){
+                "Imagen" -> {
+                    ChatDirecto!!.ultimoMensaje = "Imagen Enviada"
+                }
+                "Texto" -> {
+                    ChatDirecto!!.ultimoMensaje = mensaje.mensaje
+                }
+                "Archivo" -> {
+                    ChatDirecto!!.ultimoMensaje = "Archivo Enviado"
+                }
+                "Ubicacion" -> {
+                    ChatDirecto!!.ultimoMensaje = "Ubicación Enviada"
+                }
+                else -> {
+                    ChatDirecto!!.ultimoMensaje = mensaje.mensaje
+                }
+            }
+
 
             database.getReference().child("ChatDirecto").child(ChatDirecto!!.id).setValue(
                 ChatDirecto
@@ -174,13 +211,121 @@ class Chat_Grupal : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(resultCode == RESULT_OK){
-            val direccionSelect = data?.getStringExtra("Ubicacion") ?: ""
-            Toast.makeText(this, "$direccionSelect", Toast.LENGTH_SHORT).show()
+        when(requestCode){
+            1 -> {
+                if(resultCode == RESULT_OK){
+                    val direccionSelect = data?.getStringExtra("Ubicacion") ?: ""
+                    Toast.makeText(this, "$direccionSelect", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(this, "No hay Ubicación", Toast.LENGTH_SHORT).show()
+                }
+            }
+            2 ->{
+                if(resultCode == RESULT_OK && data!=null){
+                    val uri = data.data
+                    data.data?.let { returnUri ->
+                        contentResolver.query(returnUri, null, null, null, null)
+                    }?.use { cursor ->
+                        val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                        //val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
+                        cursor.moveToFirst()
+                        var nameFile = cursor.getString(nameIndex)
+                        val chatmensaje = Mensaje(
+                            userActual!!.correo,
+                            userActual!!.nombre,
+                            false,
+                            ServerValue.TIMESTAMP,
+                            nameFile,
+                            "Imagen",
+                            ""
+                        )
+                        uploadImageToStorage(uri, chatmensaje)
+
+
+                    }
+
+                }
+                else{
+                    //Toast.makeText(this, "No hay Ubicación", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            3 ->{
+                if(resultCode == RESULT_OK && data!=null){
+                    val uri = data.data
+                    data.data?.let { returnUri ->
+                        contentResolver.query(returnUri, null, null, null, null)
+                    }?.use { cursor ->
+                        val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                        //val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
+                        cursor.moveToFirst()
+                        var nameFile = cursor.getString(nameIndex)
+                        val chatmensaje = Mensaje(
+                            userActual!!.correo,
+                            userActual!!.nombre,
+                            false,
+                            ServerValue.TIMESTAMP,
+                            nameFile,
+                            "Archivo",
+                            ""
+                        )
+                        uploadFileToStorage(uri, chatmensaje)
+
+
+                    }
+
+                }
+                else{
+                    //Toast.makeText(this, "No hay Ubicación", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
-        else{
-            Toast.makeText(this, "No hay Ubicación", Toast.LENGTH_SHORT).show()
-        }
+
+
+    }
+
+    private fun uploadFileToStorage(uri: Uri?, mensaje: Mensaje) {
+        val filename = mensaje.mensaje + UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/chat/files/$filename")
+        ref.putFile(uri!!)
+            .addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener {
+                    mensaje.url = it.toString()
+                    agregarMensaje(mensaje)
+                }.addOnFailureListener {
+                    //if(loading != null)
+                    //loading.isDismiss()
+                    Toast.makeText(this@Chat_Grupal, it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener {
+                //if(loading != null)
+                //loading.isDismiss()
+                Toast.makeText(this@Chat_Grupal, it.message, Toast.LENGTH_SHORT).show()
+            }
+
+    }
+
+    private fun uploadImageToStorage(uri : Uri?, mensaje: Mensaje){
+        val filename = mensaje.mensaje + UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/chat/images/$filename")
+        ref.putFile(uri!!)
+            .addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener {
+                    mensaje.url = it.toString()
+                    agregarMensaje(mensaje)
+                }.addOnFailureListener {
+                    //if(loading != null)
+                        //loading.isDismiss()
+                    Toast.makeText(this@Chat_Grupal, it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener {
+                //if(loading != null)
+                    //loading.isDismiss()
+                Toast.makeText(this@Chat_Grupal, it.message, Toast.LENGTH_SHORT).show()
+            }
     }
 
     override fun onRequestPermissionsResult(

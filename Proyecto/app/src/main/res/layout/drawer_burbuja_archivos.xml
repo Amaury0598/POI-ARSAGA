@@ -19,16 +19,16 @@
         android:padding="8dp">
 
         <LinearLayout
+            android:id="@+id/Vis_Archivo_NombreUsu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/TV_Nombre_UsuAchivo"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
@@ -36,12 +36,12 @@
                 android:textSize="18sp"
                 tools:text="Nombre usuario" />
 
-        </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?android:attr/listDivider" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="?android:attr/listDivider" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
