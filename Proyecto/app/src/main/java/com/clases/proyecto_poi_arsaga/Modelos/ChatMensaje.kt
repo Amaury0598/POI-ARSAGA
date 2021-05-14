@@ -57,7 +57,7 @@ class GlobalPositioningSystem(
 
     ): Serializable{
     override fun toString(): String {
-        return "Dirección: $addressLine\nLatitud: ${latitude}\nLongitud${longitude}"
+        return "Dirección: $addressLine\nLatitud: ${latitude}\nLongitud: ${longitude}"
     }
 
 }

@@ -1,19 +1,17 @@
 package com.clases.proyecto_poi_arsaga
 
-import android.app.PendingIntent.getActivity
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.FragmentManager
 import com.clases.proyecto_poi_arsaga.Adaptadores.AdaptorChat
-import com.clases.proyecto_poi_arsaga.Fragmentos.Dialog_Agregar_I
 import com.clases.proyecto_poi_arsaga.Modelos.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -22,6 +20,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_chat__grupal.*
 import kotlinx.android.synthetic.main.activity_entregar_tarea.*
 import java.util.*
+
 
 class Chat_Grupal : AppCompatActivity(), AdaptorChat.OnPubliClickListen {
 
@@ -213,26 +212,26 @@ class Chat_Grupal : AppCompatActivity(), AdaptorChat.OnPubliClickListen {
 
         when(requestCode){
             1 -> {
-                if(resultCode == RESULT_OK){
-                    val direccionSelect = data?.getSerializableExtra("Ubicacion") as GlobalPositioningSystem
+                if (resultCode == RESULT_OK) {
+                    val direccionSelect =
+                        data?.getSerializableExtra("Ubicacion") as GlobalPositioningSystem
                     val chatmensaje = Mensaje(
                         userActual!!.correo,
                         userActual!!.nombre,
                         false,
                         ServerValue.TIMESTAMP,
                         direccionSelect.toString(),
-                        "Ubicación",
+                        "Ubicacion",
                         "",
                         direccionSelect
                     )
                     agregarMensaje(chatmensaje)
-                }
-                else{
+                } else {
                     //Toast.makeText(this, "No hay Ubicación", Toast.LENGTH_SHORT).show()
                 }
             }
-            2 ->{
-                if(resultCode == RESULT_OK && data!=null){
+            2 -> {
+                if (resultCode == RESULT_OK && data != null) {
                     val uri = data.data
                     data.data?.let { returnUri ->
                         contentResolver.query(returnUri, null, null, null, null)
@@ -255,14 +254,13 @@ class Chat_Grupal : AppCompatActivity(), AdaptorChat.OnPubliClickListen {
 
                     }
 
-                }
-                else{
+                } else {
                     //Toast.makeText(this, "No hay Ubicación", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            3 ->{
-                if(resultCode == RESULT_OK && data!=null){
+            3 -> {
+                if (resultCode == RESULT_OK && data != null) {
                     val uri = data.data
                     data.data?.let { returnUri ->
                         contentResolver.query(returnUri, null, null, null, null)
@@ -285,8 +283,7 @@ class Chat_Grupal : AppCompatActivity(), AdaptorChat.OnPubliClickListen {
 
                     }
 
-                }
-                else{
+                } else {
                     //Toast.makeText(this, "No hay Ubicación", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -317,7 +314,7 @@ class Chat_Grupal : AppCompatActivity(), AdaptorChat.OnPubliClickListen {
 
     }
 
-    private fun uploadImageToStorage(uri : Uri?, mensaje: Mensaje){
+    private fun uploadImageToStorage(uri: Uri?, mensaje: Mensaje){
         val filename = mensaje.mensaje + UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/chat/images/$filename")
         ref.putFile(uri!!)
@@ -355,8 +352,9 @@ class Chat_Grupal : AppCompatActivity(), AdaptorChat.OnPubliClickListen {
     }
 
     private fun abrirMapa() {
-
-        startActivityForResult(Intent(this, MapsActivity::class.java), 1)
+        var u_intent = Intent(this, MapsActivity::class.java)
+        u_intent.putExtra("Opcion", 1)
+        startActivityForResult(u_intent, 1)
     }
 
 
@@ -395,13 +393,36 @@ class Chat_Grupal : AppCompatActivity(), AdaptorChat.OnPubliClickListen {
                 Toast.makeText(this, "Texto", Toast.LENGTH_SHORT).show()
             }
             "Imagen" -> {
-                Toast.makeText(this, "Imagen", Toast.LENGTH_SHORT).show()
+                var u_intent = Intent(this, MapsActivity::class.java)
+                u_intent.putExtra("Opcion", 3)
+                u_intent.putExtra("Imagen", mensaje.url)
+                u_intent.putExtra("ImagenNombre", mensaje.mensaje)
+                startActivity(u_intent)
+                //Toast.makeText(this, "Imagen", Toast.LENGTH_SHORT).show()
             }
             "Archivo" -> {
-                Toast.makeText(this, "Archivo", Toast.LENGTH_SHORT).show()
+                val dialogClickListener =
+                    DialogInterface.OnClickListener { dialog, which ->
+                        when (which) {
+                            DialogInterface.BUTTON_POSITIVE -> {
+                                Toast.makeText(this, "Pulsaste que si", Toast.LENGTH_SHORT).show()
+                            }
+                            DialogInterface.BUTTON_NEGATIVE -> {
+                                Toast.makeText(this, "Pulsaste que no", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+
+                val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show()
             }
             "Ubicacion" -> {
-                Toast.makeText(this, "Ubicacion", Toast.LENGTH_SHORT).show()
+                var u_intent = Intent(this, MapsActivity::class.java)
+                u_intent.putExtra("Opcion", 2)
+                u_intent.putExtra("latitud", mensaje.gps.latitude)
+                u_intent.putExtra("longitud", mensaje.gps.longitude)
+                startActivity(u_intent)
             }
             else -> {
                 Toast.makeText(this, "Ojo cuidado", Toast.LENGTH_SHORT).show()

@@ -53,9 +53,8 @@
 
             <ImageView
                 android:id="@+id/IMG_Mapa"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_margin="4dp"
+                android:layout_width="43dp"
+                android:layout_height="38dp"
                 android:src="@drawable/ic_launcher_background" />
 
             <TextView
@@ -68,11 +67,10 @@
                 android:layout_marginRight="4dp"
                 android:ellipsize="end"
                 android:ems="12"
-                android:maxLines="3"
                 android:minEms="1"
                 android:textColor="#00CBE6"
-                android:textSize="18sp"
-                android:textStyle="bold|italic"
+                android:textSize="14sp"
+                android:textStyle="italic"
                 tools:text="Haloooo dasdsaod lawd owaold oawld oalw odwa d wad aw dlao dlwa odlao wldaw" />
 
         </LinearLayout>

@@ -120,7 +120,7 @@ class Entregar_Tarea : AppCompatActivity() {
 
     private fun VerTarea(){
         archivos.clear()
-        var downloadID : Long = 0
+
 
 
         var tarea = intent.getSerializableExtra("tareaActual") as Tareas
