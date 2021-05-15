@@ -1,5 +1,6 @@
 package com.clases.proyecto_poi_arsaga.Adaptadores
 
+import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -44,6 +45,10 @@ class Adaptador_Integrantes(var estatus : Int,
         val CCorreo = holder.itemView.findViewById<TextView>(R.id.TV_integrantes_correo)
 
         Picasso.get().load(listaIntegrantes[position].imagen).into(CFoto)
+        if(listaIntegrantes[position].status)
+            CFoto.borderColor = Color.parseColor("#29D63A")
+        else
+            CFoto.borderColor = Color.parseColor("#C1D9D5")
 
         if(listaIntegrantesActivos.contains(listaIntegrantes[position].correo)){
             CNombre.isChecked = true

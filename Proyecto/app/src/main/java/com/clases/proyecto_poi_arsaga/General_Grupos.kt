@@ -283,6 +283,9 @@ class General_Grupos : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoCli
         userRef.child(auth.uid.toString()).get()
                 .addOnSuccessListener{
                     userActual = it.getValue(Usuario::class.java) as Usuario
+                    if(userActual.encriptado)
+                        userActual.desencriptarUsuario()
+                    cambiarFragmento(Frag_Muro(), "Muro")
                     //nuevoGrupo.admin = userActual.correo
                     //nuevoGrupo.correo_usuarios!!.add(userActual.correo)
 
@@ -322,6 +325,8 @@ class General_Grupos : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoCli
                     listaIntegrantesModificar.clear()
                     for (u in snapshot.children) {
                         val user = u.getValue(Usuario::class.java) as Usuario
+                        if(user.encriptado)
+                            user.desencriptarUsuario()
                         if (user.correo != userActual.correo)
                             listaIntegrantesModificar.add(user)
                     }
@@ -353,6 +358,8 @@ class General_Grupos : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoCli
                                     listaIntegrantesModificar.clear()
                                     for (u in snapshot.children) {
                                         val user = u.getValue(Usuario::class.java) as Usuario
+                                        if(user.encriptado)
+                                            user.desencriptarUsuario()
                                         if (user.correo != userActual.correo) {
                                             for (u in deGpo.correo_usuarios!!){
                                                 if(u == user.correo) {
@@ -388,6 +395,8 @@ class General_Grupos : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoCli
                     listaIntegrantesSubgrupo.clear()
                     for (u in snapshot.children) {
                         val user = u.getValue(Usuario::class.java) as Usuario
+                        if(user.encriptado)
+                            user.desencriptarUsuario()
                         if (user.correo != userActual.correo) {
                             for (u in grupoActual.correo_usuarios!!){
                                 if(u == user.correo) {

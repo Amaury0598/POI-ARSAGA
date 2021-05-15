@@ -152,6 +152,8 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
         userRef.child(auth.uid.toString()).get()
                 .addOnSuccessListener{
                     userActual = it.getValue(Usuario::class.java) as Usuario
+                    if(userActual.encriptado)
+                        userActual.desencriptarUsuario()
                     nuevoGrupo.admin = userActual.correo
                     nuevoGrupo.correo_usuarios!!.add(userActual.correo)
                     llenarlista()
@@ -208,17 +210,23 @@ class Crear_Grupo : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickL
     }
 
     fun llenarlista(){
-        userRef.addListenerForSingleValueEvent(object:ValueEventListener{
+        userRef.addValueEventListener(object:ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()) {
+                    listaIntegrantes.clear()
                     for (u in snapshot.children) {
                         val user = u.getValue(Usuario::class.java) as Usuario
+                        if(user.encriptado)
+                            user.desencriptarUsuario()
                         if (user.correo != userActual.correo)
                             listaIntegrantes.add(user)
                     }
                 }
-                if(loading != null)
+
+                if(loading != null) {
                     loading.isDismiss()
+                    AdaptIntegrantes.notifyDataSetChanged()
+                }
 
             }
 

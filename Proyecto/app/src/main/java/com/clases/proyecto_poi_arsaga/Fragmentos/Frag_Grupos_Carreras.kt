@@ -63,6 +63,8 @@ class Frag_Grupos_Carreras : Fragment(), Adaptador_Grupos_Carreras.OnGrupoClickL
         userRef.child(auth.uid.toString()).get()
                 .addOnSuccessListener{
                     userActual = it.getValue(Usuario::class.java) as Usuario
+                    if(userActual.encriptado)
+                        userActual.desencriptarUsuario()
                     cargarLista()
                 }
 

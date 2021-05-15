@@ -43,6 +43,8 @@ class Mod_Perfil : AppCompatActivity() {
                 .addOnSuccessListener{
                     loading.startLoading("Cargando Datos")
                     userActual = it.getValue(Usuario::class.java) as Usuario
+                    if(userActual.encriptado)
+                        userActual.desencriptarUsuario()
                     ET_MPnuevonombre.setText(userActual?.nombre)
                     ET_MPdesc.setText(userActual?.desc)
                     if(loading != null)
@@ -181,9 +183,13 @@ class Mod_Perfil : AppCompatActivity() {
     }
 
     private fun updateUserInfo(nombre:String, desc:String){
-        val user = Usuario(nombre, userActual?.correo!!, userActual?.imagen!!, desc, userActual?.carrera!!)
+        val user = Usuario(nombre, userActual?.correo!!, userActual?.imagen!!, desc, userActual?.carrera!!, userActual.coins, userActual.status, userActual.encriptado)
+        if(user.encriptado)
+            user.encriptarUsuario()
         userRef.child(auth.uid.toString()).setValue(user)
                 .addOnSuccessListener {
+                    if(user.encriptado)
+                        user.desencriptarUsuario()
                     updateChatListInfo1(user)
                 }
 

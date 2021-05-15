@@ -3,10 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/Menu_tareas"
-        android:icon="@drawable/menu_book"
-        android:title="Tareas" />
-    <item
         android:id="@+id/Menu_grupos"
         android:icon="@drawable/groups"
         android:title="Grupos"

@@ -78,6 +78,8 @@ class Log_In : AppCompatActivity() {
                     user!!.status = true
                     userRef.child(auth.uid.toString()).setValue(user)
                         .addOnSuccessListener {
+                            if(user.encriptado)
+                                user.desencriptarUsuario()
                             updateChatListInfo1(user)
 
                         }

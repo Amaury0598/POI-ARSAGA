@@ -54,6 +54,8 @@ class Entregar_Tarea : AppCompatActivity() {
         userRef.child(auth.uid.toString()).get()
                 .addOnSuccessListener {
                     userActual = it.getValue(Usuario::class.java) as Usuario
+                    if(userActual.encriptado)
+                        userActual.desencriptarUsuario()
                     when(estatus){
                         0 -> {
                             Pendiente()
@@ -352,8 +354,12 @@ class Entregar_Tarea : AppCompatActivity() {
         val tareaEntrega = TareaEntregada(tarea.id, userActual.correo, userActual.nombre, userActual.imagen, archivos)
         tareasEntregadasRef.child(tarea.id).push().setValue(tareaEntrega)
         userActual.coins += tarea.coins
+        if(userActual.encriptado)
+            userActual.encriptarUsuario()
         userRef.child(auth.uid.toString()).setValue(userActual)
         tareasUsuariosRef.child(tarea.id).get().addOnSuccessListener { it ->
+            if(userActual.encriptado)
+                userActual.desencriptarUsuario()
             for (c in it.children) {
                 val tareasUsuarios = c.getValue(lTareaUsuarios::class.java) as lTareaUsuarios
                 var i = -1
@@ -368,8 +374,11 @@ class Entregar_Tarea : AppCompatActivity() {
                 tareasUsuariosRef.child(tarea.id).child(tareasUsuarios.id).setValue(tareasUsuarios)
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
-                                if(sePagaConCoins)
-                                    userRef.child(auth.uid.toString()).setValue(userRef)
+
+                                    if(userActual.encriptado)
+                                        userActual.encriptarUsuario()
+                                    userRef.child(auth.uid.toString()).setValue(userActual)
+
                                 if(loading != null)
                                     loading.isDismiss()
 

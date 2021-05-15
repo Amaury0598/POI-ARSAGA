@@ -22,8 +22,7 @@ class Adaptador_Grupos_Carreras(private val context: FragmentActivity?,
                                 val listaChatsGrupos:  MutableList<Grupos>,
                                 val listaChatsSubGrupos:  MutableList<Grupos>,
                                 private val itemClickListener: OnGrupoClickListen) : RecyclerView.Adapter<Adaptador_Grupos_Carreras.Grupos_Carreras_ViewHolder>() {
-    private val database = FirebaseDatabase.getInstance();
-    private val grupoRef = database.getReference("Grupos")
+
     private val subGrupos = mutableListOf<Grupos>()
     private lateinit var contextAd:Context
     private lateinit var subGrupoSpinner : Spinner

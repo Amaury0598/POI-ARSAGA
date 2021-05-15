@@ -3,12 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@drawable/mode_night"
-        android:title="Modo Nocturno" />
-    <item
-        android:icon="@drawable/format_size"
-        android:title="Tamaño de Fuente" />
-    <item
-        android:icon="@drawable/notifications"
-        android:title="Notificaciones" />
+        android:id="@+id/nose"
+        android:icon="@drawable/vpn_key"
+        android:title="Encriptar Datos"
+        app:actionLayout="@layout/switch_item" />
 </menu>

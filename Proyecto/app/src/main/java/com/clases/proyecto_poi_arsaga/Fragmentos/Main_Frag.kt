@@ -67,9 +67,6 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
             miAutoComplete.text.clear();
 
             val intent = Intent(activity, Chat_Grupal::class.java)
-            //intent.putExtra("UsuarioSeleccionado", usuarioSeleccionado)
-            //intent.putExtra("Nombre", nombre)
-            //intent.putExtra("Correo", correo)
             intent.putExtra("userActual", userActual)
             intent.putExtra("Tipo", 1)
             verSiTieneChat(intent, usuarioSeleccionado)
@@ -79,6 +76,8 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                 .addOnSuccessListener{ usuarioConseguido ->
 
                     userActual = usuarioConseguido.getValue(Usuario::class.java) as Usuario
+                    if(userActual.encriptado)
+                        userActual.desencriptarUsuario()
                     cargarChatDirecto()
 
 
@@ -121,13 +120,6 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                     }
 
                 })
-
-        /*listaChats.add(ChatMensaje("Javier","Hola, como estas", Date(), false, 0, true))
-        listaChats.add(ChatMensaje("El Rasho MacQueen la Machina mas veloz del mundo","Kuchau", Date(), true, 1, false))
-        listaChats.add(ChatMensaje("Oliver","Mis piernas !!!", Date(), false, 2, true))
-        listaChats.add(ChatMensaje("Benito","yipi yipi yipiy kejeje asdwajdjwa dwajdwadaw", Date(), true, 4, false))
-        listaChats.add(ChatMensaje("José José","Hola, como estas", Date(), true, 5, true))
-        listaChats.add(ChatMensaje("Messi","lalalalaa lalalalaa allalaala lalalala alallala alala", Date(), false, 6, true))*/
 
 
 
@@ -177,34 +169,6 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
         return chatD
     }
 
-   /* private fun obtenerChatDirectoUsuarios(correo1:String, correo2:String) : String{
-        val datoRes: String
-        if(correo1 > correo2)
-            datoRes = correo1 + "/-/" + correo2
-        else
-            datoRes = correo2 + "/-/" + correo1
-        return datoRes
-    }
-
-    private fun obtenerNombre(cadena:String) : String{
-        var nombre: String = ""
-        for (i in 0 until cadena.length) {
-            if(cadena[i] == '/' && cadena[i+1] == '-' && cadena[i+2] == '/')
-                break
-            nombre += cadena[i]
-        }
-        return nombre
-    }
-
-    private fun obtenerCorreo(cadena:String, nombre:String) : String{
-        var correo = cadena.replace(nombre + "/-/", "")
-        return correo
-    }
-
-    override fun onitemHold(toString: String) {
-        Toast.makeText(activity, "El id es: $toString", Toast.LENGTH_SHORT).show()
-    }*/
-
 
     override fun onitemClick(Chatdirecto: ChatDirecto) {
         val intent = Intent(activity, Chat_Grupal::class.java)
@@ -228,6 +192,8 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
 
                     for( u in snapshot.children){
                         val user: Usuario = u.getValue(Usuario::class.java) as Usuario;
+                        if(user.encriptado)
+                            user.desencriptarUsuario()
                             if(user.correo != userActual!!.correo) {
                                 
                                 listaUsuarios.add(user)

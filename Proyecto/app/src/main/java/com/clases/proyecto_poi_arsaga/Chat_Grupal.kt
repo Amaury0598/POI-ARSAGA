@@ -50,6 +50,8 @@ class Chat_Grupal : AppCompatActivity(), AdaptorChat.OnPubliClickListen {
         userRef.child(auth.uid.toString()).get()
                 .addOnSuccessListener {
                     userActual = it.getValue(Usuario::class.java) as Usuario
+                    if(userActual.encriptado)
+                        userActual.desencriptarUsuario()
                     if(intent.extras != null){
                         //usuarioSeleccionado = intent.getSerializableExtra("UsuarioSeleccionado") as Usuario
                         //userActual = intent.getSerializableExtra("userActual") as Usuario

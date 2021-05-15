@@ -21,7 +21,8 @@ data class Publicaciones(
         var foto : String = "",
         var nombre : String = "",
         var id : String = "",
-        var mensajePublicacion : String = ""
+        var mensajePublicacion : String = "",
+        var status : Boolean = false
 ){
 
 }

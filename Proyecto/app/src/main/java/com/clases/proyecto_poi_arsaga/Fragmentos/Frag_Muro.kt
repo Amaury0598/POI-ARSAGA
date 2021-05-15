@@ -108,6 +108,8 @@ class Frag_Muro : Fragment(), Adaptador_Muro_General.OnPubliClickListen {
         userRef.child(auth.uid.toString()).get()
                 .addOnSuccessListener{
                     userActual = it.getValue(Usuario::class.java) as Usuario
+                    if(userActual.encriptado)
+                        userActual.desencriptarUsuario()
 
 
                 }
@@ -130,6 +132,7 @@ class Frag_Muro : Fragment(), Adaptador_Muro_General.OnPubliClickListen {
                         val publicacion = p.getValue(Publicaciones::class.java) as Publicaciones
                         if(publicacion.grupo == General_Grupos.grupoActual.nombre){
                             listaPublicacion.add(publicacion)
+
                         }
                     }
                     adaptadorMuro.notifyDataSetChanged()
@@ -151,7 +154,7 @@ class Frag_Muro : Fragment(), Adaptador_Muro_General.OnPubliClickListen {
         chatDirecto.usuario1 = publicacion.mensajePublicacion
         chatDirecto.fotoUsuario1 = General_Grupos.grupoActual.foto
         chatDirecto.usuario2 = "Grupal"
-        intent.putExtra("userActual", userActual)
+        //intent.putExtra("userActual", userActual)
         intent.putExtra( "Tipo", 0)
         intent.putExtra("ChatDirecto", chatDirecto)
         activity?.startActivity(intent)

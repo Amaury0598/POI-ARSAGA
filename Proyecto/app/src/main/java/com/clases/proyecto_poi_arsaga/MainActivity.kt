@@ -90,11 +90,16 @@ class MainActivity : AppCompatActivity() {
                         .addOnSuccessListener {
                             if (it.exists()) {
                                 userActual = it.getValue(Usuario::class.java) as Usuario
+
                                 userActual!!.status = false
+                                if(userActual!!.encriptado)
+                                    userActual!!.encriptarUsuario()
                                userRef.child(auth.uid.toString()).setValue(
                                     userActual
                                 )
                                    .addOnSuccessListener {
+                                       if(userActual!!.encriptado)
+                                           userActual!!.desencriptarUsuario()
                                        updateChatListInfo1(userActual!!)
 
                                    }
@@ -117,9 +122,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.Menu_grupos -> {
                     cambiarFragmento(Frag_Grupos_Carreras(), "Grupos")
                 }
-                R.id.Menu_tareas -> {
-
-                }
                 R.id.Menu_contactos -> {
                     cambiarFragmento(Main_Frag(),"Contactos")
                 }
@@ -132,9 +134,12 @@ class MainActivity : AppCompatActivity() {
         userRef.child(auth.uid.toString()).get()
                 .addOnSuccessListener{
                     userActual = it.getValue(Usuario::class.java) as Usuario
+                    if(userActual!!.encriptado)
+                        userActual!!.desencriptarUsuario()
                     NombreUsuario.text = userActual?.nombre
                     Picasso.get().load(userActual?.imagen).into(ImagenUsuario)
-                    //cambiarFragmento(Frag_Grupos_Carreras(), "Grupos")
+
+                    cambiarFragmento(Frag_Grupos_Carreras(), "Grupos")
                 }
     }
 
@@ -186,15 +191,5 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("status", "conectado")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("status", "desconectado")
     }
 }

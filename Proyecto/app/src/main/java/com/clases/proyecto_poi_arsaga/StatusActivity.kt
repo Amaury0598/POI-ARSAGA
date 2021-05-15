@@ -46,12 +46,22 @@ class StatusActivity : Application(), LifecycleObserver {
                             userActual = it.getValue(Usuario::class.java) as Usuario
                             userActual!!.status = status
                             userRef.child(auth.uid.toString()).setValue(userActual)
-                                    .addOnSuccessListener { updateChatListInfo1(userActual!!) }
+                                    .addOnSuccessListener {
+                                        if(userActual!!.encriptado)
+                                            userActual!!.desencriptarUsuario()
+                                        updateChatListInfo1(userActual!!)
+                                    }
 
                         }
                     }
         }
     }
+
+    /*private fun updatePublication(user:Usuario){
+        val database = FirebaseDatabase.getInstance();
+        val publicacionesRef = database.getReference("Publicaciones")
+        publicacionesRef.orderByChild("correo")
+    }*/
 
     private fun updateChatListInfo1(user: Usuario){
         val database = FirebaseDatabase.getInstance();
