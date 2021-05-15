@@ -47,7 +47,7 @@ class Adaptador_Tareas_Entregadas(private val context: Tareas_Entregadas,
         val TareaA_Img_Perfil = holder.itemView.findViewById<ImageView>(R.id.IMG_TE_TA_imagen)
 
         TareaA_Nombre.text = listaTareasEntregadas[position].nombre
-        TareaA_Nombre_Grupo.text = listaTareasEntregadas[position].multimedia[0].nombreArchivo
+        TareaA_Nombre_Grupo.text = listaTareasEntregadas[position].multimedia.nombreArchivo
         Picasso.get().load(listaTareasEntregadas[position].imagen).into(TareaA_Img_Perfil)
 
         holder.itemView.setOnClickListener {

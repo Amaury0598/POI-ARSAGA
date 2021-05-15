@@ -34,7 +34,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
 
     var listaChats = mutableListOf<ChatDirecto>()
     val adaptadorChatlistadechats = Adaptador_Lista_Chats(this, listaChats,this)
-    var listaCorreos = mutableListOf<String>()
+
     var listaUsuarios = mutableListOf<Usuario>()
 
     companion object{
@@ -134,7 +134,7 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
     }
 
     private fun verSiTieneChat(intent: Intent, usuarioSeleccionado: Usuario){
-        var chatDir: ChatDirecto = ChatDirecto("", userActual!!.correo, usuarioSeleccionado.correo, userActual!!.nombre, usuarioSeleccionado.nombre, userActual!!.imagen, usuarioSeleccionado.imagen, "", "", ServerValue.TIMESTAMP)
+        var chatDir: ChatDirecto = ChatDirecto("", userActual!!.correo, usuarioSeleccionado.correo, userActual!!.nombre, usuarioSeleccionado.nombre, userActual!!.imagen, usuarioSeleccionado.imagen, "", "", ServerValue.TIMESTAMP, userActual!!.status, usuarioSeleccionado.status)
         var encontrado = false
         var cdRef = database.getReference().child("ChatDirecto")
         cdRef.addListenerForSingleValueEvent(object: ValueEventListener{
@@ -229,19 +229,20 @@ class Main_Frag :  Fragment(), Adaptador_Lista_Chats.OnGrupoClickListen {
                     for( u in snapshot.children){
                         val user: Usuario = u.getValue(Usuario::class.java) as Usuario;
                             if(user.correo != userActual!!.correo) {
-                                listaCorreos.add(user.nombre + "\n" + user.correo)//Darien Miguel Sánchez Arévalo\nsadarien@gmail.com
+                                
                                 listaUsuarios.add(user)
                             }
                     }
 
                     //val correosArray: Array<String> = listaCorreos.toTypedArray()
-
+                    if(activity != null){
                     val adapter = ArrayAdapter(activity as Context, android.R.layout.simple_list_item_1, listaUsuarios);
                     AC_CHATGRUPAL.setAdapter(adapter)
+                    }
 
                 }
-
-                loading.isDismiss()
+                if(loading != null)
+                    loading.isDismiss()
             }
         })
     }

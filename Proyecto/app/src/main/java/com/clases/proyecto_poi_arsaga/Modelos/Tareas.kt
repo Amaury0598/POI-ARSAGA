@@ -18,7 +18,7 @@ class TareaEntregada (
         var correo: String = "",
         var nombre: String = "",
         var imagen: String = "",
-        var multimedia: MutableList<Multimedia> = mutableListOf<Multimedia>()
+        var multimedia:Multimedia = Multimedia()
 ) : Serializable {
 
 }

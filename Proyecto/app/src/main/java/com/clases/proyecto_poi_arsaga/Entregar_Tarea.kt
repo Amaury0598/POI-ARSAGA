@@ -38,8 +38,8 @@ class Entregar_Tarea : AppCompatActivity() {
     private val tareasEntregadasRef = database.getReference("TareasEntregadas")
     private val tareasUsuariosRef = database.getReference("TareasUsuarios")
     private var userActual: Usuario = Usuario()
-    private var archivos = mutableListOf<Multimedia>()
-    private var uri = mutableListOf<Uri>()
+    private var archivos = Multimedia()
+    private var uri : Uri? = null
     private lateinit var nameFile : String
     private lateinit var loading: LoadingDialog
     private var sePagaConCoins : Boolean = false
@@ -82,7 +82,7 @@ class Entregar_Tarea : AppCompatActivity() {
     }
 
     private fun Pendiente(){
-        archivos.clear()
+
         nameFile = ""
 
 
@@ -99,7 +99,7 @@ class Entregar_Tarea : AppCompatActivity() {
         }
 
         BTN_Entregar_Tarea.setOnClickListener {
-            if(archivos.isEmpty()){
+            if(archivos.nombreArchivo.isEmpty()){
                 TV_Entrega_Archivo.setTextColor(Color.parseColor("#C70039"))
                 Toast.makeText(this, "Escoge el archivo a subir", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -119,7 +119,7 @@ class Entregar_Tarea : AppCompatActivity() {
     }
 
     private fun VerTarea(){
-        archivos.clear()
+
 
 
 
@@ -145,12 +145,12 @@ class Entregar_Tarea : AppCompatActivity() {
                 for(it in snapshot.children){
                     val tareaEnt = it.getValue(TareaEntregada::class.java) as TareaEntregada
                     if(tareaEnt.correo == correo){
-                        for(m in tareaEnt.multimedia){
-                            //AQUÍ VAN LAS COSAS DEL POSIBLE RECYCLER PARA MÚLTIPLES TAREAS
-                            TV_Entrega_Nombre_Archivo.text = m.nombreArchivo
-                            TV_Entrega_Url_Archivo.text = m.urlArchivo
+
+
+                            TV_Entrega_Nombre_Archivo.text = tareaEnt.multimedia.nombreArchivo
+                            TV_Entrega_Url_Archivo.text = tareaEnt.multimedia.urlArchivo
                             TV_Entrega_Nombre_Archivo.setTextColor(Color.parseColor("#00CBE6"))
-                        }
+
                         break
                     }
                 }
@@ -162,7 +162,7 @@ class Entregar_Tarea : AppCompatActivity() {
 
         })
 
-        //SI SE HARÁ EN UN RECYCLER VIEW, ESTO SERÍA EL ONITEMCLICK
+
         TV_Entrega_Nombre_Archivo.setOnClickListener {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                 if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
@@ -182,7 +182,7 @@ class Entregar_Tarea : AppCompatActivity() {
     }
 
     private fun Entregada(){
-        archivos.clear()
+
         var downloadID : Long = 0
 
 
@@ -207,12 +207,10 @@ class Entregar_Tarea : AppCompatActivity() {
                 for(it in snapshot.children){
                     val tareaEnt = it.getValue(TareaEntregada::class.java) as TareaEntregada
                     if(tareaEnt.correo == userActual.correo){
-                        for(m in tareaEnt.multimedia){
-                            //AQUÍ VAN LAS COSAS DEL POSIBLE RECYCLER PARA MÚLTIPLES TAREAS
-                            TV_Entrega_Nombre_Archivo.text = m.nombreArchivo
-                            TV_Entrega_Url_Archivo.text = m.urlArchivo
+
+                            TV_Entrega_Nombre_Archivo.text = tareaEnt.multimedia.nombreArchivo
+                            TV_Entrega_Url_Archivo.text = tareaEnt.multimedia.urlArchivo
                             TV_Entrega_Nombre_Archivo.setTextColor(Color.parseColor("#00CBE6"))
-                        }
                         break
                     }
                 }
@@ -275,7 +273,7 @@ class Entregar_Tarea : AppCompatActivity() {
     }
 
     private fun No_Entregada(){
-        archivos.clear()
+
 
 
 
@@ -298,14 +296,14 @@ class Entregar_Tarea : AppCompatActivity() {
         Picasso.get().load(General_Grupos.grupoActual.foto).into(IMG_Entrega_imagen)
         TV_Entrega_Nombre_Archivo.text = ""
         TV_Entrega_Nombre_Archivo.setTextColor(Color.parseColor("#00CBE6"))
-        sePagaConCoins = Date_ASG.compareToActualDate(tarea.fecha)
+        sePagaConCoins = Date_ASG.canPayWithASGCoins(tarea.fecha)
         if(sePagaConCoins){
             BTN_Entregar_Tarea_Coins.visibility = View.VISIBLE
             TV_Entrega_Nombre_Archivo.visibility = View.VISIBLE
             nameFile = ""
 
             BTN_Entregar_Tarea_Coins.setOnClickListener {
-                if(archivos.isEmpty()){
+                if(archivos.nombreArchivo.isEmpty()){
                     TV_Entrega_Archivo.setTextColor(Color.parseColor("#C70039"))
                     Toast.makeText(this, "Escoge el archivo a subir", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
@@ -329,16 +327,16 @@ class Entregar_Tarea : AppCompatActivity() {
     }
 
     private fun addToStorage(tarea : Tareas){
-        var pos = 0
-        for(u in uri) {
+
+
 
             val filename = UUID.randomUUID().toString()
             val ref = FirebaseStorage.getInstance().getReference("/tareas/archivos/$filename")
-            ref.putFile(u)
+            ref.putFile(uri!!)
                     .addOnSuccessListener {
                         ref.downloadUrl.addOnSuccessListener {
-                            archivos[pos].urlArchivo = it.toString()
-                            pos++
+                            archivos.urlArchivo = it.toString()
+
                             updateData(tarea)
                         }.addOnFailureListener {
                             if(loading != null)
@@ -347,7 +345,7 @@ class Entregar_Tarea : AppCompatActivity() {
                         }
                     }
 
-        }
+
     }
 
     private fun updateData(tarea: Tareas){
@@ -393,7 +391,7 @@ class Entregar_Tarea : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 1 && resultCode == Activity.RESULT_OK && data != null){
             loading.startLoading("Cargando archivo")
-            uri.add(data.data!!)
+            uri = data.data!!
             data.data?.let { returnUri ->
                 contentResolver.query(returnUri, null, null, null, null)
             }?.use { cursor ->
@@ -401,7 +399,7 @@ class Entregar_Tarea : AppCompatActivity() {
                 //val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
                 cursor.moveToFirst()
                 nameFile = cursor.getString(nameIndex)
-                archivos.add(Multimedia(nameFile, uri.toString()))
+                archivos = Multimedia(nameFile, uri.toString())
                 TV_Entrega_Nombre_Archivo.text = nameFile
                 TV_Entrega_Nombre_Archivo.setTextColor(Color.parseColor("#00CBE6"))
                 TV_Entrega_Archivo.setTextColor(Color.parseColor("#FFFFFF"))

@@ -1,10 +1,14 @@
 package com.clases.proyecto_poi_arsaga
 
+import android.app.DownloadManager
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.OpenableColumns
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -24,6 +28,7 @@ import java.util.*
 
 class Chat_Grupal : AppCompatActivity(), AdaptorChat.OnPubliClickListen {
 
+    private val STORAGE_PERMISSION_CODE: Int = 1000
     private val database = FirebaseDatabase.getInstance();
     private val auth = FirebaseAuth.getInstance()
     private val userRef = database.getReference("Usuarios")
@@ -387,10 +392,41 @@ class Chat_Grupal : AppCompatActivity(), AdaptorChat.OnPubliClickListen {
         }
     }
 
+    private fun permisosDescarga(mensaje : Mensaje) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+
+                requestPermissions(arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), STORAGE_PERMISSION_CODE)
+            }else{
+                startDownloading(mensaje)
+            }
+        }else{
+            startDownloading(mensaje)
+        }
+    }
+
+    private fun startDownloading(mensaje : Mensaje) {
+        val url =  mensaje.url
+        val nombre =  mensaje.mensaje
+
+        val request = DownloadManager.Request(Uri.parse(url))
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+        request.setTitle(nombre)
+        request.setDescription("Descargando...")
+
+        request.allowScanningByMediaScanner()
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "${System.currentTimeMillis()}")
+
+        val manager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        manager.enqueue(request)
+        Toast.makeText(this@Chat_Grupal, "Se ha iniciado la descarga del archivo", Toast.LENGTH_SHORT).show()
+    }
+
     override fun onitemClick(mensaje: Mensaje) {
         when(mensaje.tipoMensaje){
             "Texto" -> {
-                Toast.makeText(this, "Texto", Toast.LENGTH_SHORT).show()
+
             }
             "Imagen" -> {
                 var u_intent = Intent(this, MapsActivity::class.java)
@@ -405,16 +441,16 @@ class Chat_Grupal : AppCompatActivity(), AdaptorChat.OnPubliClickListen {
                     DialogInterface.OnClickListener { dialog, which ->
                         when (which) {
                             DialogInterface.BUTTON_POSITIVE -> {
-                                Toast.makeText(this, "Pulsaste que si", Toast.LENGTH_SHORT).show()
+                                permisosDescarga(mensaje)
                             }
                             DialogInterface.BUTTON_NEGATIVE -> {
-                                Toast.makeText(this, "Pulsaste que no", Toast.LENGTH_SHORT).show()
+
                             }
                         }
                     }
 
                 val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                builder.setMessage("¿Quieres descargar este archivo?").setPositiveButton("Sí", dialogClickListener)
                     .setNegativeButton("No", dialogClickListener).show()
             }
             "Ubicacion" -> {

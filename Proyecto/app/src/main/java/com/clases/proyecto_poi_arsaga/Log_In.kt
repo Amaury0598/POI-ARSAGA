@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
+import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
 import com.clases.proyecto_poi_arsaga.Modelos.Grupos
 import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialog
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
@@ -73,16 +74,69 @@ class Log_In : AppCompatActivity() {
         userRef.child(auth.uid.toString()).get()
             .addOnSuccessListener {
                 if(it.exists()) {
-                    //val user = it.getValue(Usuario::class.java)
-                    val intent = Intent(this@Log_In, MainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    //intent.putExtra("userActual", user)
-                    if(loading != null)
-                        loading.isDismiss()
-                    startActivity(intent)
-                }
+                    val user = it.getValue(Usuario::class.java) as Usuario
+                    user!!.status = true
+                    userRef.child(auth.uid.toString()).setValue(user)
+                        .addOnSuccessListener {
+                            updateChatListInfo1(user)
 
+                        }
+                }
             }
+    }
+
+    private fun updateChatListInfo1(user: Usuario){
+        val database = FirebaseDatabase.getInstance();
+        val chatDirectoRef = database.getReference("ChatDirecto")
+        chatDirectoRef.orderByChild("usuario1").equalTo(user.correo).addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    for (cl in snapshot.children){
+                        val chatD: ChatDirecto = cl.getValue(ChatDirecto::class.java) as ChatDirecto
+                        chatD.status1 = user.status
+                        chatDirectoRef.child(chatD.id).setValue(chatD)
+                    }
+                }
+                updateChatListInfo2(user)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    private fun updateChatListInfo2(user: Usuario){
+        val database = FirebaseDatabase.getInstance();
+        val chatDirectoRef = database.getReference("ChatDirecto")
+        chatDirectoRef.orderByChild("usuario2").equalTo(user.correo).addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    for (cl in snapshot.children){
+                        val chatD: ChatDirecto = cl.getValue(ChatDirecto::class.java) as ChatDirecto
+                        chatD.status2 = user.status
+
+                        chatDirectoRef.child(chatD.id).setValue(chatD)
+
+
+
+                    }
+                }
+                //val user = it.getValue(Usuario::class.java)
+                val intent = Intent(this@Log_In, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                //intent.putExtra("userActual", user)
+                if(loading != null)
+                    loading.isDismiss()
+                startActivity(intent)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     /*fun cargarLista(){

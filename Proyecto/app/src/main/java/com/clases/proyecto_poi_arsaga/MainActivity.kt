@@ -12,11 +12,15 @@ import androidx.core.view.children
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.clases.proyecto_poi_arsaga.Fragmentos.*
+import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -82,10 +86,21 @@ class MainActivity : AppCompatActivity() {
                     cambiarFragmento(FragmentoB(), "Opciones" )
                 }
                 R.id.menu_cerrar -> {
-                    FirebaseAuth.getInstance().signOut()
-                    finish()
-                    val miIntent = Intent(this, Log_In::class.java)
-                    startActivity(miIntent)
+                    userRef.child(auth.uid.toString()).get()
+                        .addOnSuccessListener {
+                            if (it.exists()) {
+                                userActual = it.getValue(Usuario::class.java) as Usuario
+                                userActual!!.status = false
+                               userRef.child(auth.uid.toString()).setValue(
+                                    userActual
+                                )
+                                   .addOnSuccessListener {
+                                       updateChatListInfo1(userActual!!)
+
+                                   }
+                            }
+                        }
+
                 }
                 else -> {
                     cambiarFragmento(FragmentoA(), "Default" )
@@ -121,6 +136,56 @@ class MainActivity : AppCompatActivity() {
                     Picasso.get().load(userActual?.imagen).into(ImagenUsuario)
                     //cambiarFragmento(Frag_Grupos_Carreras(), "Grupos")
                 }
+    }
+
+    private fun updateChatListInfo1(user: Usuario){
+        val database = FirebaseDatabase.getInstance();
+        val chatDirectoRef = database.getReference("ChatDirecto")
+        chatDirectoRef.orderByChild("usuario1").equalTo(user.correo).addListenerForSingleValueEvent(object:
+            ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    for (cl in snapshot.children){
+                        val chatD: ChatDirecto = cl.getValue(ChatDirecto::class.java) as ChatDirecto
+                        chatD.status1 = user.status
+                        chatDirectoRef.child(chatD.id).setValue(chatD)
+                    }
+                }
+                updateChatListInfo2(user)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    private fun updateChatListInfo2(user: Usuario){
+        val database = FirebaseDatabase.getInstance();
+        val chatDirectoRef = database.getReference("ChatDirecto")
+        chatDirectoRef.orderByChild("usuario2").equalTo(user.correo).addListenerForSingleValueEvent(object:
+            ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    for (cl in snapshot.children){
+                        val chatD: ChatDirecto = cl.getValue(ChatDirecto::class.java) as ChatDirecto
+                        chatD.status2 = user.status
+
+                        chatDirectoRef.child(chatD.id).setValue(chatD)
+                    }
+                }
+                FirebaseAuth.getInstance().signOut()
+                finish()
+                val miIntent = Intent(this@MainActivity, Log_In::class.java)
+                startActivity(miIntent)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     override fun onResume() {

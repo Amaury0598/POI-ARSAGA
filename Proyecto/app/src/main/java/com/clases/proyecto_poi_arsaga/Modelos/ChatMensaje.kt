@@ -37,7 +37,9 @@ class ChatDirecto(
         var fotoUsuario2: String = "",
         var ultimoMensajeDe: String = "",
         var ultimoMensaje: String = "",
-        var timeStamp: Any? = null
+        var timeStamp: Any? = null,
+        var status1:Boolean = false,
+        var status2:Boolean = false
 ) : Serializable {
 
 }

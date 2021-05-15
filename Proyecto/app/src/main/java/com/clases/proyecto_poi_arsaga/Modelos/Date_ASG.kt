@@ -50,8 +50,8 @@ class Date_ASG(
             val fMonth = date.substring(3,5)
             val fYear = date.substring(6,10)
             val dateString = fYear+fMonth+fDay
-            val dateInt = dateString.toInt()
-            dateInt + 1
+            var dateInt = dateString.toInt()
+            dateInt += 1
             //                                          11/05/2021 => 20210511
 
             val aDay = actualDate.substring(0,2)
