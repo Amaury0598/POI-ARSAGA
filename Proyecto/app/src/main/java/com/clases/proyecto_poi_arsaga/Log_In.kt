@@ -1,20 +1,24 @@
 package com.clases.proyecto_poi_arsaga
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.StrictMode
 import android.widget.Toast
-import com.clases.proyecto_poi_arsaga.Fragmentos.Main_Frag
-import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
-import com.clases.proyecto_poi_arsaga.Modelos.Grupos
-import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialog
-import com.clases.proyecto_poi_arsaga.Modelos.Usuario
+import androidx.appcompat.app.AppCompatActivity
+import com.clases.proyecto_poi_arsaga.Modelos.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_log__in.*
+import java.util.*
+import javax.mail.Message
+import javax.mail.PasswordAuthentication
+import javax.mail.Session
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
+
 
 class Log_In : AppCompatActivity() {
     private val database = FirebaseDatabase.getInstance();
@@ -25,13 +29,18 @@ class Log_In : AppCompatActivity() {
 
     private var correo: String = ""
     val listaGrupos = mutableListOf<Grupos>()
-
+    //Zi3WkVRdrWko3KG5dfAgJi1MCTHiTaK/dSyrUZlsx80
+    //N5OQR7b4c8kcapzewOqMFw
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log__in)
         loading = LoadingDialog(this)
+
+        //var correo = Encrypt.descencriptar("Zi3WkVRdrWko3KG5dfAgJi1MCTHiTaK/dSyrUZlsx80", "correo")
+        //var contra = Encrypt.descencriptar("N5OQR7b4c8kcapzewOqMFw", "correo")
         if(!auth.uid.isNullOrEmpty()){
             loading.startLoading("Procesando Datos")
+
             logIn()
         }
 
@@ -51,7 +60,15 @@ class Log_In : AppCompatActivity() {
             val miIntent = Intent(this, Registro::class.java)
             startActivity(miIntent)
         }
+
+
+
+
     }
+
+
+
+
 
     private fun buscarUsuario(correo: String, contraseña: String) {
        auth.signInWithEmailAndPassword(correo, contraseña)
@@ -90,10 +107,10 @@ class Log_In : AppCompatActivity() {
     private fun updateChatListInfo1(user: Usuario){
         val database = FirebaseDatabase.getInstance();
         val chatDirectoRef = database.getReference("ChatDirecto")
-        chatDirectoRef.orderByChild("usuario1").equalTo(user.correo).addListenerForSingleValueEvent(object: ValueEventListener {
+        chatDirectoRef.orderByChild("usuario1").equalTo(user.correo).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists()){
-                    for (cl in snapshot.children){
+                if (snapshot.exists()) {
+                    for (cl in snapshot.children) {
                         val chatD: ChatDirecto = cl.getValue(ChatDirecto::class.java) as ChatDirecto
                         chatD.status1 = user.status
                         chatDirectoRef.child(chatD.id).setValue(chatD)
@@ -112,15 +129,14 @@ class Log_In : AppCompatActivity() {
     private fun updateChatListInfo2(user: Usuario){
         val database = FirebaseDatabase.getInstance();
         val chatDirectoRef = database.getReference("ChatDirecto")
-        chatDirectoRef.orderByChild("usuario2").equalTo(user.correo).addListenerForSingleValueEvent(object: ValueEventListener {
+        chatDirectoRef.orderByChild("usuario2").equalTo(user.correo).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists()){
-                    for (cl in snapshot.children){
+                if (snapshot.exists()) {
+                    for (cl in snapshot.children) {
                         val chatD: ChatDirecto = cl.getValue(ChatDirecto::class.java) as ChatDirecto
                         chatD.status2 = user.status
 
                         chatDirectoRef.child(chatD.id).setValue(chatD)
-
 
 
                     }
@@ -129,7 +145,7 @@ class Log_In : AppCompatActivity() {
                 val intent = Intent(this@Log_In, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 //intent.putExtra("userActual", user)
-                if(loading != null)
+                if (loading != null)
                     loading.isDismiss()
                 startActivity(intent)
             }

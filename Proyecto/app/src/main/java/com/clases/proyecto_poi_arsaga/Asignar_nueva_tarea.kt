@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.StrictMode
 import android.util.Log
 import android.widget.*
 import com.clases.proyecto_poi_arsaga.Modelos.*
@@ -11,6 +12,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_crear_tarea.*
 import java.util.*
+import javax.mail.Message
+import javax.mail.PasswordAuthentication
+import javax.mail.Session
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
 
 class Asignar_nueva_tarea : AppCompatActivity(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -122,6 +128,7 @@ class Asignar_nueva_tarea : AppCompatActivity(), DatePickerDialog.OnDateSetListe
             listaTareaUsuarios.id = key.key.toString()
             key.setValue(listaTareaUsuarios)
                     .addOnSuccessListener {
+                        sendEmail(tarea)
                         if(loading != null)
                             loading.isDismiss()
                         finish()
@@ -135,6 +142,10 @@ class Asignar_nueva_tarea : AppCompatActivity(), DatePickerDialog.OnDateSetListe
             Log.d("fecha", FechaLimite.text.toString())
 
         }
+
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
@@ -149,4 +160,60 @@ class Asignar_nueva_tarea : AppCompatActivity(), DatePickerDialog.OnDateSetListe
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         TODO("Not yet implemented")
     }
+
+    private fun sendEmail(tarea : Tareas){
+        val username = "Zi3WkVRdrWko3KG5dfAgJi1MCTHiTaK/dSyrUZlsx80"
+        val password = "N5OQR7b4c8kcapzewOqMFw"
+        val emailFrom = Encrypt.descencriptar(username, "correo")
+        val emailTo = General_Grupos.grupoActual.admin
+        var emailCC = fillEmailCC()
+
+
+        val subject = "Nueva tarea creada en: " + General_Grupos.grupoActual.nombre
+        val text = "Nombre de la tarea: " + tarea.nombre + "\n\n" + "Descripción de la tarea: " + tarea.desc + "\n\n" + "Fecha de vencimiento: " + tarea.fecha
+
+        val props = Properties()
+        putIfMissing(props, "mail.smtp.host", "smtp.gmail.com")
+        putIfMissing(props, "mail.smtp.port", "587")
+        putIfMissing(props, "mail.smtp.auth", "true")
+        putIfMissing(props, "mail.smtp.starttls.enable", "true")
+
+        val session = Session.getDefaultInstance(props, object : javax.mail.Authenticator() {
+            override fun getPasswordAuthentication(): PasswordAuthentication {
+                return PasswordAuthentication(Encrypt.descencriptar(username, "correo"), Encrypt.descencriptar(password, "correo"))
+            }
+        })
+
+        session.debug = true
+
+        val mimeMessage = MimeMessage(session)
+        mimeMessage.setFrom(InternetAddress(emailFrom))
+        mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailTo, false))
+        mimeMessage.setRecipients(Message.RecipientType.CC, InternetAddress.parse(emailCC, false))
+        mimeMessage.setText(text)
+        mimeMessage.subject = subject
+        mimeMessage.sentDate = Date()
+
+
+
+        val smtpTransport = session.getTransport("smtp")
+        smtpTransport.connect()
+        smtpTransport.sendMessage(mimeMessage, mimeMessage.allRecipients)
+        smtpTransport.close()
+    }
+
+    private fun putIfMissing(props: Properties, key: String, value: String) {
+        if (!props.containsKey(key)) {
+            props[key] = value
+        }
+    }
+
+    private fun fillEmailCC() : String{
+        var emailCC = ""
+        for(c in General_Grupos.grupoActual.correo_usuarios!!){
+            emailCC = "$emailCC $c"
+        }
+        return emailCC
+    }
+
 }
