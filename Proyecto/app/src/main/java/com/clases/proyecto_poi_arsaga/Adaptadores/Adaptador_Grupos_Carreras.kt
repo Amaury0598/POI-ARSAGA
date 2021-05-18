@@ -70,7 +70,7 @@ class Adaptador_Grupos_Carreras(private val context: FragmentActivity?,
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 var gpo = parent!!.getItemAtPosition(position) as Grupos
-                if(gpo.nombre != "Subgrupos") {
+                if(gpo.nombre != "Sub Grupos") {
                     subGrupoSpinner.setSelection(0)
                     val intent = Intent(contextAd, General_Grupos::class.java)
                     intent.putExtra("Grupo", gpo)
@@ -91,7 +91,7 @@ class Adaptador_Grupos_Carreras(private val context: FragmentActivity?,
 
     private fun cargarSubgrupos(position: Int){
         subGrupos.clear()
-        subGrupos.add(Grupos("Subgrupos"))
+        subGrupos.add(Grupos("Sub Grupos"))
         for(sb in listaChatsSubGrupos){
             if(sb.deGrupo == listaChatsGrupos[position].nombre)
                 subGrupos.add(sb)

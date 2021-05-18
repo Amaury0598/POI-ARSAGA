@@ -32,8 +32,8 @@
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
                 android:text="Juanes"
-                android:textColor="#191919"
-                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
                 tools:text="Juanes" />
 
             <View

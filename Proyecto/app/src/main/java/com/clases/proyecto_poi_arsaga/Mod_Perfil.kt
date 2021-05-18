@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.clases.proyecto_poi_arsaga.Fragmentos.FragmentoA
 import com.clases.proyecto_poi_arsaga.Modelos.ChatDirecto
 import com.clases.proyecto_poi_arsaga.Modelos.LoadingDialog
+import com.clases.proyecto_poi_arsaga.Modelos.Publicaciones
 import com.clases.proyecto_poi_arsaga.Modelos.Usuario
 import com.google.firebase.auth.EmailAuthCredential
 import com.google.firebase.auth.EmailAuthProvider
@@ -31,6 +32,7 @@ class Mod_Perfil : AppCompatActivity() {
     private val database = FirebaseDatabase.getInstance()
     private val userRef = database.getReference("Usuarios")
     private val chatDirectoRef = database.getReference("ChatDirecto")
+    private val publicacionesRef = database.getReference("Publicaciones")
     private var auth = FirebaseAuth.getInstance()
     private var uri : Uri? = null
     private val defaultImage = "https://firebasestorage.googleapis.com/v0/b/app-poi-15c77.appspot.com/o/images%2Fdefault.jpg?alt=media&token=bcfafc2d-19da-4811-a083-2c6d1f7e3951"
@@ -190,7 +192,7 @@ class Mod_Perfil : AppCompatActivity() {
                 .addOnSuccessListener {
                     if(user.encriptado)
                         user.desencriptarUsuario()
-                    updateChatListInfo1(user)
+                    updatePublications(user)
                 }
 
 
@@ -237,6 +239,28 @@ class Mod_Perfil : AppCompatActivity() {
                 if(loading != null)
                     loading.isDismiss()
                 startActivity(intent)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    private fun updatePublications(user: Usuario){
+        publicacionesRef.orderByChild("correo").equalTo(user.correo).addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()) {
+                    for(p in snapshot.children){
+                        val publicacion = p.getValue(Publicaciones::class.java) as Publicaciones
+                        publicacion.nombre = user.nombre
+                        publicacion.foto = user.imagen
+                        publicacionesRef.child(publicacion.id).setValue(publicacion)
+                    }
+
+                }
+                updateChatListInfo1(user)
             }
 
             override fun onCancelled(error: DatabaseError) {

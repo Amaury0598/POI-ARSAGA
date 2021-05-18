@@ -457,7 +457,7 @@ class AdaptorChat(private val context: Chat_Grupal, private val listamensajes: M
         //MensajeEnviado.text = listamensajes[position].mensaje
         val dateFormater = java.text.SimpleDateFormat("HH:mm a", Locale.getDefault())
         MensajeHora.text = dateFormater.format(Date(listamensajes[position].timeStamp as Long))
-        QuienEnvio.text = listamensajes[position].de
+        QuienEnvio.text = listamensajes[position].nombre
 
         //val MensajeEnviado = holder.itemView.findViewById<TextView>(R.id.tv_contenido)
         //val MensajeHora = holder.itemView.findViewById<TextView>(R.id.tv_hora)

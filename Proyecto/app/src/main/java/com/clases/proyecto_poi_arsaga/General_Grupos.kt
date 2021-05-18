@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_crear_tarea.view.*
+import kotlinx.android.synthetic.main.activity_general_grupos.*
 import kotlinx.android.synthetic.main.dialog_modificar_integrantes.view.*
 
 class General_Grupos : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoClickListener {
@@ -76,6 +77,8 @@ class General_Grupos : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoCli
             modGrupo.admin = grupoActual.admin
             modGrupo.foto = grupoActual.foto
             modGrupo.deGrupo = grupoActual.deGrupo
+
+            GeneralGruposText.text = grupoActual.nombre
 
             //modGrupo = grupoActual
 
@@ -235,43 +238,47 @@ class General_Grupos : AppCompatActivity(), Adaptador_Integrantes.OnItemGrupoCli
                 }
 
                 R.id.menu_modificar_grupo -> {
-                        loading.startLoading("Cargando Listas de Usuarios")
-                        val DialogView_A = layoutInflater.inflate(R.layout.dialog_modificar_integrantes, null)
-                        val Dialog_Agregar_I = android.app.AlertDialog.Builder(this).setView(DialogView_A)
+                    if (grupoActual!!.admin != auth.currentUser.email) {
+                        Toast.makeText(this, "Solo el administrador puede modificar", Toast.LENGTH_SHORT).show()
 
-                        val RDialog = DialogView_A.findViewById<RelativeLayout>(R.id.RelLay_DialogAgregar)
-                        val Recy_Agregar_I = DialogView_A.findViewById<RecyclerView>(R.id.Dialog_Recy_Agregar_integrantes)
-                        val Aceptar = DialogView_A.findViewById<Button>(R.id.BTN_Aceptar_A_integrantes)
+                    } else {
+                    loading.startLoading("Cargando Listas de Usuarios")
+                    val DialogView_A = layoutInflater.inflate(R.layout.dialog_modificar_integrantes, null)
+                    val Dialog_Agregar_I = android.app.AlertDialog.Builder(this).setView(DialogView_A)
 
-                        Recy_Agregar_I.layoutManager = LinearLayoutManager(this);
+                    val RDialog = DialogView_A.findViewById<RelativeLayout>(R.id.RelLay_DialogAgregar)
+                    val Recy_Agregar_I = DialogView_A.findViewById<RecyclerView>(R.id.Dialog_Recy_Agregar_integrantes)
+                    val Aceptar = DialogView_A.findViewById<Button>(R.id.BTN_Aceptar_A_integrantes)
 
-                        Recy_Agregar_I.adapter = AdaptAIntegrantesModificar
+                    Recy_Agregar_I.layoutManager = LinearLayoutManager(this);
+
+                    Recy_Agregar_I.adapter = AdaptAIntegrantesModificar
 
 
 
-                        Recy_Agregar_I.startAnimation(animation)
-                        RDialog.startAnimation(animation2)
-                        Aceptar.startAnimation(animation2)
-                        val AlertD = Dialog_Agregar_I.show()
+                    Recy_Agregar_I.startAnimation(animation)
+                    RDialog.startAnimation(animation2)
+                    Aceptar.startAnimation(animation2)
+                    val AlertD = Dialog_Agregar_I.show()
 
-                        AlertD.window?.setBackgroundDrawable((ColorDrawable(Color.TRANSPARENT)))
+                    AlertD.window?.setBackgroundDrawable((ColorDrawable(Color.TRANSPARENT)))
 
-                        Aceptar.setOnClickListener {
-                            gruposRef.child(modGrupo.nombre).setValue(modGrupo)
-                                    .addOnSuccessListener {
-                                        grupoActual = modGrupo
-                                        Recy_Agregar_I.startAnimation(animationout)
-                                        RDialog.startAnimation(animationout)
-                                        Aceptar.startAnimation(animationout)
-                                        AlertD.dismiss()
-                                    }
+                    Aceptar.setOnClickListener {
+                        gruposRef.child(modGrupo.nombre).setValue(modGrupo)
+                                .addOnSuccessListener {
+                                    grupoActual = modGrupo
+                                    Recy_Agregar_I.startAnimation(animationout)
+                                    RDialog.startAnimation(animationout)
+                                    Aceptar.startAnimation(animationout)
+                                    AlertD.dismiss()
+                                }
 
-                        }
-                        if(grupoActual.deGrupo.isNotEmpty())
-                            CargarListaSubgrupoModificar()
-                        else
-                            CargarListaModificar()
-
+                    }
+                    if (grupoActual.deGrupo.isNotEmpty())
+                        CargarListaSubgrupoModificar()
+                    else
+                        CargarListaModificar()
+                }
                 }
                 else -> {
 

@@ -31,8 +31,8 @@ class FragmentoA : Fragment()  {
         val PRol = miView.findViewById<TextView>(R.id.TV_Prol)
         val PDesc = miView.findViewById<TextView>(R.id.TV_Pdesc)
         val ModPerfil = miView.findViewById<Button>(R.id.BTN_Pmodificar)
-        val PImagen = miView.findViewById<ImageView>(R.id.IV_Pfoto
-        )
+        val PImagen = miView.findViewById<ImageView>(R.id.IV_Pfoto)
+        val pCoins = miView.findViewById<TextView>(R.id.TV_Coins)
         loading = LoadingDialogFragment(this)
         userRef.child(auth.uid.toString()).get()
                 .addOnSuccessListener{
@@ -41,9 +41,10 @@ class FragmentoA : Fragment()  {
                     if(userActual.encriptado)
                         userActual.desencriptarUsuario()
                     PNombre.text = userActual?.nombre
-                    PCarrera.text = userActual?.carrera
+                    PCarrera.text = PCarrera.text.toString() + userActual?.carrera
                     PRol.text = "Estudiante"
                     PDesc.text = userActual?.desc
+                    pCoins.text = pCoins.text.toString() + userActual?.coins
                     Picasso.get().load(userActual?.imagen).into(PImagen)
                     loading.isDismiss()
                 }

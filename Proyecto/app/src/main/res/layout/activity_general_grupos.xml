@@ -28,13 +28,16 @@
                 app:srcCompat="@drawable/abc_vector_test" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/GeneralGruposText"
+                android:layout_width="139dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
 
+                android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
+                android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
+                android:maxLines="1"
                 android:text="General Grupos"
                 android:textColor="#FDFDFD"
                 android:textSize="18sp" />

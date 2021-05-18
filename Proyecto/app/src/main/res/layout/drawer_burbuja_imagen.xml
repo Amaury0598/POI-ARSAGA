@@ -34,7 +34,7 @@
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
                 android:textColor="#191919"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 tools:text="Nombre usuario" />
 
             <View

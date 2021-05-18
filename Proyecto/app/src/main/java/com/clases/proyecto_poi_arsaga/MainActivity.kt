@@ -90,7 +90,8 @@ class MainActivity : AppCompatActivity() {
                         .addOnSuccessListener {
                             if (it.exists()) {
                                 userActual = it.getValue(Usuario::class.java) as Usuario
-
+                                if(userActual!!.encriptado)
+                                    userActual!!.desencriptarUsuario()
                                 userActual!!.status = false
                                 if(userActual!!.encriptado)
                                     userActual!!.encriptarUsuario()

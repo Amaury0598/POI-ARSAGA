@@ -215,7 +215,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
             val verLocacion = LatLng(intent.getDoubleExtra("latitud", 0.0), intent.getDoubleExtra("longitud", 0.0))
             mMap.addMarker(MarkerOptions().position(verLocacion).title("Marcador"))
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(verLocacion, 9F))
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(verLocacion, 16F))
         }
     }
 
