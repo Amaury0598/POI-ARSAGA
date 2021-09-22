@@ -60,15 +60,7 @@ class Log_In : AppCompatActivity() {
             val miIntent = Intent(this, Registro::class.java)
             startActivity(miIntent)
         }
-
-
-
-
     }
-
-
-
-
 
     private fun buscarUsuario(correo: String, contraseña: String) {
        auth.signInWithEmailAndPassword(correo, contraseña)
